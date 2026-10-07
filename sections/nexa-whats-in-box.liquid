@@ -42,12 +42,14 @@
 
   <div class="box-items-grid">
     {%- if is_dock -%}
-      {%- render 'nexa-box-item', num: '01', title: pt | append: ' Docking Station', spec: 'Heavy-duty aluminum unibody. Stays cool and looks clean on your desk.', icon: i_dock -%}
+      {%- assign title_dock = pt | append: ' Docking Station' -%}
+      {%- render 'nexa-box-item', num: '01', title: title_dock, spec: 'Heavy-duty aluminum unibody. Stays cool and looks clean on your desk.', icon: i_dock -%}
       {%- render 'nexa-box-item', num: '02', title: 'Host USB-C Connection Cable', spec: 'High-speed certified cable that delivers power, video, and data in 1 plug.', icon: i_cable -%}
       {%- render 'nexa-box-item', num: '03', title: 'High-Output Power Adapter & UK Plug', spec: 'Dedicated isolated power brick for safe laptop battery fast-charging.', icon: i_power -%}
       {%- render 'nexa-box-item', num: '04', title: 'Quick-Start Setup Guide & 2-Yr Warranty', spec: 'Clear visual instructions. Setup takes less than 2 minutes.', icon: i_guide -%}
     {%- elsif is_monitor -%}
-      {%- render 'nexa-box-item', num: '01', title: pt | append: ' Ultra-Sharp Display', spec: 'Anti-glare IPS panel with true-to-life color calibration.', icon: i_monitor -%}
+      {%- assign title_monitor = pt | append: ' Ultra-Sharp Display' -%}
+      {%- render 'nexa-box-item', num: '01', title: title_monitor, spec: 'Anti-glare IPS panel with true-to-life color calibration.', icon: i_monitor -%}
       {%- render 'nexa-box-item', num: '02', title: 'Ergonomic Counter-Balanced Stand', spec: 'Raise, lower, tilt, and swivel to your exact eye-level posture.', icon: i_stand -%}
       {%- render 'nexa-box-item', num: '03', title: 'DisplayPort & HDMI Digital Cables', spec: 'High-refresh braided cables included right in the box.', icon: i_cable -%}
       {%- render 'nexa-box-item', num: '04', title: 'Quick Assembly Guide & 2-Yr UK Warranty', spec: 'Tool-free latching stand. Assembles in under 3 minutes.', icon: i_guide -%}
