@@ -8,7 +8,9 @@
     assign is_dock = true
   endif
   assign is_monitor = false
-  if t contains 'monitor' or is_dock == false and t contains 'screen'
+  if t contains 'monitor'
+    assign is_monitor = true
+  elsif is_dock == false and t contains 'screen'
     assign is_monitor = true
   endif
 

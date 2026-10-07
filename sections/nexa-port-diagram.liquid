@@ -22,7 +22,11 @@
   endif
   assign is_cable = false
   assign first_char = product.handle | slice: 0
-  if is_monitor == false and title_l contains 'dock' == false and first_char != 'd'
+  assign is_dock_title = false
+  if title_l contains 'dock'
+    assign is_dock_title = true
+  endif
+  if is_monitor == false and is_dock_title == false and first_char != 'd'
     assign is_cable = true
   endif
   assign first_word = product.title | split: ' ' | first
