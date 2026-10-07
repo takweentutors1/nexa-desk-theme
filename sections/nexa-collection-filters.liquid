@@ -92,14 +92,17 @@
           <div class="filter-accordion-body">
             <div class="wattage-control-group">
               <div class="wattage-slider-wrap">
-                <input type="range" min="0" max="140" step="5" class="wattage-slider" id="wattage-slider" oninput="document.getElementById('wattage-val').textContent=this.value+'W'; updateFilterParam('minWattage', this.value)" value="0">
-                <div class="wattage-slider-labels">
+                <div class="wattage-val-display">
+                  <span class="wattage-current-badge" id="wattage-val">0W</span>
+                  <button type="button" class="wattage-clear-btn" onclick="document.getElementById('wattage-slider').value=0; document.getElementById('wattage-slider').dispatchEvent(new Event('input'));">Reset</button>
+                </div>
+                <input type="range" min="0" max="140" step="5" class="wattage-range-slider" id="wattage-slider" oninput="document.getElementById('wattage-val').textContent=this.value+'W'; updateFilterParam('minWattage', this.value)" value="0">
+                <div class="wattage-ticks-row">
                   <span>0W</span>
-                  <span class="current-val-label" id="wattage-val">0W</span>
                   <span>140W</span>
                 </div>
               </div>
-              <div class="wattage-presets">
+              <div class="wattage-presets-row">
                 <button type="button" class="wattage-preset-btn" onclick="setWattage(65, this)">
                   <span class="preset-label">65W</span>
                   <span class="preset-desc">Thin &amp; Light</span>
