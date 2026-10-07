@@ -15,13 +15,13 @@
     <nav class="header-menu-desktop" role="navigation">
       <!-- Shop Desk Gear -->
       <div class="nav-item-dropdown-wrapper">
-        <a href="/collections/all" class="header-menu-item has-dropdown">
+        <a href="{{ routes.all_products_collection_url }}" class="header-menu-item has-dropdown">
           Shop Desk Gear
           <svg class="dropdown-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </a>
         <div class="dropdown-flyout-menu">
           <div class="dropdown-flyout-inner">
-            <a href="/collections/all" class="dropdown-sub-card">
+            <a href="{{ routes.all_products_collection_url }}" class="dropdown-sub-card">
               <div class="dropdown-sub-header"><span class="dropdown-sub-title">All Desk Gear</span></div>
               <p class="dropdown-sub-desc">Browse everything to build your ideal, tidy desk</p>
             </a>
@@ -184,9 +184,9 @@
       <a href="{{ routes.root_url }}" class="header-menu-item" style="--item-index: 0;">Home</a>
 
       <div class="mobile-menu-group" style="--item-index: 1;">
-        <a class="header-menu-item mobile-parent-link" href="/collections/all">Shop Desk Gear</a>
+        <a class="header-menu-item mobile-parent-link" href="{{ routes.all_products_collection_url }}">Shop Desk Gear</a>
         <div class="mobile-submenu-list">
-          <a class="mobile-submenu-item" href="/collections/all"><span class="sub-title">All Desk Gear</span></a>
+          <a class="mobile-submenu-item" href="{{ routes.all_products_collection_url }}"><span class="sub-title">All Desk Gear</span></a>
           <a class="mobile-submenu-item" href="/collections/docks-hubs"><span class="sub-title">One-Cable Docks &amp; Hubs</span><span class="sub-badge">Popular</span></a>
           <a class="mobile-submenu-item" href="/collections/monitors"><span class="sub-title">Computer Screens</span></a>
           <a class="mobile-submenu-item" href="/collections/stands"><span class="sub-title">Adjustable Laptop Stands</span></a>
