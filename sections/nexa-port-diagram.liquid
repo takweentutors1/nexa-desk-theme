@@ -3,7 +3,6 @@
   assign title_l = product.title | downcase
   assign wattage = product.metafields.custom.dock_charging_output.value | default: 0 | plus: 0
   assign vo = product.metafields.custom.dock_video_outputs.value | json | downcase
-  assign vo_raw = product.metafields.custom.dock_video_outputs.value | downcase
   assign has_dp = false
   if vo contains 'displayport' or vo contains 'dp'
     assign has_dp = true

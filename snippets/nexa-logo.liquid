@@ -4,10 +4,12 @@
   - size: number or string (default: 32)
   - class_name: string
 {%- endcomment -%}
-{%- assign logo_size = size | default: 32 -%}
+{%- assign logo_size = size -%}
+{%- if logo_size == blank -%}{%- assign logo_size = 32 -%}{%- endif -%}
 <svg
   width="{{ logo_size }}"
   height="{{ logo_size }}"
+  style="max-width: {{ logo_size }}px; height: auto;"
   viewBox="0 0 100 100"
   fill="none"
   xmlns="http://www.w3.org/2000/svg"
