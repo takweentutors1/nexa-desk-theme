@@ -1,0 +1,96 @@
+{%- comment -%}
+  UI-CART-01: Dynamic £300 Free Shipping UK Milestone Meter
+{%- endcomment -%}
+{%- assign free_shipping_threshold_cents = 30000 -%}
+{%- assign current_subtotal = cart.total_price -%}
+{%- assign amount_remaining = free_shipping_threshold_cents | minus: current_subtotal -%}
+{%- assign is_unlocked = false -%}
+{%- if amount_remaining <= 0 -%}
+  {%- assign is_unlocked = true -%}
+  {%- assign amount_remaining = 0 -%}
+  {%- assign percent = 100 -%}
+{%- else -%}
+  {%- assign percent = current_subtotal | times: 100 | divided_by: free_shipping_threshold_cents -%}
+{%- endif -%}
+
+<div id="nexa-free-shipping-bar" class="cart-milestone-meter {% if is_unlocked %}is-unlocked{% endif %}" data-threshold="{{ free_shipping_threshold_cents }}">
+  <div class="milestone-content">
+    <div class="milestone-icon" id="milestone-icon">
+      {% if is_unlocked %}🎉{% else %}🚚{% endif %}
+    </div>
+    <div class="milestone-text">
+      {% if is_unlocked %}
+        <p class="milestone-title" id="milestone-title">
+          <strong>FREE UK Next-Day Delivery Unlocked!</strong> (Orders over £300)
+        </p>
+      {% else %}
+        <p class="milestone-title" id="milestone-title">
+          Add <strong>{{ amount_remaining | money }}</strong> more for <strong>FREE UK Next-Day Delivery</strong>
+        </p>
+      {% endif %}
+      <span class="milestone-sub" id="milestone-sub">
+        {% if is_unlocked %}
+          Dispatched today before 3:00 PM GMT from our UK hub
+        {% else %}
+          Standard tracked shipping is £7.95 for orders under £300
+        {% endif %}
+      </span>
+    </div>
+  </div>
+
+  <div class="milestone-track" role="progressbar" aria-valuenow="{{ percent }}" aria-valuemin="0" aria-valuemax="100">
+    <div
+      id="milestone-fill"
+      class="milestone-fill"
+      style="width: {{ percent }}%"
+    >
+      <div class="milestone-shine"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Expose global function to update shipping bar via JS (e.g. on Cart Drawer update)
+  window.updateNexaFreeShippingBar = function(cartSubtotalCents) {
+    const threshold = 30000;
+    const bar = document.getElementById('nexa-free-shipping-bar');
+    if (!bar) return;
+
+    let remaining = threshold - cartSubtotalCents;
+    let isUnlocked = remaining <= 0;
+    let percent = isUnlocked ? 100 : (cartSubtotalCents / threshold) * 100;
+
+    const icon = document.getElementById('milestone-icon');
+    const title = document.getElementById('milestone-title');
+    const sub = document.getElementById('milestone-sub');
+    const fill = document.getElementById('milestone-fill');
+
+    if (isUnlocked) {
+      bar.classList.add('is-unlocked');
+      icon.textContent = '🎉';
+      title.innerHTML = '<strong>FREE UK Next-Day Delivery Unlocked!</strong> (Orders over £300)';
+      sub.textContent = 'Dispatched today before 3:00 PM GMT from our UK hub';
+    } else {
+      bar.classList.remove('is-unlocked');
+      icon.textContent = '🚚';
+      
+      // format money logic
+      let formattedRemaining = '£' + (remaining / 100).toFixed(2);
+      
+      title.innerHTML = 'Add <strong>' + formattedRemaining + '</strong> more for <strong>FREE UK Next-Day Delivery</strong>';
+      sub.textContent = 'Standard tracked shipping is £7.95 for orders under £300';
+    }
+
+    fill.style.width = percent + '%';
+    bar.setAttribute('aria-valuenow', Math.round(percent));
+  };
+
+  // Optionally listen to cart:updated events
+  window.addEventListener('cart:updated', function() {
+    fetch('/cart.js')
+      .then(r => r.json())
+      .then(cart => {
+        window.updateNexaFreeShippingBar(cart.total_price);
+      });
+  });
+</script>

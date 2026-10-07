@@ -1,0 +1,297 @@
+{%- comment -%}
+  Workstation Blueprint Snippet / Section
+  Accepts:
+  - profile, dock, monitor, accessories
+{%- endcomment -%}
+<div class="workstation-blueprint-card" id="workstation-blueprint-card">
+  <div class="blueprint-header-strip">
+    <div class="blueprint-title-row">
+      <span class="blueprint-status-indicator pulse-dot"></span>
+      <h3 class="blueprint-headline">Live Workstation Blueprint</h3>
+    </div>
+    <span class="blueprint-mode-tag" id="bp-mode-tag">
+      Interactive Architectural CAD
+    </span>
+  </div>
+
+  <div class="blueprint-canvas-wrapper">
+    <svg
+      viewBox="0 0 860 480"
+      class="blueprint-svg-canvas"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-label="Interactive Workstation Setup Diagram"
+    >
+      <defs>
+        <!-- Tech Grid Pattern -->
+        <pattern id="cadGrid" width="30" height="30" patternUnits="userSpaceOnUse">
+          <path d="M 30 0 L 0 0 0 30" fill="none" stroke="rgba(148, 163, 184, 0.08)" stroke-width="1" />
+          <circle cx="0" cy="0" r="1.5" fill="rgba(212, 175, 55, 0.2)" />
+        </pattern>
+
+        <!-- Glowing Cable Gradients -->
+        <linearGradient id="powerCableGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.9" />
+          <stop offset="50%" stop-color="#fbbf24" stop-opacity="1" />
+          <stop offset="100%" stop-color="#d4af37" stop-opacity="0.9" />
+        </linearGradient>
+
+        <linearGradient id="videoCableGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.9" />
+          <stop offset="100%" stop-color="#0284c7" stop-opacity="1" />
+        </linearGradient>
+
+        <linearGradient id="deskPadGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#1e293b" stop-opacity="0.9" />
+          <stop offset="100%" stop-color="#0f172a" stop-opacity="0.9" />
+        </linearGradient>
+
+        <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="4" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+      </defs>
+
+      <!-- Background Technical Grid -->
+      <rect width="860" height="480" fill="url(#cadGrid)" />
+
+      <!-- Desk Surface Blueprint Boundary -->
+      <rect
+        x="30"
+        y="40"
+        width="800"
+        height="400"
+        rx="16"
+        fill="url(#deskPadGradient)"
+        stroke="rgba(212, 175, 55, 0.25)"
+        stroke-width="1.5"
+        stroke-dasharray="6 4"
+      />
+
+      <!-- 1. HOST DEVICE / LAPTOP SECTION -->
+      <g class="blueprint-node laptop-node" transform="translate(70, 150)">
+        <path
+          id="bp-stand-graphic"
+          d="M 20 180 L 80 120 L 140 180"
+          stroke="#d4af37"
+          stroke-width="4"
+          fill="none"
+          stroke-linecap="round"
+          style="display:none;"
+        />
+        <!-- Laptop Base -->
+        <rect
+          x="0"
+          y="70"
+          width="170"
+          height="110"
+          rx="8"
+          fill="#1e293b"
+          stroke="#38bdf8"
+          stroke-width="2"
+        />
+        <rect x="15" y="85" width="140" height="60" rx="4" fill="#0f172a" stroke="rgba(148, 163, 184, 0.2)" />
+        <rect x="60" y="150" width="50" height="24" rx="3" fill="#1e293b" stroke="rgba(148, 163, 184, 0.3)" />
+
+        <!-- Laptop Screen -->
+        <rect
+          x="10"
+          y="0"
+          width="150"
+          height="70"
+          rx="6"
+          fill="#0b1120"
+          stroke="#38bdf8"
+          stroke-width="1.5"
+        />
+        <rect x="18" y="8" width="134" height="54" rx="3" fill="#0284c7" fill-opacity="0.15" />
+
+        <text id="bp-laptop-label" x="85" y="38" text-anchor="middle" fill="#f8fafc" font-size="11" font-weight="600">
+          Select Device Profile
+        </text>
+        <text id="bp-laptop-meta" x="85" y="52" text-anchor="middle" fill="#94a3b8" font-size="9">
+          Step 1
+        </text>
+
+        <!-- Port Outlet Pin on Laptop -->
+        <circle cx="170" cy="120" r="5" fill="#38bdf8" filter="url(#goldGlow)" />
+        <text id="bp-laptop-connector" x="170" y="140" fill="#38bdf8" font-size="8" font-weight="bold">
+          USB-C
+        </text>
+      </g>
+
+      <!-- 2. DOCKING STATION SECTION -->
+      <g class="blueprint-node dock-node" transform="translate(310, 180)">
+        <rect
+          x="0"
+          y="0"
+          width="130"
+          height="160"
+          rx="12"
+          fill="#0f172a"
+          stroke="rgba(148, 163, 184, 0.4)"
+          stroke-width="1.5"
+          id="bp-dock-border"
+        />
+        <rect x="10" y="10" width="110" height="140" rx="8" fill="#1e293b" />
+        <circle cx="65" cy="30" r="5" fill="#64748b" id="bp-dock-led" />
+
+        <text id="bp-dock-title" x="65" y="55" text-anchor="middle" fill="#f8fafc" font-size="11" font-weight="700">
+          Dock Hub
+        </text>
+        <text id="bp-dock-watts" x="65" y="72" text-anchor="middle" fill="#d4af37" font-size="12" font-weight="800">
+          Step 2
+        </text>
+
+        <!-- Ports Cluster -->
+        <g transform="translate(18, 90)">
+          <rect x="0" y="5" width="22" height="12" rx="3" fill="#38bdf8" fill-opacity="0.4" stroke="#38bdf8" stroke-width="1" />
+          <text x="11" y="14" text-anchor="middle" fill="#f8fafc" font-size="7">IN</text>
+
+          <rect x="36" y="5" width="22" height="12" rx="2" fill="#d4af37" fill-opacity="0.4" stroke="#d4af37" stroke-width="1" />
+          <text x="47" y="14" text-anchor="middle" fill="#f8fafc" font-size="7">HDMI</text>
+
+          <rect x="68" y="5" width="22" height="12" rx="2" fill="#d4af37" fill-opacity="0.4" stroke="#d4af37" stroke-width="1" />
+          <text x="79" y="14" text-anchor="middle" fill="#f8fafc" font-size="7">DP</text>
+        </g>
+
+        <text id="bp-dock-status" x="65" y="138" text-anchor="middle" fill="#94a3b8" font-size="9">
+          Choose Dock
+        </text>
+
+        <circle cx="0" cy="80" r="5" fill="#38bdf8" />
+        <circle cx="130" cy="80" r="5" fill="#d4af37" />
+      </g>
+
+      <!-- 3. MONITOR SECTION -->
+      <g class="blueprint-node monitor-node" transform="translate(510, 80)">
+        <rect
+          x="0"
+          y="0"
+          width="270"
+          height="180"
+          rx="10"
+          fill="#0f172a"
+          stroke="rgba(148, 163, 184, 0.4)"
+          stroke-width="1.5"
+          id="bp-monitor-border"
+        />
+        <rect
+          x="12"
+          y="12"
+          width="246"
+          height="156"
+          rx="4"
+          fill="#0284c7"
+          fill-opacity="0.04"
+          id="bp-monitor-panel"
+        />
+
+        <text id="bp-monitor-title" x="135" y="80" text-anchor="middle" fill="#f8fafc" font-size="13" font-weight="bold">
+          External Display
+        </text>
+        <text id="bp-monitor-res" x="135" y="100" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="600">
+          Step 3: Select Screen
+        </text>
+        <text id="bp-monitor-inputs" x="135" y="118" text-anchor="middle" fill="#94a3b8" font-size="10">
+          Filtered by Dock Ports
+        </text>
+
+        <path d="M 120 180 L 110 240 L 160 240 L 150 180 Z" fill="#1e293b" stroke="rgba(148, 163, 184, 0.4)" stroke-width="1" />
+        <rect x="85" y="240" width="100" height="12" rx="4" fill="#334155" />
+
+        <circle cx="0" cy="140" r="5" fill="#d4af37" />
+        <text x="5" y="155" fill="#d4af37" font-size="8" font-weight="bold">VIDEO IN</text>
+      </g>
+
+      <!-- 4. ACCESSORIES -->
+      <g class="blueprint-node accessory-kb" transform="translate(480, 360)">
+        <rect
+          x="0"
+          y="0"
+          width="170"
+          height="60"
+          rx="6"
+          fill="#1e293b"
+          stroke="rgba(148, 163, 184, 0.2)"
+          stroke-width="1"
+          id="bp-kb-border"
+        />
+        <line x1="10" y1="20" x2="160" y2="20" stroke="rgba(148, 163, 184, 0.2)" stroke-width="2" stroke-dasharray="6 3" />
+        <line x1="10" y1="35" x2="160" y2="35" stroke="rgba(148, 163, 184, 0.2)" stroke-width="2" stroke-dasharray="6 3" />
+        <line x1="30" y1="48" x2="140" y2="48" stroke="rgba(148, 163, 184, 0.3)" stroke-width="3" />
+        <text id="bp-kb-label" x="85" y="14" text-anchor="middle" fill="#64748b" font-size="9" font-weight="600">
+          Keyboard (Optional)
+        </text>
+      </g>
+
+      <g class="blueprint-node accessory-mouse" transform="translate(680, 360)">
+        <rect
+          x="0"
+          y="0"
+          width="45"
+          height="64"
+          rx="18"
+          fill="#1e293b"
+          stroke="rgba(148, 163, 184, 0.2)"
+          stroke-width="1"
+          id="bp-mouse-border"
+        />
+        <line x1="22.5" y1="0" x2="22.5" y2="25" stroke="rgba(148, 163, 184, 0.3)" stroke-width="1" />
+        <circle cx="22.5" cy="20" r="3" fill="rgba(148, 163, 184, 0.5)" />
+        <text x="22.5" y="80" text-anchor="middle" fill="#64748b" font-size="9" font-weight="600">
+          Mouse
+        </text>
+      </g>
+
+      <!-- ANIMATED CABLES -->
+      <g id="bp-cable-laptop-dock" class="cable-group" style="display:none;">
+        <path
+          d="M 240 270 C 275 270, 275 260, 310 260"
+          stroke="rgba(56, 189, 248, 0.25)"
+          stroke-width="10"
+          fill="none"
+          stroke-linecap="round"
+        />
+        <path
+          d="M 240 270 C 275 270, 275 260, 310 260"
+          stroke="url(#powerCableGlow)"
+          stroke-width="4"
+          fill="none"
+          stroke-linecap="round"
+          class="blueprint-flowing-cable"
+        />
+        <circle cx="240" cy="270" r="4.5" fill="#38bdf8" />
+        <circle cx="310" cy="260" r="4.5" fill="#f59e0b" />
+      </g>
+
+      <g id="bp-cable-dock-monitor" class="cable-group" style="display:none;">
+        <path
+          d="M 440 260 C 475 260, 475 220, 510 220"
+          stroke="rgba(212, 175, 55, 0.25)"
+          stroke-width="10"
+          fill="none"
+          stroke-linecap="round"
+        />
+        <path
+          d="M 440 260 C 475 260, 475 220, 510 220"
+          stroke="url(#videoCableGlow)"
+          stroke-width="4"
+          fill="none"
+          stroke-linecap="round"
+          class="blueprint-flowing-cable video"
+        />
+        <circle cx="440" cy="260" r="4.5" fill="#f59e0b" />
+        <circle cx="510" cy="220" r="4.5" fill="#38bdf8" />
+      </g>
+    </svg>
+  </div>
+
+  <!-- Real-time Status Footer Bar -->
+  <div class="blueprint-status-bar" id="bp-status-bar">
+    <div class="status-badge pending-badge">
+      <span class="badge-icon">1</span>
+      <span>Step 1: Select your device profile to verify charging &amp; ports.</span>
+    </div>
+  </div>
+</div>
+

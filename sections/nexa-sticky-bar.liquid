@@ -1,0 +1,117 @@
+{%- comment -%} Exact port of Hydrogen StickyProductBar.jsx {%- endcomment -%}
+{%- liquid
+  assign variant = product.selected_or_first_available_variant
+  assign t = product.title | downcase
+  assign h = product.handle | downcase
+  assign ptype = product.type | downcase
+  assign c0 = h | slice: 0
+  assign is_dock = false
+  if ptype contains 'dock' or t contains 'dock' or h contains 'dock' or c0 == 'd'
+    assign is_dock = true
+  endif
+  assign is_monitor = false
+  if ptype contains 'monitor' or t contains 'monitor' or h contains 'monitor' or c0 == 'm'
+    assign is_monitor = true
+  endif
+-%}
+{%- if variant != blank -%}
+<div class="sticky-bar-container sticky-product-bar" id="nexa-sticky-{{ section.id }}" role="region" aria-label="Sticky product quick-buy &amp; builder bar">
+  <div class="sticky-bar-info">
+    {%- if variant.featured_image or product.featured_image -%}
+      {%- assign simg = variant.featured_image | default: product.featured_image -%}
+      <img src="{{ simg | image_url: width: 88, height: 88, crop: 'center' }}" alt="{{ simg.alt | default: product.title | escape }}" class="sticky-bar-thumb" width="44" height="44" loading="lazy">
+    {%- endif -%}
+    <div class="sticky-bar-titles">
+      <span class="sticky-bar-product-title">{{ product.title }}</span>
+      <div class="sticky-bar-variant-info">
+        {%- if variant.title != blank and variant.title != 'Default Title' -%}
+          <span class="sticky-bar-variant-pill">{{ variant.title }}</span>
+        {%- endif -%}
+        <span class="sticky-bar-stock-status">{% if variant.available %}● In Stock{% else %}○ Out of stock{% endif %}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sticky-bar-pricing">
+    <div class="sticky-bar-price-wrap">
+      <span class="sticky-bar-price-label">Price</span>
+      <div class="sticky-bar-price-val">{{ variant.price | money }}</div>
+    </div>
+    {%- if variant.compare_at_price > variant.price -%}
+      <s class="sticky-bar-compare-price">{{ variant.compare_at_price | money }}</s>
+    {%- endif -%}
+  </div>
+
+  <div class="sticky-bar-actions">
+    <button type="button" class="sticky-btn-builder" data-builder title="Configure in interactive 4-step setup builder">
+      <span class="builder-cta-icon" aria-hidden="true">⚙️</span>
+      <span class="builder-cta-text">
+        <span class="builder-cta-sub">Customise Workspace</span>
+        <strong class="builder-cta-main">Assemble in Builder</strong>
+      </span>
+      <span class="builder-arrow-icon" aria-hidden="true">→</span>
+    </button>
+    <div class="sticky-btn-cart-wrap">
+      <button type="button" class="sticky-add-to-cart" data-add {% unless variant.available %}disabled{% endunless %}>
+        {%- if variant.available -%}<span class="cart-icon" aria-hidden="true">⚡</span><span>Add to cart</span>{%- else -%}Sold out{%- endif -%}
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var bar=document.getElementById('nexa-sticky-{{ section.id }}');if(!bar)return;
+  if(bar.parentNode!==document.body)document.body.appendChild(bar);
+  var past=false,near=false;
+  function upd(){bar.classList.toggle('is-visible',past&&!near);}
+  var btn=document.getElementById('primary-pdp-buy-button')||document.querySelector('product-form button[type="submit"], form[action*="/cart/add"] button[type="submit"]');
+  if(btn&&'IntersectionObserver' in window){
+    new IntersectionObserver(function(es){es.forEach(function(e){past=!e.isIntersecting&&e.boundingClientRect.top<0;upd();});},{threshold:0.1}).observe(btn);
+  }else{
+    window.addEventListener('scroll',function(){past=window.scrollY>450;upd();},{passive:true});
+  }
+  var foot=document.querySelector('footer')||document.querySelector('.footer-dark-mega');
+  if(foot&&'IntersectionObserver' in window){
+    new IntersectionObserver(function(es){es.forEach(function(e){near=e.isIntersecting;upd();});},{rootMargin:'100px'}).observe(foot);
+  }
+  var KEY='nexadesk_setup_session_v1';
+  var P={id:{{ product.id }},variantId:{{ variant.id }},handle:{{ product.handle | json }},title:{{ product.title | json }},price:{{ variant.price | divided_by: 100.0 }},
+    image:{{ variant.featured_image | default: product.featured_image | image_url: width: 200 | json }},
+    watts:{{ product.metafields.custom.dock_charging_output.value | default: 65 | plus: 0 }},
+    host:{{ product.metafields.custom.host_connector.value | default: 'USB-C' | json }},
+    video:{{ product.metafields.custom.dock_video_outputs.value | default: '["HDMI"]' | json }},
+    inputs:{{ product.metafields.custom.monitor_video_inputs.value | default: '["HDMI"]' | json }}};
+  function arr(v){try{var p=JSON.parse(v);if(Array.isArray(p))return p;}catch(e){}return String(v).split(',').map(function(s){return s.trim();});}
+  var b=bar.querySelector('[data-builder]');
+  b.addEventListener('click',function(){
+    try{
+      var s=JSON.parse(localStorage.getItem(KEY)||'null')||{selectedProfile:null,selectedDock:null,selectedMonitor:null,selectedAccessories:[]};
+      {% if is_dock %}
+      s.selectedDock={id:P.id,variantId:P.variantId,code:P.handle.toUpperCase(),label:P.title,charging_power_output:P.watts,host_connector:P.host,video_outputs:arr(P.video),price:String(P.price),image_url:P.image};
+      {% elsif is_monitor %}
+      s.selectedMonitor={id:P.id,variantId:P.variantId,code:P.handle.toUpperCase(),label:P.title,video_inputs:arr(P.inputs),resolution:'4K',price:String(P.price),image_url:P.image};
+      {% endif %}
+      localStorage.setItem(KEY,JSON.stringify(s));
+    }catch(e){}
+    window.location.href='/pages/find-my-setup';
+  });
+  var a=bar.querySelector('[data-add]');
+  if(a)a.addEventListener('click',function(){
+    a.disabled=true;
+    fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({items:[{id:P.variantId,quantity:1}]})})
+      .then(function(r){return r.json();})
+      .then(function(){
+        document.dispatchEvent(new CustomEvent('cart:updated'));
+        if(window.NexaCart&&typeof window.NexaCart.open==='function')window.NexaCart.open();else window.location.href='/cart';
+      })
+      .catch(function(){window.location.href='/cart';})
+      .then(function(){a.disabled=false;});
+  });
+})();
+</script>
+{%- endif -%}
+
+{% schema %}
+{ "name": "Nexa Sticky Bar", "settings": [], "presets": [{ "name": "Nexa Sticky Bar" }] }
+{% endschema %}

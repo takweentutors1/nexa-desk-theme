@@ -1,0 +1,24 @@
+<div class="diff-toggle-wrapper">
+  <label class="diff-toggle-label" for="diff-toggle-checkbox">
+    <span class="toggle-text">Highlight Differences Only</span>
+    <div class="toggle-switch">
+      <input type="checkbox" id="diff-toggle-checkbox" onchange="toggleSpecDifferences(this.checked)">
+      <span class="toggle-slider"></span>
+    </div>
+  </label>
+</div>
+
+<script>
+  function toggleSpecDifferences(isChecked) {
+    const rows = document.querySelectorAll('.matrix-row[data-has-diff]');
+    const uniformRows = document.querySelectorAll('.matrix-row:not([data-has-diff])');
+
+    if (isChecked) {
+      uniformRows.forEach(r => r.classList.add('row-dimmed'));
+      rows.forEach(r => r.classList.add('row-highlighted'));
+    } else {
+      uniformRows.forEach(r => r.classList.remove('row-dimmed'));
+      rows.forEach(r => r.classList.remove('row-highlighted'));
+    }
+  }
+</script>

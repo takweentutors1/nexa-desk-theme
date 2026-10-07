@@ -1,0 +1,115 @@
+{
+  "current": {
+    "colors_solid_button_labels": "#ffffff",
+    "colors_accent_1": "#3b82f6",
+    "colors_accent_2": "#06b6d4",
+    "colors_text": "#f8fafc",
+    "colors_outline_button_labels": "#f8fafc",
+    "colors_background_1": "#030712",
+    "colors_background_2": "#0f172a",
+    "gradient_accent_1": "linear-gradient(135deg, rgba(59, 130, 246, 1) 0%, rgba(37, 99, 235, 1) 100%)",
+    "gradient_accent_2": "linear-gradient(135deg, rgba(6, 182, 212, 1) 0%, rgba(14, 165, 233, 1) 100%)",
+    "gradient_background_1": "linear-gradient(180deg, #030712 0%, #0a0f1d 100%)",
+    "gradient_background_2": "linear-gradient(180deg, #0f172a 0%, #1e293b 100%)",
+    "color_schemes": {
+      "scheme-nexa-dark": {
+        "settings": {
+          "background": "#030712",
+          "background_gradient": "linear-gradient(180deg, #030712 0%, #080e1e 100%)",
+          "text": "#f8fafc",
+          "button": "#3b82f6",
+          "button_label": "#ffffff",
+          "secondary_button_label": "#f8fafc",
+          "shadow": "rgba(0, 0, 0, 0.7)"
+        }
+      },
+      "scheme-nexa-card": {
+        "settings": {
+          "background": "#0f172a",
+          "background_gradient": "linear-gradient(180deg, #0f172a 0%, #1e293b 100%)",
+          "text": "#f8fafc",
+          "button": "#3b82f6",
+          "button_label": "#ffffff",
+          "secondary_button_label": "#94a3b8",
+          "shadow": "rgba(0, 0, 0, 0.5)"
+        }
+      },
+      "scheme-nexa-surface": {
+        "settings": {
+          "background": "#1e293b",
+          "background_gradient": "linear-gradient(180deg, #1e293b 0%, #0f172a 100%)",
+          "text": "#f8fafc",
+          "button": "#06b6d4",
+          "button_label": "#030712",
+          "secondary_button_label": "#f8fafc",
+          "shadow": "rgba(0, 0, 0, 0.6)"
+        }
+      },
+      "scheme-nexa-accent": {
+        "settings": {
+          "background": "#1e1b4b",
+          "background_gradient": "linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%)",
+          "text": "#f8fafc",
+          "button": "#3b82f6",
+          "button_label": "#ffffff",
+          "secondary_button_label": "#38bdf8",
+          "shadow": "rgba(59, 130, 246, 0.25)"
+        }
+      }
+    },
+    "type_header_font": "assistant_n4",
+    "heading_scale": 110,
+    "type_body_font": "assistant_n4",
+    "body_scale": 100,
+    "page_width": 1360,
+    "spacing_sections": 0,
+    "spacing_grid_horizontal": 24,
+    "spacing_grid_vertical": 24,
+    "buttons_border_thickness": 1,
+    "buttons_border_opacity": 20,
+    "buttons_radius": 8,
+    "buttons_shadow_opacity": 15,
+    "buttons_shadow_horizontal_offset": 0,
+    "buttons_shadow_vertical_offset": 4,
+    "buttons_shadow_blur": 12,
+    "variant_pills_radius": 40,
+    "variant_pills_border_thickness": 1,
+    "variant_pills_border_opacity": 30,
+    "inputs_border_thickness": 1,
+    "inputs_border_opacity": 20,
+    "inputs_radius": 8,
+    "inputs_shadow_opacity": 0,
+    "card_style": "card",
+    "card_image_padding": 0,
+    "card_text_alignment": "left",
+    "card_color_scheme": "scheme-nexa-card",
+    "card_border_thickness": 1,
+    "card_border_opacity": 15,
+    "card_corner_radius": 12,
+    "card_shadow_opacity": 30,
+    "card_shadow_horizontal_offset": 0,
+    "card_shadow_vertical_offset": 8,
+    "card_shadow_blur": 24,
+    "badge_corner_radius": 40,
+    "badge_position": "bottom left",
+    "sale_badge_color_scheme": "scheme-nexa-accent",
+    "sold_out_badge_color_scheme": "scheme-nexa-dark",
+    "brand_headline": "Precision Desk Architecture",
+    "brand_description": "<p>Engineered docking stations, monitor interfaces, and workspace ergonomics built for high-performance creative and technical workflows.</p>",
+    "cart_type": "drawer",
+    "show_vendor": false,
+    "show_cart_note": true,
+    "predictive_search_enabled": true,
+    "predictive_search_show_vendor": false,
+    "predictive_search_show_price": true,
+    "social_twitter_link": "",
+    "social_facebook_link": "",
+    "social_pinterest_link": "",
+    "social_instagram_link": "",
+    "social_tiktok_link": "",
+    "social_tumblr_link": "",
+    "social_snapchat_link": "",
+    "social_youtube_link": "",
+    "social_vimeo_link": ""
+  }
+}

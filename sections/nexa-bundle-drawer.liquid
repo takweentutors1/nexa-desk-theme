@@ -1,0 +1,357 @@
+{%- comment -%}
+  Nexa Bundle Checkout Drawer
+  Replicates the UI-BUILD-04: Single-Click Bundle Checkout Drawer
+  Dynamically populated via Vanilla JS from the Setup Wizard.
+{%- endcomment -%}
+
+<div id="bundle-checkout-overlay" class="bundle-checkout-overlay" role="dialog" aria-modal="true" aria-labelledby="bundle-drawer-title" style="display: none;">
+  <div class="bundle-checkout-drawer" onclick="event.stopPropagation()">
+    <!-- Confetti Explosion on Checkout Success -->
+    <div id="confetti-cannon-layer" class="confetti-cannon-layer" aria-hidden="true" style="display: none;"></div>
+
+    <!-- Drawer Header -->
+    <div class="bundle-drawer-header">
+      <div class="drawer-header-left">
+        <span class="drawer-pill-badge">Single-Click Bundle Handoff</span>
+        <h2 id="bundle-drawer-title" class="drawer-title">
+          Complete Workstation Bundle
+        </h2>
+        <p class="drawer-subtitle">
+          Ref: <code class="setup-ref-code" id="setup-ref-code"></code> • Configured for <span id="setup-profile-label"></span>
+        </p>
+      </div>
+      <button type="button" class="drawer-close-btn" onclick="closeBundleDrawer()" aria-label="Close bundle drawer">
+        ✕
+      </button>
+    </div>
+
+    <!-- Free Shipping Milestone Progress Bar -->
+    <div class="free-shipping-milestone-box">
+      <div class="milestone-text-row">
+        <span id="milestone-text-congrats" class="milestone-congrats" style="display: none;">
+          🎉 <strong>You unlocked FREE UK Delivery!</strong> (Orders over £300 ship free)
+        </span>
+        <span id="milestone-text-remaining" class="milestone-remaining" style="display: none;">
+          Add <strong>£<span id="milestone-remaining-amt"></span></strong> more to unlock <strong>FREE UK Delivery</strong>
+        </span>
+        <span class="milestone-target">£300 Target</span>
+      </div>
+      <div class="milestone-track">
+        <div id="milestone-fill" class="milestone-fill"></div>
+      </div>
+    </div>
+
+    <!-- Bundle Items Breakdown List -->
+    <div class="bundle-items-list" aria-label="Included items in bundle">
+      <h4 class="bundle-items-heading">Included in Your Setup (<span id="bundle-item-count"></span> Items):</h4>
+      <div id="bundle-items-container"></div>
+    </div>
+
+    <!-- Price & Discount Calculation Summary -->
+    <div class="bundle-cost-summary">
+      <div class="cost-row">
+        <span>Bundle Hardware Subtotal</span>
+        <span id="summary-subtotal"></span>
+      </div>
+
+      <div class="cost-row discount-row" id="summary-discount-row" style="display: none;">
+        <span class="discount-label">🏷️ DESK10 (10% Workstation Discount)</span>
+        <span class="discount-amount" id="summary-discount-amount"></span>
+      </div>
+      <div class="cost-row promo-hint" id="summary-promo-hint" style="display: none;">
+        <span>Code DESK10 available on orders £200+</span>
+        <span class="hint-val">10% Off</span>
+      </div>
+
+      <div class="cost-row">
+        <span>Royal Mail / DPD Tracked UK Delivery</span>
+        <span id="summary-shipping" class="free-shipping-text"></span>
+      </div>
+
+      <div class="bundle-total-divider"></div>
+
+      <div class="cost-row final-total-row">
+        <div>
+          <strong class="total-label">Total Setup Investment</strong>
+          <div class="total-subtext">VAT included • Dispatched in 24h</div>
+        </div>
+        <div class="total-amount-box">
+          <span class="total-curr">£</span>
+          <span class="total-number" id="summary-total"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Single-Click Add to Cart Form -->
+    <div class="bundle-drawer-actions">
+      <button type="button" id="btn-bundle-checkout" class="btn-primary btn-bundle-checkout" onclick="submitBundleToCart()">
+        <span class="btn-spinner-content" id="btn-content-spinner" style="display: none;">
+          <span class="checkout-spinner"></span>
+          <span id="btn-text-spinner">Adding Complete Setup...</span>
+        </span>
+        <span class="btn-success-content" id="btn-content-success" style="display: none;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 8px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          <span>Setup Secured in Cart!</span>
+        </span>
+        <span class="btn-default-content" id="btn-content-default">
+          <span id="btn-text-default">⚡ Add Complete Setup to Cart</span>
+        </span>
+      </button>
+
+      <div class="bundle-trust-badges">
+        <div class="trust-pill"><span>🛡️ 3-Year UK Hardware Warranty</span></div>
+        <div class="trust-pill"><span>🔄 30-Day Hassle-Free Returns</span></div>
+        <div class="trust-pill"><span>🚚 Dispatched in 24h from UK Hub</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let activeBundleLines = [];
+  let bundleSetupRefId = '';
+
+  function openBundleDrawer(bundle) {
+    bundleSetupRefId = 'SETUP-' + Date.now().toString(36).toUpperCase();
+    activeBundleLines = [];
+
+    document.getElementById('setup-ref-code').textContent = bundleSetupRefId;
+    document.getElementById('setup-profile-label').textContent = bundle.profile?.label || 'Your Setup';
+
+    const container = document.getElementById('bundle-items-container');
+    container.innerHTML = '';
+    
+    let subtotal = 0;
+    let itemsCount = 0;
+
+    const isAvailable = (item) => {
+      if (!item) return false;
+      return Boolean(item.variantId);
+    };
+
+    // Render Dock
+    if (bundle.dock) {
+      const inStock = isAvailable(bundle.dock);
+      const price = inStock ? parseFloat(bundle.dock.price || 0) : 0;
+      if (inStock) {
+        subtotal += price;
+        itemsCount++;
+        activeBundleLines.push({
+          id: bundle.dock.variantId,
+          quantity: 1,
+          properties: {
+            '_SetupReference': bundleSetupRefId,
+            '_DeviceProfile': bundle.profile?.label || 'Custom',
+            'Workstation Role': 'Docking Station Hub'
+          }
+        });
+      }
+      container.innerHTML += `
+        <div class="bundle-item-row ${!inStock ? 'item-out-of-stock' : ''}">
+          <div class="item-icon-box">${inStock ? '⚡' : '⚠️'}</div>
+          <div class="item-details">
+            <span class="item-title">${bundle.dock.title}</span>
+            <span class="item-meta">${bundle.dock.charging || ''} Power Delivery • ${bundle.dock.videoOutputs || ''}</span>
+            ${inStock 
+              ? `<span class="item-attr-tag">_SetupReference: ${bundleSetupRefId}</span>` 
+              : `<span class="item-stock-tag out-of-stock">Temporarily Out of Stock (Excluded from Cart)</span>`
+            }
+          </div>
+          <div class="item-price-tag">${inStock ? '£'+price.toFixed(2) : 'Out of Stock'}</div>
+        </div>
+      `;
+    }
+
+    // Render Monitor
+    if (bundle.monitor) {
+      const inStock = isAvailable(bundle.monitor);
+      const price = inStock ? parseFloat(bundle.monitor.price || 0) : 0;
+      if (inStock) {
+        subtotal += price;
+        itemsCount++;
+        activeBundleLines.push({
+          id: bundle.monitor.variantId,
+          quantity: 1,
+          properties: {
+            '_SetupReference': bundleSetupRefId,
+            '_DeviceProfile': bundle.profile?.label || 'Custom',
+            'Workstation Role': 'Display Monitor'
+          }
+        });
+      }
+      container.innerHTML += `
+        <div class="bundle-item-row ${!inStock ? 'item-out-of-stock' : ''}">
+          <div class="item-icon-box">${inStock ? '🖥️' : '⚠️'}</div>
+          <div class="item-details">
+            <span class="item-title">${bundle.monitor.title}</span>
+            <span class="item-meta">${bundle.monitor.resolution || '4K Screen'} • ${bundle.monitor.inputs || ''}</span>
+            ${inStock 
+              ? `<span class="item-attr-tag">_DeviceProfile: ${bundle.profile?.code || 'Custom'}</span>` 
+              : `<span class="item-stock-tag out-of-stock">Temporarily Out of Stock (Excluded from Cart)</span>`
+            }
+          </div>
+          <div class="item-price-tag">${inStock ? '£'+price.toFixed(2) : 'Out of Stock'}</div>
+        </div>
+      `;
+    }
+
+    // Render Accessories
+    (bundle.accessories || []).forEach(acc => {
+      const inStock = isAvailable(acc);
+      const price = inStock ? parseFloat(acc.price || 0) : 0;
+      if (inStock) {
+        subtotal += price;
+        itemsCount++;
+        activeBundleLines.push({
+          id: acc.variantId,
+          quantity: 1,
+          properties: {
+            '_SetupReference': bundleSetupRefId,
+            '_DeviceProfile': bundle.profile?.label || 'Custom',
+            'Workstation Role': acc.title
+          }
+        });
+      }
+      container.innerHTML += `
+        <div class="bundle-item-row accessory-row ${!inStock ? 'item-out-of-stock' : ''}">
+          <div class="item-icon-box">${inStock ? '✨' : '⚠️'}</div>
+          <div class="item-details">
+            <span class="item-title">${acc.title}</span>
+            <span class="item-meta">${acc.category || 'Ergonomic Accessory'}</span>
+            ${!inStock ? `<span class="item-stock-tag out-of-stock">Out of Stock (Excluded)</span>` : ''}
+          </div>
+          <div class="item-price-tag">${inStock ? '£'+price.toFixed(2) : 'Out of Stock'}</div>
+        </div>
+      `;
+    });
+
+    document.getElementById('bundle-item-count').textContent = itemsCount;
+    document.getElementById('summary-subtotal').textContent = '£' + subtotal.toFixed(2);
+
+    const qualifiesForDesk10 = subtotal >= 200;
+    const desk10Savings = qualifiesForDesk10 ? subtotal * 0.1 : 0;
+    const priceAfterDiscount = subtotal - desk10Savings;
+
+    if (qualifiesForDesk10) {
+      document.getElementById('summary-discount-row').style.display = 'flex';
+      document.getElementById('summary-promo-hint').style.display = 'none';
+      document.getElementById('summary-discount-amount').textContent = '-£' + desk10Savings.toFixed(2);
+    } else {
+      document.getElementById('summary-discount-row').style.display = 'none';
+      document.getElementById('summary-promo-hint').style.display = 'flex';
+    }
+
+    const qualifiesForFreeShipping = priceAfterDiscount >= 300;
+    const shippingCost = qualifiesForFreeShipping ? 0 : 7.95;
+    const finalTotal = priceAfterDiscount + shippingCost;
+
+    document.getElementById('summary-total').textContent = finalTotal.toFixed(2);
+    
+    if (qualifiesForFreeShipping) {
+      document.getElementById('summary-shipping').textContent = 'FREE';
+      document.getElementById('summary-shipping').className = 'free-shipping-text';
+      document.getElementById('milestone-text-congrats').style.display = 'inline-block';
+      document.getElementById('milestone-text-remaining').style.display = 'none';
+      document.getElementById('milestone-fill').style.width = '100%';
+      document.getElementById('milestone-fill').classList.add('unlocked');
+    } else {
+      document.getElementById('summary-shipping').textContent = '£' + shippingCost.toFixed(2);
+      document.getElementById('summary-shipping').className = '';
+      document.getElementById('milestone-text-congrats').style.display = 'none';
+      document.getElementById('milestone-text-remaining').style.display = 'inline-block';
+      document.getElementById('milestone-remaining-amt').textContent = (300 - priceAfterDiscount).toFixed(2);
+      document.getElementById('milestone-fill').style.width = ((priceAfterDiscount / 300) * 100) + '%';
+      document.getElementById('milestone-fill').classList.remove('unlocked');
+    }
+
+    document.getElementById('btn-text-default').textContent = `⚡ Add Complete Setup to Cart • £${finalTotal.toFixed(2)}`;
+    
+    // Reset buttons
+    document.getElementById('btn-content-spinner').style.display = 'none';
+    document.getElementById('btn-content-success').style.display = 'none';
+    document.getElementById('btn-content-default').style.display = 'block';
+    document.getElementById('btn-bundle-checkout').classList.remove('is-success');
+    document.getElementById('btn-bundle-checkout').disabled = (itemsCount === 0);
+    document.getElementById('confetti-cannon-layer').style.display = 'none';
+
+    document.getElementById('bundle-checkout-overlay').style.display = 'flex';
+    document.getElementById('bundle-checkout-overlay').classList.add('is-open');
+  }
+
+  function closeBundleDrawer() {
+    document.getElementById('bundle-checkout-overlay').classList.remove('is-open');
+    setTimeout(() => {
+      document.getElementById('bundle-checkout-overlay').style.display = 'none';
+    }, 300);
+  }
+
+  function submitBundleToCart() {
+    if (activeBundleLines.length === 0) return;
+    
+    document.getElementById('btn-content-default').style.display = 'none';
+    document.getElementById('btn-content-spinner').style.display = 'flex';
+    document.getElementById('btn-text-spinner').textContent = `Adding Complete Setup (${activeBundleLines.length} Items)...`;
+    document.getElementById('btn-bundle-checkout').disabled = true;
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ items: activeBundleLines })
+    }).then(res => {
+      if (res.ok) {
+        document.getElementById('btn-content-spinner').style.display = 'none';
+        document.getElementById('btn-content-success').style.display = 'flex';
+        document.getElementById('btn-bundle-checkout').classList.add('is-success');
+        
+        // Show Confetti
+        const confettiLayer = document.getElementById('confetti-cannon-layer');
+        confettiLayer.innerHTML = '';
+        for(let i=0; i<32; i++) {
+          const el = document.createElement('span');
+          el.className = 'confetti-piece';
+          el.style.left = ((i * 3.1) % 100) + '%';
+          el.style.animationDelay = ((i * 0.08) % 1.5).toFixed(2) + 's';
+          el.style.backgroundColor = ['#d4af37', '#38bdf8', '#22c55e', '#f59e0b', '#ec4899'][i % 5];
+          el.style.width = el.style.height = (6 + (i % 6)) + 'px';
+          confettiLayer.appendChild(el);
+        }
+        confettiLayer.style.display = 'block';
+
+        setTimeout(() => {
+          closeBundleDrawer();
+          if (window.NexaCart && typeof window.NexaCart.open === 'function') {
+            window.NexaCart.open();
+            window.dispatchEvent(new CustomEvent('cart:updated'));
+          } else {
+            window.location.href = '/cart';
+          }
+        }, 1800);
+      } else {
+        alert('Failed to add bundle to cart');
+        document.getElementById('btn-content-spinner').style.display = 'none';
+        document.getElementById('btn-content-default').style.display = 'block';
+        document.getElementById('btn-bundle-checkout').disabled = false;
+      }
+    }).catch(err => {
+      console.error(err);
+      document.getElementById('btn-content-spinner').style.display = 'none';
+      document.getElementById('btn-content-default').style.display = 'block';
+      document.getElementById('btn-bundle-checkout').disabled = false;
+    });
+  }
+
+  // Bind close on overlay click
+  document.getElementById('bundle-checkout-overlay').addEventListener('click', closeBundleDrawer);
+</script>
+
+{% schema %}
+{
+  "name": "Nexa Bundle Drawer",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Nexa Bundle Checkout Drawer"
+    }
+  ]
+}
+{% endschema %}

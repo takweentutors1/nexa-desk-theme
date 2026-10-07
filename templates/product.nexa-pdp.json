@@ -1,0 +1,56 @@
+{
+  "sections": {
+    "product_gallery": {
+      "type": "nexa-product-gallery",
+      "settings": {}
+    },
+    "compatibility_widget": {
+      "type": "nexa-compatibility-widget",
+      "settings": {}
+    },
+    "simple_benefits": {
+      "type": "nexa-simple-benefits",
+      "settings": {}
+    },
+    "dock_comparison": {
+      "type": "nexa-dock-comparison",
+      "settings": {}
+    },
+    "port_diagram": {
+      "type": "nexa-port-diagram",
+      "settings": {}
+    },
+    "tech_specs": {
+      "type": "nexa-tech-specs",
+      "settings": {}
+    },
+    "whats_in_box": {
+      "type": "nexa-whats-in-box",
+      "settings": {}
+    },
+    "simple_faq": {
+      "type": "nexa-simple-faq",
+      "settings": {}
+    },
+    "recommended_products": {
+      "type": "nexa-recommended-products",
+      "settings": {}
+    },
+    "sticky_bar": {
+      "type": "nexa-sticky-bar",
+      "settings": {}
+    }
+  },
+  "order": [
+    "product_gallery",
+    "compatibility_widget",
+    "simple_benefits",
+    "dock_comparison",
+    "port_diagram",
+    "tech_specs",
+    "whats_in_box",
+    "simple_faq",
+    "recommended_products",
+    "sticky_bar"
+  ]
+}

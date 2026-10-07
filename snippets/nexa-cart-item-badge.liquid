@@ -1,0 +1,40 @@
+{%- comment -%}
+  UI-CART-02: Custom Cart Attribute Badges
+  Accepts:
+  - item: line_item object
+{%- endcomment -%}
+
+{%- if item.properties.size > 0 -%}
+  <div class="cart-item-badges-strip">
+    {%- for property in item.properties -%}
+      {%- assign first_char = property.first | slice: 0 -%}
+      {%- if property.last != blank -%}
+        {%- assign raw_key = property.first | remove_first: '_' -%}
+        {%- assign raw_key_down = raw_key | downcase -%}
+        
+        {%- assign is_setup = false -%}
+        {%- assign is_device = false -%}
+        {%- if raw_key_down contains 'setup' or raw_key_down contains 'bundle' -%}
+          {%- assign is_setup = true -%}
+        {%- endif -%}
+        {%- if raw_key_down contains 'device' or raw_key_down contains 'profile' -%}
+          {%- assign is_device = true -%}
+        {%- endif -%}
+
+        <div class="cart-badge-chip {% if is_setup %}chip-setup{% elsif is_device %}chip-device{% else %}chip-meta{% endif %}">
+          <span class="chip-icon">
+            {%- if is_setup -%}
+              🖥️
+            {%- elsif is_device -%}
+              ⚡
+            {%- else -%}
+              🏷️
+            {%- endif -%}
+          </span>
+          <span class="chip-key">{{ raw_key }}:</span>
+          <strong class="chip-val">{{ property.last }}</strong>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+{%- endif -%}

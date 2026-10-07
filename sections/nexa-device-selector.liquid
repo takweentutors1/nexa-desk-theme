@@ -1,0 +1,335 @@
+<section class="device-selector-banner-section" data-section-id="{{ section.id }}" aria-label="Interactive Device Compatibility Checker">
+  <div class="selector-container">
+    <!-- Banner Header -->
+    <div class="selector-header">
+      <div class="selector-badge-pill">
+        <span class="live-sparkle-dot" aria-hidden="true"></span>
+        <span class="selector-badge-text">Instant Compatibility Checker</span>
+      </div>
+
+      <h2 class="selector-title">
+        What kind of laptop do you have?
+      </h2>
+
+      <p class="selector-subtitle">
+        Click your computer below. We check the charger, screen cables, and plugs for you so you never buy the wrong adapter.
+      </p>
+    </div>
+
+    <!-- Horizontal Chips / Device Selector Row -->
+    <div class="device-chips-scrollable" role="tablist" aria-label="Select laptop device profile">
+      <!-- P1: Windows & PC -->
+      <button
+        type="button"
+        role="tab"
+        id="chip-P1"
+        class="device-profile-chip"
+        onclick="pickProfile('P1')"
+      >
+        <div class="chip-top-row">
+          <span class="chip-icon-brand" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
+            </svg>
+          </span>
+          <span class="chip-tag P1">Dell / Lenovo / HP</span>
+        </div>
+        <div class="chip-text-group">
+          <strong class="chip-label">Windows &amp; PC</strong>
+          <span class="chip-sub">Dell, Lenovo, HP, Surface</span>
+        </div>
+        <div class="chip-indicator">
+          <span>Click to check</span>
+        </div>
+      </button>
+
+      <!-- P2: High-Power Workstation -->
+      <button
+        type="button"
+        role="tab"
+        id="chip-P2"
+        class="device-profile-chip"
+        onclick="pickProfile('P2')"
+      >
+        <div class="chip-top-row">
+          <span class="chip-icon-brand" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+          </span>
+          <span class="chip-tag P2">100W Max Power</span>
+        </div>
+        <div class="chip-text-group">
+          <strong class="chip-label">High-Power Workstation</strong>
+          <span class="chip-sub">Gaming or Heavy Creative PC</span>
+        </div>
+        <div class="chip-indicator">
+          <span>Click to check</span>
+        </div>
+      </button>
+
+      <!-- P3: Apple MacBook (Default Selected) -->
+      <button
+        type="button"
+        role="tab"
+        id="chip-P3"
+        class="device-profile-chip is-selected"
+        onclick="pickProfile('P3')"
+      >
+        <div class="chip-top-row">
+          <span class="chip-icon-brand" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 170 170" fill="currentColor">
+              <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.69-7.85-12-14.42-6.2-9.35-11.05-19.8-14.56-31.35-3.51-11.55-5.27-22.37-5.27-32.48 0-14.13 3.63-25.75 10.88-34.86 7.25-9.11 16.48-13.84 27.69-14.19 4.35 0 9.28 1.16 14.78 3.49 5.51 2.32 9.49 3.55 11.96 3.69 2.22 0 6.54-1.37 12.96-4.12 6.42-2.75 11.96-3.91 16.61-3.49 12.52.95 22.42 5.63 29.69 14.04-10.97 6.64-16.35 15.68-16.14 27.12.21 9.07 3.73 16.66 10.56 22.77 6.83 6.11 14.72 9.69 23.68 10.74-2.22 6.96-5.01 14.03-8.36 21.23zM119.22 31.84c0-7.39 2.68-14.28 8.04-20.67 5.36-6.39 12.01-10.45 19.95-12.17.21 1.06.32 2.01.32 2.85 0 7.39-2.82 14.39-8.46 21-5.63 6.6-12.35 10.45-20.16 11.55-.1-1.05-.15-2.02-.15-2.91l.46.35z"/>
+            </svg>
+          </span>
+          <span class="chip-tag P3">Apple Official</span>
+        </div>
+        <div class="chip-text-group">
+          <strong class="chip-label">Apple MacBook</strong>
+          <span class="chip-sub">Air, Pro, Mac mini, iMac (M1/M2/M3/M4)</span>
+        </div>
+        <div class="chip-indicator">
+          <span>Selected</span>
+        </div>
+      </button>
+
+      <!-- P4: Older USB-A Laptop -->
+      <button
+        type="button"
+        role="tab"
+        id="chip-P4"
+        class="device-profile-chip"
+        onclick="pickProfile('P4')"
+      >
+        <div class="chip-top-row">
+          <span class="chip-icon-brand" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2v10M12 12l4-4M12 12L8 8"/>
+              <rect x="7" y="14" width="10" height="8" rx="1"/>
+            </svg>
+          </span>
+          <span class="chip-tag P4">Classic USB</span>
+        </div>
+        <div class="chip-text-group">
+          <strong class="chip-label">Older USB-A Laptop</strong>
+          <span class="chip-sub">Only has classic rectangular USB</span>
+        </div>
+        <div class="chip-indicator">
+          <span>Click to check</span>
+        </div>
+      </button>
+    </div>
+
+    <!-- Live Compatibility Status & Results Morphing Card -->
+    <div class="compatibility-result-card is-compatible" id="compat-result-card">
+      <div class="result-card-inner">
+        <!-- Left: Counter & Status -->
+        <div class="result-status-block">
+          <div class="counter-circle-wrapper">
+            <div class="counter-circle green-glow" id="compat-counter-circle">
+              <span class="counter-number" id="compat-counter-num">3</span>
+            </div>
+            <div class="counter-label-group">
+              <strong class="counter-title" id="compat-counter-title">3 Guaranteed Matches</strong>
+              <span class="counter-desc" id="compat-counter-desc">
+                Everything listed here will charge and connect your Apple MacBook with just one cord.
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Middle: Clear Spec Summary -->
+        <div class="result-specs-block">
+          <div class="spec-chip">
+            <span class="spec-chip-label">Your Laptop Plug:</span>
+            <strong class="spec-chip-value" id="compat-plug-val">Oval USB-C / Thunderbolt</strong>
+          </div>
+          <div class="spec-chip">
+            <span class="spec-chip-label">Battery Charging:</span>
+            <strong class="spec-chip-value" id="compat-charge-val">Fast Everyday Charging</strong>
+          </div>
+          <div class="spec-chip">
+            <span class="spec-chip-label">External Screens:</span>
+            <strong class="spec-chip-value text-green" id="compat-screen-val">Runs 1 or 2 Big Screens</strong>
+          </div>
+        </div>
+
+        <!-- Right: Action CTA -->
+        <div class="result-action-block">
+          <a href="/pages/find-my-setup" class="result-cta-btn" id="compat-cta-btn">
+            <span>Build My Complete Setup</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick List of Matching Docks Preview -->
+      <div class="matching-docks-preview" id="compat-docks-preview">
+        <span class="preview-label">Docks tested and ready to dispatch:</span>
+        <div class="preview-pills-row" id="compat-pills-row">
+          <a href="/pages/find-my-setup" class="dock-preview-pill">
+            <span class="pill-dot"></span>
+            <span class="pill-title">NexaLink 65 Standard Dock</span>
+            <span class="pill-price">£119.00</span>
+          </a>
+          <a href="/pages/find-my-setup" class="dock-preview-pill">
+            <span class="pill-dot"></span>
+            <span class="pill-title">NexaLink 100 Dual-Screen Dock</span>
+            <span class="pill-price">£169.00</span>
+          </a>
+          <a href="/pages/find-my-setup" class="dock-preview-pill">
+            <span class="pill-dot"></span>
+            <span class="pill-title">NexaLink Pro 100 High-Speed Dock</span>
+            <span class="pill-price">£219.00</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const PROFILES_DATA = {
+    P1: {
+      label: 'Windows & PC',
+      plug: 'Oval USB-C / Thunderbolt',
+      charge: 'Fast Everyday Charging',
+      screens: 'Runs 1 or 2 Big Screens',
+      videoSupport: true,
+      count: 3,
+      desc: 'Everything listed here will charge and connect your Windows & PC with just one cord.',
+      docks: [
+        { title: 'NexaLink 65 Standard Dock', price: '£119.00' },
+        { title: 'NexaLink 100 Dual-Screen Dock', price: '£169.00' },
+        { title: 'NexaLink Pro 100 High-Speed Dock', price: '£219.00' }
+      ]
+    },
+    P2: {
+      label: 'High-Power Workstation',
+      plug: 'Oval USB-C / Thunderbolt',
+      charge: 'Super-Fast 100W Charging',
+      screens: 'Runs 1 or 2 Big Screens',
+      videoSupport: true,
+      count: 2,
+      desc: 'High-power 100W GaN power delivery verified to keep high-spec PC workstations running without battery drain.',
+      docks: [
+        { title: 'NexaLink 100 Dual-Screen Dock', price: '£169.00' },
+        { title: 'NexaLink Pro 100 High-Speed Dock', price: '£219.00' }
+      ]
+    },
+    P3: {
+      label: 'Apple MacBook',
+      plug: 'Oval USB-C / Thunderbolt',
+      charge: 'Fast Everyday Charging',
+      screens: 'Runs 1 or 2 Big Screens',
+      videoSupport: true,
+      count: 3,
+      desc: 'Everything listed here will charge and connect your Apple MacBook with just one cord.',
+      docks: [
+        { title: 'NexaLink 65 Standard Dock', price: '£119.00' },
+        { title: 'NexaLink 100 Dual-Screen Dock', price: '£169.00' },
+        { title: 'NexaLink Pro 100 High-Speed Dock', price: '£219.00' }
+      ]
+    },
+    P4: {
+      label: 'Older USB-A Laptop',
+      plug: 'Old Rectangular USB',
+      charge: 'Use Your Normal Laptop Charger',
+      screens: 'Accessories Only (No Screens)',
+      videoSupport: false,
+      count: 1,
+      desc: 'Standard rectangular USB ports cannot send video to external screens. Connects keyboard, mouse, and external drives.',
+      docks: [
+        { title: 'NexaConnect A Accessory Hub', price: '£49.00' }
+      ]
+    }
+  };
+
+  function pickProfile(code) {
+    document.querySelectorAll('.device-profile-chip').forEach(c => {
+      c.classList.remove('is-selected');
+      const ind = c.querySelector('.chip-indicator span');
+      if (ind) ind.textContent = 'Click to check';
+    });
+
+    const activeBtn = document.getElementById('chip-' + code);
+    if (activeBtn) {
+      activeBtn.classList.add('is-selected');
+      const ind = activeBtn.querySelector('.chip-indicator span');
+      if (ind) ind.textContent = 'Selected';
+    }
+
+    const data = PROFILES_DATA[code];
+    if (!data) return;
+
+    // Update Counter Animation
+    const counterEl = document.getElementById('compat-counter-num');
+    if (counterEl) {
+      counterEl.textContent = data.count;
+    }
+
+    const counterTitle = document.getElementById('compat-counter-title');
+    if (counterTitle) {
+      counterTitle.textContent = data.count === 1 ? '1 Perfect Match Ready' : data.count > 1 ? `${data.count} Guaranteed Matches` : 'Needs an Adapter';
+    }
+
+    const counterDesc = document.getElementById('compat-counter-desc');
+    if (counterDesc) counterDesc.textContent = data.desc;
+
+    const plugVal = document.getElementById('compat-plug-val');
+    if (plugVal) plugVal.textContent = data.plug;
+
+    const chargeVal = document.getElementById('compat-charge-val');
+    if (chargeVal) chargeVal.textContent = data.charge;
+
+    const screenVal = document.getElementById('compat-screen-val');
+    if (screenVal) {
+      screenVal.textContent = data.screens;
+      screenVal.className = 'spec-chip-value ' + (data.videoSupport ? 'text-green' : 'text-amber');
+    }
+
+    const circle = document.getElementById('compat-counter-circle');
+    const resultCard = document.getElementById('compat-result-card');
+    if (data.videoSupport) {
+      if (circle) circle.className = 'counter-circle green-glow';
+      if (resultCard) resultCard.className = 'compatibility-result-card is-compatible';
+    } else {
+      if (circle) circle.className = 'counter-circle amber-glow';
+      if (resultCard) resultCard.className = 'compatibility-result-card is-warning';
+    }
+
+    // Update Docks Pills
+    const pillsRow = document.getElementById('compat-pills-row');
+    if (pillsRow) {
+      pillsRow.innerHTML = data.docks.map(d => `
+        <a href="/pages/find-my-setup?profile=${code}" class="dock-preview-pill">
+          <span class="pill-dot"></span>
+          <span class="pill-title">${d.title}</span>
+          <span class="pill-price">${d.price}</span>
+        </a>
+      `).join('');
+    }
+
+    // Sync with global header badge if available
+    const badge = document.getElementById('header-device-status-badge');
+    if (badge) {
+      badge.querySelector('.status-text').textContent = data.label;
+      badge.classList.add('verified');
+    }
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Nexa Device Selector",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Nexa Device Selector"
+    }
+  ]
+}
+{% endschema %}

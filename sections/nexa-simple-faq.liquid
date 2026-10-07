@@ -1,0 +1,191 @@
+{%- liquid
+  assign role = product.metafields.nexadesk.product_role | downcase
+  if role == blank
+    assign title_down = product.title | downcase
+    if title_down contains 'dock' or title_down contains 'hub'
+      assign role = 'dock'
+    elsif title_down contains 'monitor' or title_down contains 'screen'
+      assign role = 'monitor'
+    elsif title_down contains 'stand' or title_down contains 'riser'
+      assign role = 'stand'
+    else
+      assign role = 'accessory'
+    endif
+  endif
+
+  assign charging_watts = product.metafields.custom.dock_charging_output.value
+  if charging_watts == blank
+    if product.title contains '100'
+      assign charging_watts = '100'
+    else
+      assign charging_watts = '65'
+    endif
+  endif
+
+  assign host_connector = product.metafields.custom.host_connector.value
+  if host_connector == blank
+    if product.title contains 'USB-A'
+      assign host_connector = 'USB-A'
+    else
+      assign host_connector = 'USB-C'
+    endif
+  endif
+
+  assign video_outputs = product.metafields.custom.dock_video_outputs.value
+  if video_outputs == blank
+    assign video_outputs_str = 'HDMI'
+  else
+    assign video_outputs_str = video_outputs | join: ' & '
+  endif
+
+  assign supported_os = product.metafields.custom.supported_os.value
+  if supported_os == blank
+    assign supported_os_str = 'Windows and macOS'
+  else
+    assign supported_os_str = supported_os | join: ' and '
+  endif
+
+  assign video_inputs = product.metafields.custom.monitor_video_inputs.value
+  if video_inputs == blank
+    assign video_inputs_str = 'HDMI & DisplayPort'
+  else
+    assign video_inputs_str = video_inputs | join: ' & '
+  endif
+-%}
+
+<section class="faq-section">
+  <div class="section-header">
+    <h2 class="section-title">Common Questions</h2>
+    <p class="section-subtitle">Real answers for real people</p>
+  </div>
+
+  <div class="faq-accordion">
+    {%- if role == 'dock' -%}
+      <div class="faq-item open">
+        <button type="button" class="faq-question" aria-expanded="true">
+          <span>Will {{ product.title }} charge my laptop while connected?</span>
+          <span class="faq-toggle">▼</span>
+        </button>
+        <div class="faq-answer">Yes! It provides up to {{ charging_watts }}W Power Delivery through its {{ host_connector }} host connection. That delivers full-speed charging to your laptop battery while simultaneously transmitting high-definition video, audio, and USB peripherals through a single cable.</div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">
+          <span>What monitors and screens can I connect?</span>
+          <span class="faq-toggle">▼</span>
+        </button>
+        <div class="faq-answer">This model features dedicated {{ video_outputs_str }} output ports. You can connect modern monitors running up to 4K resolution at 60Hz. Standard HDMI or DisplayPort cables plug directly in without requiring additional dongles.</div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">
+          <span>Does it work with {{ supported_os_str }}?</span>
+          <span class="faq-toggle">▼</span>
+        </button>
+        <div class="faq-answer">Yes, officially verified and certified for {{ supported_os_str }}. Simply connect the host cable to your computer and it starts working immediately with plug-and-play simplicity.</div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">
+          <span>Do I need to install drivers or configure software?</span>
+          <span class="faq-toggle">▼</span>
+        </button>
+        <div class="faq-answer">Nope! It is 100% driver-free and hardware plug-and-play. Your laptop or desktop operating system automatically configures the ports within seconds.</div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">
+          <span>Will it keep cool and fit on my desk?</span>
+          <span class="faq-toggle">▼</span>
+        </button>
+        <div class="faq-answer">Engineered with an aerospace-grade anodised aluminum chassis that naturally dissipates heat without noisy fans. Its slim, low-profile footprint fits neatly under monitors or alongside laptop stands.</div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">
+          <span>What warranty and delivery coverage is included?</span>
+          <span class="faq-toggle">▼</span>
+        </button>
+        <div class="faq-answer">Every unit includes our 2-Year NexaDesk UK Warranty, 30-Day Risk-Free Trial, and Free Tracked UK Delivery on orders over £300 (or £7.95 standard dispatched in 24h).</div>
+      </div>
+
+    {%- elsif role == 'monitor' -%}
+      <div class="faq-item open">
+        <button type="button" class="faq-question" aria-expanded="true">
+          <span>What video inputs does {{ product.title }} have?</span>
+          <span class="faq-toggle">▼</span>
+        </button>
+        <div class="faq-answer">It comes equipped with {{ video_inputs_str }} input ports. This makes it compatible with any modern workstation dock, desktop PC, MacBook, or gaming console.</div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">
+          <span>What is the screen resolution and visual clarity?</span>
+          <span class="faq-toggle">▼</span>
+        </button>
+        <div class="faq-answer">Provides ultra-crisp 4K UHD clarity with accurate color reproduction, wide 178° viewing angles, and flicker-free anti-glare coating to eliminate eye strain during long working sessions.</div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">
+          <span>Is the height and angle adjustable?</span>
+          <span class="faq-toggle">▼</span>
+        </button>
+        <div class="faq-answer">Yes, features a heavy-duty ergonomic tilt and height-adjustable stand. It also includes standard VESA 100x100 mounting holes for single or dual monitor arms.</div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">
+          <span>Are video cables included in the box?</span>
+          <span class="faq-toggle">▼</span>
+        </button>
+        <div class="faq-answer">Yes! We include high-speed video cables and the UK power lead in the box so you can plug in and begin working immediately.</div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">
+          <span>Is this screen suitable for gaming and casual entertainment?</span>
+          <span class="faq-toggle">▼</span>
+        </button>
+        <div class="faq-answer">Definitely. With rapid pixel response times, smooth refresh rates, and HDR contrast, it delivers vivid visuals for movies, console gaming, and PC gaming alongside productivity.</div>
+      </div>
+
+    {%- elsif role == 'stand' -%}
+      <div class="faq-item open">
+        <button type="button" class="faq-question" aria-expanded="true">
+          <span>What laptop sizes and weights are supported?</span>
+          <span class="faq-toggle">▼</span>
+        </button>
+        <div class="faq-answer">Designed to support laptops from 11" up to 17" (including heavy 16" MacBook Pros and 17" mobile workstations) with high-tensile aluminum and non-slip silicone pads.</div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">
+          <span>Does it improve laptop cooling and airflow?</span>
+          <span class="faq-toggle">▼</span>
+        </button>
+        <div class="faq-answer">Yes, elevates your computer above the desk surface allowing 360° airflow around heat vents, reducing thermal throttling and keeping fan noise minimal.</div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">
+          <span>Is it adjustable to eye level?</span>
+          <span class="faq-toggle">▼</span>
+        </button>
+        <div class="faq-answer">Features multi-angle ergonomic articulation allowing you to align your laptop screen directly at eye level to prevent neck and back fatigue.</div>
+      </div>
+
+    {%- else -%}
+      <div class="faq-item open">
+        <button type="button" class="faq-question" aria-expanded="true">
+          <span>Is this compatible with NexaDesk docks and setups?</span>
+          <span class="faq-toggle">▼</span>
+        </button>
+        <div class="faq-answer">100% compatible and tested across all NexaDesk workstation docking stations, monitors, and laptop profiles.</div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">
+          <span>What warranty and returns apply?</span>
+          <span class="faq-toggle">▼</span>
+        </button>
+        <div class="faq-answer">Backed by our 2-Year UK Warranty and 30-Day Money-Back Guarantee with hassle-free UK returns.</div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Nexa Simple FAQ",
+  "settings": []
+}
+{% endschema %}

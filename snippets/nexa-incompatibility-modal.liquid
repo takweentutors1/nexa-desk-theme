@@ -1,0 +1,134 @@
+<div id="incompatibility-modal-overlay" class="incompatibility-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="incompat-modal-title" style="display: none;" onclick="closeIncompatibilityModal()">
+  <div class="incompatibility-modal shake-trigger" onclick="event.stopPropagation()">
+    <!-- Close Button -->
+    <button class="modal-close-btn" onclick="closeIncompatibilityModal()" aria-label="Close incompatibility alert">
+      ✕
+    </button>
+
+    <!-- Warning Icon Badge -->
+    <div class="incompat-badge-header">
+      <div class="error-icon-circle">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block;">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+          <line x1="12" y1="9" x2="12" y2="13"></line>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+      </div>
+      <span class="incompat-status-tag">Hardware Incompatibility</span>
+    </div>
+
+    <!-- Modal Title -->
+    <h3 id="incompat-modal-title" class="incompat-title">
+      Selected Component
+    </h3>
+
+    <!-- Rejection Explainer Box -->
+    <div class="incompat-reason-callout">
+      <p class="incompat-reason-text">
+        <strong>Diagnosis:</strong> <span id="incompat-reason-text-span">This hardware configuration does not meet system requirements.</span>
+      </p>
+    </div>
+
+    <!-- Plain-English Technical Clarification -->
+    <div class="incompat-plain-explanation" id="incompat-plain-explanation">
+      <!-- Injected via JS -->
+    </div>
+
+    <!-- Actionable Solution Recommendations -->
+    <div class="incompat-recommendation-box">
+      <div class="recom-title">
+        <span class="recom-sparkle">💡</span> Recommended Solution:
+      </div>
+      <p class="recom-text" id="incompat-recom-text">Select a compatible 100W dock or change your laptop profile.</p>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="incompat-actions">
+      <button type="button" class="btn-primary modal-action-btn" id="btn-incompat-recommendation" style="display:none;" onclick="triggerIncompatRecommend()">
+        Choose Recommended Option
+      </button>
+
+      <button type="button" class="btn-secondary modal-action-btn" id="btn-incompat-switch" style="display:none;" onclick="triggerIncompatSwitch()">
+        Change Laptop Profile
+      </button>
+
+      <button type="button" class="btn-outline modal-action-btn" onclick="closeIncompatibilityModal()">
+        Keep Browsing
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let incompatRecommendCallback = null;
+  let incompatSwitchCallback = null;
+
+  function openIncompatibilityModal(item) {
+    if (!item) return;
+
+    const title = item.title || 'Selected Component';
+    const displayReason = (item.reasons && item.reasons.length > 0) ? item.reasons.join(' ') : (item.reason || 'This hardware configuration does not meet system requirements.');
+    const recommendedAction = item.recommendedAction || 'Select a compatible 100W dock or change your laptop profile.';
+    const profileName = item.profileName || 'Your Laptop';
+
+    document.getElementById('incompat-modal-title').textContent = title;
+    document.getElementById('incompat-reason-text-span').textContent = displayReason;
+    document.getElementById('incompat-recom-text').textContent = recommendedAction;
+
+    let explanationHTML = '';
+    if (displayReason.includes('charging output') || displayReason.includes('power') || displayReason.includes('wattage')) {
+      explanationHTML = `<p>Your ${profileName} demands high sustained charging power. Running a lower-wattage dock could cause battery drain while plugged in, system throttling, or port disconnects.</p>`;
+    } else if (displayReason.includes('USB-C video') || displayReason.includes('video')) {
+      explanationHTML = `<p>Your selected device profile does not support native video transmission through this connector. External monitors require a USB-C or Thunderbolt port with DisplayPort Alt Mode.</p>`;
+    } else if (displayReason.includes('OS') || displayReason.includes('incompatibility')) {
+      explanationHTML = `<p>This docking station relies on operating system display drivers that are incompatible with ${profileName}.</p>`;
+    } else {
+      explanationHTML = `<p>The display connectors on this screen cannot plug into the available ports on your selected dock without active signal conversion adapters.</p>`;
+    }
+    document.getElementById('incompat-plain-explanation').innerHTML = explanationHTML;
+
+    const recBtn = document.getElementById('btn-incompat-recommendation');
+    if (typeof item.onSelectRecommended === 'function') {
+      recBtn.style.display = 'block';
+      incompatRecommendCallback = item.onSelectRecommended;
+    } else {
+      recBtn.style.display = 'none';
+      incompatRecommendCallback = null;
+    }
+
+    const swBtn = document.getElementById('btn-incompat-switch');
+    if (typeof item.onSwitchDevice === 'function') {
+      swBtn.style.display = 'block';
+      incompatSwitchCallback = item.onSwitchDevice;
+    } else {
+      swBtn.style.display = 'none';
+      incompatSwitchCallback = null;
+    }
+
+    const overlay = document.getElementById('incompatibility-modal-overlay');
+    overlay.style.display = 'flex';
+  }
+
+  function closeIncompatibilityModal() {
+    document.getElementById('incompatibility-modal-overlay').style.display = 'none';
+  }
+
+  function triggerIncompatRecommend() {
+    if (incompatRecommendCallback) incompatRecommendCallback();
+    closeIncompatibilityModal();
+  }
+
+  function triggerIncompatSwitch() {
+    if (incompatSwitchCallback) incompatSwitchCallback();
+    closeIncompatibilityModal();
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const overlay = document.getElementById('incompatibility-modal-overlay');
+      if (overlay.style.display === 'flex') {
+        closeIncompatibilityModal();
+      }
+    }
+  });
+</script>

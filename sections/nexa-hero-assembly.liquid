@@ -1,0 +1,467 @@
+<section class="hero-assembly-section" id="hero-assembly-section" data-section-id="{{ section.id }}" aria-label="NexaDesk Kinetic Hero Experience">
+  <!-- Background glow and subtle tech grid -->
+  <div class="hero-grid-backdrop" aria-hidden="true"></div>
+  <div class="hero-radial-glow" aria-hidden="true"></div>
+
+  <div class="hero-container">
+    <!-- Top Header Text Content -->
+    <div class="hero-header-content">
+      <div class="hero-pill-badge">
+        <span class="pulse-blue-dot" aria-hidden="true"></span>
+        <span class="hero-badge-text">{{ section.settings.badge_text | default: 'Tested & Certified for UK Desks' }}</span>
+      </div>
+
+      <h1 class="hero-main-title">
+        {{ section.settings.title_line1 | default: 'Your Dream Desk Setup,' }} <br />
+        <span class="hero-gradient-text">{{ section.settings.title_line2 | default: 'Connected With One Cable.' }}</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        {{ section.settings.subtitle | default: 'No confusing adapters, no messy tangled wires, and no guessing if things will fit. Simply plug in your laptop to charge, run big screens, and work comfortably all day.' }}
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="{{ section.settings.cta_link | default: '/pages/find-my-setup' }}" class="hero-primary-btn">
+          <span>{{ section.settings.cta_text | default: 'Find What Fits My Laptop' }}</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+
+        <a href="{{ section.settings.secondary_link | default: '/collections/all' }}" class="hero-secondary-btn">
+          <span>{{ section.settings.secondary_text | default: 'See One-Cable Docks' }}</span>
+        </a>
+      </div>
+
+      <!-- Quick Plain-English Metrics Bar -->
+      <div class="hero-metrics-bar">
+        <div class="metric-item">
+          <span class="metric-value">Fast Charging</span>
+          <span class="metric-label">Powers your laptop instantly</span>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric-item">
+          <span class="metric-value">Dual Big Screens</span>
+          <span class="metric-label">Crisp &amp; flicker-free</span>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric-item">
+          <span class="metric-value">100% Guaranteed</span>
+          <span class="metric-label">Works out of the box</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3D Exploded / Assembled Interactive Workstation Stage -->
+    <div class="hero-stage-wrapper">
+      <!-- Stage Controls: Interactive scrubber & view modes -->
+      <div class="hero-stage-controls">
+        <div class="stage-controls-left">
+          <span class="stage-state-indicator" id="hero-stage-indicator">Separate Pieces (Take Apart)</span>
+          <span class="stage-percentage" id="hero-stage-percentage">0%</span>
+        </div>
+
+        <div class="stage-controls-right">
+          <button
+            type="button"
+            class="stage-mode-btn is-active"
+            id="hero-btn-take-apart"
+            onclick="setHeroScrub(0)"
+            aria-label="Switch to Take Apart View"
+          >
+            See Pieces Apart
+          </button>
+          <button
+            type="button"
+            class="stage-mode-btn"
+            id="hero-btn-snap"
+            onclick="setHeroScrub(1)"
+            aria-label="Switch to Connected View"
+          >
+            Snap Connected
+          </button>
+        </div>
+      </div>
+
+      <!-- Interactive Scrub Slider for Manual Scrubbing -->
+      <div class="hero-slider-track">
+        <label for="assembly-slider" class="sr-only">Assemble desk components slider</label>
+        <input
+          id="assembly-slider"
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0"
+          oninput="setHeroScrub(parseFloat(this.value), true)"
+          class="assembly-range-input"
+          aria-label="Desk assembly progress"
+        />
+      </div>
+
+      <!-- The Isometric 3D Kinetic Canvas Stage -->
+      <div class="kinetic-canvas">
+        <!-- Ambient Shadow Plane -->
+        <div class="stage-shadow-plane" id="hero-shadow-plane" aria-hidden="true"></div>
+
+        <!-- Component 1: Monitor & Display on Articulated Arm -->
+        <div
+          class="kinetic-node monitor-node"
+          id="hero-monitor-node"
+          onclick="toggleHeroHotspot('monitor')"
+          tabindex="0"
+          role="button"
+          aria-label="Ultra-wide computer screen"
+        >
+          <div class="component-visual monitor-frame">
+            <div class="monitor-screen">
+              <div class="monitor-ui-mockup">
+                <div class="mockup-sidebar"></div>
+                <div class="mockup-content">
+                  <div class="mockup-card active"></div>
+                  <div class="mockup-card"></div>
+                  <div class="mockup-card"></div>
+                </div>
+              </div>
+              <div class="monitor-screen-glare"></div>
+            </div>
+            <div class="monitor-bezel-bottom">
+              <span class="nexa-logo-screen">NexaDesk Wide Screen</span>
+            </div>
+            <div class="monitor-stand-arm"></div>
+          </div>
+
+          <!-- Hotspot Badge -->
+          <div class="component-hotspot-chip">
+            <span class="hotspot-dot"></span>
+            <span class="hotspot-text">Wide Screen (Gentle on Eyes)</span>
+          </div>
+        </div>
+
+        <!-- Component 2: Certified Docking Station (Central Hub) -->
+        <div
+          class="kinetic-node dock-node"
+          id="hero-dock-node"
+          onclick="toggleHeroHotspot('dock')"
+          tabindex="0"
+          role="button"
+          aria-label="Central one-cable desk dock"
+        >
+          <div class="component-visual dock-body">
+            <div class="dock-status-light"></div>
+            <div class="dock-ports-front">
+              <span class="port-slot usb-c"></span>
+              <span class="port-slot usb-a"></span>
+              <span class="port-slot audio"></span>
+            </div>
+            <div class="dock-label">One-Cable Dock</div>
+          </div>
+
+          <!-- Hotspot Badge -->
+          <div class="component-hotspot-chip right">
+            <span class="hotspot-dot green"></span>
+            <span class="hotspot-text">Charges &amp; Connects Everything</span>
+          </div>
+        </div>
+
+        <!-- Component 3: Kinetic USB-C Data & Power Cable -->
+        <div class="kinetic-cable-wrapper" id="hero-cable-wrapper" aria-hidden="true">
+          <svg class="kinetic-cable-svg" viewBox="0 0 600 240" fill="none">
+            <path
+              id="hero-cable-glow"
+              d="M 175 145 C 280 80, 300 210, 420 148"
+              stroke="rgba(59, 130, 246, 0.3)"
+              stroke-width="8"
+              stroke-linecap="round"
+            />
+            <path
+              id="hero-cable-core"
+              d="M 175 145 C 280 80, 300 210, 420 148"
+              stroke="#3b82f6"
+              stroke-width="3.5"
+              stroke-linecap="round"
+            />
+            <path
+              id="hero-cable-pulse"
+              d="M 175 145 C 280 80, 300 210, 420 148"
+              stroke="#60a5fa"
+              stroke-width="4"
+              stroke-dasharray="16 48"
+              class="cable-pulse-current"
+              stroke-linecap="round"
+            />
+          </svg>
+        </div>
+
+        <!-- Component 4: Laptop Workstation on S1 Stand -->
+        <div
+          class="kinetic-node laptop-node"
+          id="hero-laptop-node"
+          onclick="toggleHeroHotspot('laptop')"
+          tabindex="0"
+          role="button"
+          aria-label="Your Laptop on stand"
+        >
+          <div class="component-visual laptop-unit">
+            <div class="laptop-lid">
+              <div class="laptop-screen-content">
+                <div class="screen-active-badge">Your Laptop: Fast &amp; Charged</div>
+              </div>
+            </div>
+            <div class="laptop-base">
+              <div class="laptop-trackpad"></div>
+            </div>
+            <div class="laptop-riser-stand"></div>
+          </div>
+
+          <!-- Hotspot Badge -->
+          <div class="component-hotspot-chip left">
+            <span class="hotspot-dot blue"></span>
+            <span class="hotspot-text">Your Laptop (Mac or PC)</span>
+          </div>
+        </div>
+
+        <!-- Component 5: Peripherals -->
+        <div
+          class="kinetic-node desk-peripherals-node"
+          id="hero-peripherals-node"
+          onclick="toggleHeroHotspot('peripherals')"
+          tabindex="0"
+          role="button"
+          aria-label="Comfortable Keyboard and Wireless Mouse"
+        >
+          <div class="peripherals-cluster">
+            <div class="keyboard-fixture">
+              <div class="key-row">
+                <span class="key"></span><span class="key"></span><span class="key"></span><span class="key"></span><span class="key"></span><span class="key"></span>
+              </div>
+              <div class="key-row space">
+                <span class="key spacebar"></span>
+              </div>
+            </div>
+            <div class="mouse-fixture">
+              <div class="mouse-wheel"></div>
+            </div>
+          </div>
+
+          <!-- Hotspot Badge -->
+          <div class="component-hotspot-chip bottom">
+            <span class="hotspot-dot"></span>
+            <span class="hotspot-text">Comfort Keyboard &amp; Mouse</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Spec Tooltip Drawer for Tap / Hover -->
+      <div class="hero-spec-popover" id="hero-spec-popover" style="display:none;">
+        <div id="popover-monitor" class="spec-popover-content" style="display:none;">
+          <strong>Extra-Wide Work Screen</strong>
+          <p>Plenty of space to view documents and video calls side-by-side without squinting or straining your eyes.</p>
+          <a href="/collections/all" class="spec-link">See Computer Screens &rarr;</a>
+        </div>
+        <div id="popover-dock" class="spec-popover-content" style="display:none;">
+          <strong>All-in-One Desk Hub</strong>
+          <p>Charges your laptop quickly while connecting your screens, mouse, keyboard, and internet through one single cord.</p>
+          <a href="/collections/all" class="spec-link">Find The Right Dock for You &rarr;</a>
+        </div>
+        <div id="popover-laptop" class="spec-popover-content" style="display:none;">
+          <strong>Works With Any Laptop</strong>
+          <p>Whether you use an Apple MacBook or a Windows laptop, we ensure you get the exact plug that works seamlessly.</p>
+          <a href="/pages/find-my-setup" class="spec-link">Check My Laptop (Easy 30s Quiz) &rarr;</a>
+        </div>
+        <div id="popover-peripherals" class="spec-popover-content" style="display:none;">
+          <strong>Comfortable Typing &amp; Pointing</strong>
+          <p>Lightweight aluminium stand to save your neck, plus a quiet keyboard and ergonomic mouse to protect your wrists.</p>
+          <a href="/collections/all" class="spec-link">Browse Desk Accessories &rarr;</a>
+        </div>
+      </div>
+
+      <!-- Bottom Interaction Guide -->
+      <div class="hero-assembly-hint">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 5v14M19 12l-7 7-7-7"/>
+        </svg>
+        <span>Scroll down or slide the bar to see how everything connects</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  let heroProgress = 0;
+  let isHeroManual = false;
+  let activeHeroHotspot = null;
+
+  function updateHeroTransforms(p) {
+    const invP = 1 - p;
+    heroProgress = p;
+
+    // Update slider and indicators
+    const slider = document.getElementById('assembly-slider');
+    if (slider) slider.value = p;
+
+    const percentage = document.getElementById('hero-stage-percentage');
+    if (percentage) percentage.textContent = Math.round(p * 100) + '%';
+
+    const indicator = document.getElementById('hero-stage-indicator');
+    if (indicator) {
+      indicator.textContent = p < 0.15 ? 'Separate Pieces (Take Apart)' : p > 0.85 ? 'Ready-to-Use Desk (All Connected)' : 'Connecting Together...';
+    }
+
+    const btnApart = document.getElementById('hero-btn-take-apart');
+    const btnSnap = document.getElementById('hero-btn-snap');
+    if (btnApart && btnSnap) {
+      if (p < 0.5) {
+        btnApart.classList.add('is-active');
+        btnSnap.classList.remove('is-active');
+      } else {
+        btnApart.classList.remove('is-active');
+        btnSnap.classList.add('is-active');
+      }
+    }
+
+    // Nodes transform
+    const monitor = document.getElementById('hero-monitor-node');
+    if (monitor) {
+      monitor.style.transform = `translate3d(0, ${-invP * 85}px, ${invP * 40}px) scale(${1 - invP * 0.05})`;
+      monitor.style.opacity = 0.95 + p * 0.05;
+    }
+
+    const dock = document.getElementById('hero-dock-node');
+    if (dock) {
+      dock.style.transform = `translate3d(${invP * 65}px, ${invP * 40}px, 0) scale(${1 + invP * 0.08})`;
+    }
+
+    const laptop = document.getElementById('hero-laptop-node');
+    if (laptop) {
+      laptop.style.transform = `translate3d(${-invP * 90}px, ${invP * 30}px, 0) scale(${1 - invP * 0.04})`;
+    }
+
+    const periph = document.getElementById('hero-peripherals-node');
+    if (periph) {
+      periph.style.transform = `translate3d(0, ${invP * 60}px, 0) scale(${1 - invP * 0.08})`;
+      periph.style.opacity = 0.7 + p * 0.3;
+    }
+
+    const cableWrap = document.getElementById('hero-cable-wrapper');
+    if (cableWrap) {
+      cableWrap.style.opacity = 0.4 + p * 0.6;
+      cableWrap.style.transform = `scale(${0.92 + p * 0.08})`;
+    }
+
+    // Dynamic cable curve
+    const pathD = `M 175 145 C ${220 + invP * 60} ${120 - invP * 40}, ${340 - invP * 40} ${160 + invP * 50}, 420 148`;
+    ['hero-cable-glow', 'hero-cable-core', 'hero-cable-pulse'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.setAttribute('d', pathD);
+    });
+
+    const shadow = document.getElementById('hero-shadow-plane');
+    if (shadow) {
+      shadow.style.opacity = 0.2 + p * 0.4;
+      shadow.style.transform = `scale(${0.9 + p * 0.1})`;
+    }
+  }
+
+  function setHeroScrub(val, manual = true) {
+    if (manual) isHeroManual = true;
+    updateHeroTransforms(val);
+  }
+
+  function toggleHeroHotspot(type) {
+    const popover = document.getElementById('hero-spec-popover');
+    if (!popover) return;
+
+    if (activeHeroHotspot === type) {
+      popover.style.display = 'none';
+      activeHeroHotspot = null;
+      document.querySelectorAll('.kinetic-node').forEach(n => n.classList.remove('is-highlighted'));
+      return;
+    }
+
+    activeHeroHotspot = type;
+    popover.style.display = 'block';
+    ['monitor', 'dock', 'laptop', 'peripherals'].forEach(t => {
+      const el = document.getElementById('popover-' + t);
+      if (el) el.style.display = (t === type) ? 'block' : 'none';
+    });
+
+    document.querySelectorAll('.kinetic-node').forEach(n => n.classList.remove('is-highlighted'));
+    const activeNode = document.getElementById('hero-' + type + '-node');
+    if (activeNode) activeNode.classList.add('is-highlighted');
+  }
+
+  // Scroll listener for auto scrub
+  window.addEventListener('scroll', () => {
+    if (isHeroManual) return;
+    const section = document.getElementById('hero-assembly-section');
+    if (!section) return;
+    const rect = section.getBoundingClientRect();
+    const scrolled = Math.max(0, -rect.top);
+    const scrubDistance = 350;
+    const progress = Math.min(1, Math.max(0, scrolled / scrubDistance));
+    updateHeroTransforms(progress);
+  }, { passive: true });
+
+  document.addEventListener('DOMContentLoaded', () => updateHeroTransforms(0));
+</script>
+
+{% schema %}
+{
+  "name": "Nexa Hero Assembly",
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge Text",
+      "default": "Tested & Certified for UK Desks"
+    },
+    {
+      "type": "text",
+      "id": "title_line1",
+      "label": "Heading Line 1",
+      "default": "Your Dream Desk Setup,"
+    },
+    {
+      "type": "text",
+      "id": "title_line2",
+      "label": "Heading Line 2 (Gradient)",
+      "default": "Connected With One Cable."
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "No confusing adapters, no messy tangled wires, and no guessing if things will fit. Simply plug in your laptop to charge, run big screens, and work comfortably all day."
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Primary Button Label",
+      "default": "Find What Fits My Laptop"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Primary Button Link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_text",
+      "label": "Secondary Button Label",
+      "default": "See One-Cable Docks"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Secondary Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Nexa Hero Assembly"
+    }
+  ]
+}
+{% endschema %}

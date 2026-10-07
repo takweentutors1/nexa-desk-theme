@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "spec_diff_toggle": {
+      "type": "nexa-spec-diff-toggle",
+      "settings": {}
+    }
+  },
+  "order": [
+    "spec_diff_toggle"
+  ]
+}

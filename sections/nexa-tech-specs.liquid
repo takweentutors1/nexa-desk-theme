@@ -1,0 +1,93 @@
+{%- comment -%} Exact port of Hydrogen TechSpecsAccordion.jsx {%- endcomment -%}
+{%- liquid
+  assign wattage = product.metafields.custom.dock_charging_output.value | default: '65W'
+  assign wattage = wattage | append: ''
+-%}
+<section class="pdp-tech-specs-section" aria-labelledby="tech-specs-heading">
+  <div class="specs-header">
+    <span class="specs-badge">Engineering Deep-Dive</span>
+    <h2 id="tech-specs-heading" class="specs-title">Detailed Technical Specifications</h2>
+    <p class="specs-subtitle">Full architectural breakdown for IT professionals, pro audio engineers, and power users.</p>
+  </div>
+
+  <div class="specs-accordion-container">
+    <div class="spec-accordion-item is-open">
+      <button type="button" class="spec-accordion-btn" aria-expanded="true">
+        <div class="accordion-btn-left"><span class="accordion-icon">📐</span><strong>Dimensions, Weight &amp; Thermal Architecture</strong></div>
+        <span class="accordion-chevron">−</span>
+      </button>
+      <div class="spec-accordion-body">
+        <div class="specs-dl-grid">
+          <div class="dl-item"><span class="dt">Enclosure Material</span><span class="dd">CNC Anodised Aerospace Aluminium (Space Grey)</span></div>
+          <div class="dl-item"><span class="dt">Dimensions</span><span class="dd">198mm (W) x 74mm (D) x 24mm (H)</span></div>
+          <div class="dl-item"><span class="dt">Unit Weight</span><span class="dd">380g (Solid desktop anti-slip footing)</span></div>
+          <div class="dl-item"><span class="dt">Acoustics &amp; Thermals</span><span class="dd">0dB Silent Fanless Passive Heatsink Chassis</span></div>
+          <div class="dl-item"><span class="dt">Operating Temp</span><span class="dd">0°C to 40°C (Continuous duty cycle)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="spec-accordion-item">
+      <button type="button" class="spec-accordion-btn" aria-expanded="false">
+        <div class="accordion-btn-left"><span class="accordion-icon">⚡</span><strong>Chipsets &amp; USB Power Delivery Protocols</strong></div>
+        <span class="accordion-chevron">+</span>
+      </button>
+      <div class="spec-accordion-body" hidden>
+        <div class="specs-dl-grid">
+          <div class="dl-item"><span class="dt">Hub Controller</span><span class="dd">Realtek RTS5423 USB 3.2 Gen 2 (10Gbps SuperSpeed+)</span></div>
+          <div class="dl-item"><span class="dt">Power Delivery Standard</span><span class="dd">USB-PD 3.0 with Programmable Power Supply (PPS)</span></div>
+          <div class="dl-item"><span class="dt">Laptop Charging Output</span><span class="dd">{{ wattage }} continuous sustained wattage</span></div>
+          <div class="dl-item"><span class="dt">Over-Voltage Protection</span><span class="dd">Built-in OCP, OVP, and OTP thermal surge suppression</span></div>
+          <div class="dl-item"><span class="dt">Host Port Bandwidth</span><span class="dd">Up to 10Gbps upstream data + DP Alt Mode video</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="spec-accordion-item">
+      <button type="button" class="spec-accordion-btn" aria-expanded="false">
+        <div class="accordion-btn-left"><span class="accordion-icon">🖥️</span><strong>Display Resolutions &amp; Multi-Monitor Support</strong></div>
+        <span class="accordion-chevron">+</span>
+      </button>
+      <div class="spec-accordion-body" hidden>
+        <div class="specs-dl-grid">
+          <div class="dl-item"><span class="dt">Single Monitor Output</span><span class="dd">Up to 4K (3840 x 2160) @ 60Hz or 1440p @ 144Hz</span></div>
+          <div class="dl-item"><span class="dt">HDCP Compliance</span><span class="dd">HDCP 2.3 &amp; 1.4 for 4K Netflix/Apple TV protected streaming</span></div>
+          <div class="dl-item"><span class="dt">Color Gamut Support</span><span class="dd">10-bit Deep Color, HDR10, Rec. 709 &amp; DCI-P3</span></div>
+          <div class="dl-item"><span class="dt">macOS Multi-Monitor</span><span class="dd">Plug-and-play mirroring or extended desktop display</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="spec-accordion-item">
+      <button type="button" class="spec-accordion-btn" aria-expanded="false">
+        <div class="accordion-btn-left"><span class="accordion-icon">📄</span><strong>Warranty, Compliance &amp; Manual Downloads</strong></div>
+        <span class="accordion-chevron">+</span>
+      </button>
+      <div class="spec-accordion-body" hidden>
+        <div class="specs-dl-grid">
+          <div class="dl-item"><span class="dt">UK Warranty</span><span class="dd">24-Month Comprehensive Hardware Replacement</span></div>
+          <div class="dl-item"><span class="dt">Compliance &amp; Safety</span><span class="dd">UKCA, CE, FCC, RoHS, WEEE Certified</span></div>
+          <div class="dl-item"><span class="dt">Technical Downloads</span><span class="dd"><span class="spec-download-link">📥 Quick Start Guide (PDF, 1.4MB)</span><span class="spec-download-link">📥 Port Wiring &amp; Pinout Schematic (PDF, 850KB)</span></span></div>
+          <div class="dl-item"><span class="dt">Direct Support</span><span class="dd">London-based technical assistance via email &amp; live chat</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  document.querySelectorAll('.pdp-tech-specs-section .spec-accordion-item').forEach(function(it){
+    var b=it.querySelector('.spec-accordion-btn'),body=it.querySelector('.spec-accordion-body'),ch=it.querySelector('.accordion-chevron');
+    b.addEventListener('click',function(){
+      var o=!it.classList.contains('is-open');
+      it.classList.toggle('is-open',o);b.setAttribute('aria-expanded',o);
+      body.hidden=!o;ch.textContent=o?'−':'+';
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{ "name": "Nexa Tech Specs", "settings": [], "presets": [{ "name": "Nexa Tech Specs" }] }
+{% endschema %}

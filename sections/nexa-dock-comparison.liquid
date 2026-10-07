@@ -1,0 +1,230 @@
+<section class="pdp-comparison-matrix-section" aria-labelledby="matrix-heading">
+  <div class="matrix-header">
+    <span class="matrix-badge">Hardware Benchmarks</span>
+    <h2 id="matrix-heading" class="matrix-title">
+      Which Nexa Model Fits Your Setup?
+    </h2>
+    <p class="matrix-subtitle">
+      Side-by-side performance spec matrix across charging output, display protocols, and I/O architecture.
+    </p>
+
+    <div class="matrix-tab-toggles" role="tablist">
+      <button
+        type="button"
+        role="tab"
+        aria-selected="true"
+        class="matrix-tab-btn active"
+        onclick="switchMatrixView('docks', this)"
+      >
+        ⚡ Nexa Dock Series (D1–D4)
+      </button>
+      <button
+        type="button"
+        role="tab"
+        aria-selected="false"
+        class="matrix-tab-btn"
+        onclick="switchMatrixView('monitors', this)"
+      >
+        🖥️ Nexa Studio Display Series (M1–M3)
+      </button>
+    </div>
+  </div>
+
+  <div class="matrix-table-container">
+    {% assign current_handle = product.handle %}
+    
+    <div id="matrix-docks" style="display: block;">
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th class="matrix-feature-col">Specification</th>
+            {% assign docks = "d1-link-65,d2-power-100,d3-pro-max,d4-connect-a" | split: "," %}
+            {% assign dock_names = "D1 Link 65,D2 Power 100,D3 Pro Max,D4 Connect A" | split: "," %}
+            {% assign dock_badges = "Essential Pro,Dual Screen Champion,Triple 4K Powerhouse,Legacy Champion" | split: "," %}
+            {% assign dock_prices = "£99.00,£149.00,£199.00,£39.00" | split: "," %}
+            
+            {% for handle in docks %}
+              {% assign is_current = false %}
+              {% if current_handle == handle %}
+                {% assign is_current = true %}
+              {% endif %}
+              <th class="matrix-model-col {% if is_current %}is-current-model{% endif %}">
+                {% if is_current %}<span class="current-model-tag">Viewing This Model</span>{% endif %}
+                <span class="model-badge">{{ dock_badges[forloop.index0] }}</span>
+                <h3 class="model-name">{{ dock_names[forloop.index0] }}</h3>
+                <div class="model-price">{{ dock_prices[forloop.index0] }}</div>
+                {% if is_current == false %}
+                  <a href="/products/{{ handle }}" class="model-switch-btn">
+                    View {{ dock_names[forloop.index0] }} &rarr;
+                  </a>
+                {% endif %}
+              </th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="matrix-label">Laptop Host Charging</td>
+            {% assign chargings = "65W GaN,100W GaN Pass-Through,100W Dedicated Host,Data-Only (Bus-Powered)" | split: "," %}
+            {% for handle in docks %}
+              <td class="{% if current_handle == handle %}is-current-model{% endif %}">
+                <strong class="spec-val-highlight">{{ chargings[forloop.index0] }}</strong>
+              </td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td class="matrix-label">External Screen Support</td>
+            {% assign screens = "1x Screen (4K@60Hz),2x Dual 4K@60Hz,3x Screens (Triple 4K),No Video (Peripheral Hub)" | split: "," %}
+            {% for handle in docks %}
+              <td class="{% if current_handle == handle %}is-current-model{% endif %}">
+                {{ screens[forloop.index0] }}
+              </td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td class="matrix-label">Video Connectors</td>
+            {% assign video_ports = "1x HDMI 2.1,1x HDMI 2.1 + 1x DP 1.4,2x HDMI 2.1 + 1x DP 1.4,None" | split: "," %}
+            {% for handle in docks %}
+              <td class="{% if current_handle == handle %}is-current-model{% endif %}">
+                {{ video_ports[forloop.index0] }}
+              </td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td class="matrix-label">USB Expansion Ports</td>
+            {% assign usb_ports = "4x USB Ports (10Gbps),5x USB (10Gbps + USB-C PD),6x High-Speed I/O + SD Card 4.0,4x USB-A 3.0 (5Gbps)" | split: "," %}
+            {% for handle in docks %}
+              <td class="{% if current_handle == handle %}is-current-model{% endif %}">
+                {{ usb_ports[forloop.index0] }}
+              </td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td class="matrix-label">Wired Ethernet LAN</td>
+            {% assign ethernet = "1Gbps RJ45,1Gbps RJ45 Gigabit,2.5Gbps Ultra-Fast LAN,Optional Dongle" | split: "," %}
+            {% for handle in docks %}
+              <td class="{% if current_handle == handle %}is-current-model{% endif %}">
+                {{ ethernet[forloop.index0] }}
+              </td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td class="matrix-label">Recommended Workflow</td>
+            {% assign best_for = "MacBook Air/ Thin & Light Ultrabooks/ Home Office,MacBook Pro 14'/16'/ Dell XPS/ Multi-Tasking Creators,Heavy Workstations/ Financial Trading/ 3D/VFX Studios,Older Desktops/ USB-A Laptops/ Peripheral Expansion" | split: "," %}
+            {% for handle in docks %}
+              <td class="spec-workflow-cell {% if current_handle == handle %}is-current-model{% endif %}">
+                <small>{{ best_for[forloop.index0] | replace: "/", "," }}</small>
+              </td>
+            {% endfor %}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div id="matrix-monitors" style="display: none;">
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th class="matrix-feature-col">Specification</th>
+            {% assign monitors = "m1-studio-27,m2-view-32,m3-dual-curved" | split: "," %}
+            {% assign mon_names = "M1 Studio 27,M2 View 32,M3 Curved 34" | split: "," %}
+            {% assign mon_prices = "£329.00,£429.00,£499.00" | split: "," %}
+            {% for handle in monitors %}
+              {% assign is_current = false %}
+              {% if current_handle == handle %}
+                {% assign is_current = true %}
+              {% endif %}
+              <th class="matrix-model-col {% if is_current %}is-current-model{% endif %}">
+                {% if is_current %}<span class="current-model-tag">Viewing This Model</span>{% endif %}
+                <h3 class="model-name">{{ mon_names[forloop.index0] }}</h3>
+                <div class="model-price">{{ mon_prices[forloop.index0] }}</div>
+                {% if is_current == false %}
+                  <a href="/products/{{ handle }}" class="model-switch-btn">
+                    View {{ mon_names[forloop.index0] }} &rarr;
+                  </a>
+                {% endif %}
+              </th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="matrix-label">Display Size & Panel</td>
+            {% assign mon_sizes = "27' 4K IPS,32' 4K HDR,34' Ultrawide WQHD" | split: "," %}
+            {% for handle in monitors %}
+              <td class="{% if current_handle == handle %}is-current-model{% endif %}">
+                <strong>{{ mon_sizes[forloop.index0] | replace: "'", '"' }}</strong>
+              </td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td class="matrix-label">Refresh & Color</td>
+            {% assign mon_refresh = "60Hz Pro Color,60Hz High Contrast,100Hz Smooth Motion" | split: "," %}
+            {% for handle in monitors %}
+              <td class="{% if current_handle == handle %}is-current-model{% endif %}">
+                {{ mon_refresh[forloop.index0] }}
+              </td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td class="matrix-label">Video Input Interfaces</td>
+            {% assign mon_inputs = "HDMI 2.1, DisplayPort 1.4, USB-C|2x HDMI 2.1, 1x DP 1.4|HDMI 2.1, DP 1.4, USB-C 65W" | split: "|" %}
+            {% for handle in monitors %}
+              <td class="{% if current_handle == handle %}is-current-model{% endif %}">
+                {{ mon_inputs[forloop.index0] }}
+              </td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td class="matrix-label">Compatible Nexa Dock</td>
+            {% assign mon_docks = "D1 or D2,D2 or D3,D2 or D3" | split: "," %}
+            {% for handle in monitors %}
+              <td class="{% if current_handle == handle %}is-current-model{% endif %}">
+                <span class="matrix-rec-pill">⚡ {{ mon_docks[forloop.index0] }}</span>
+              </td>
+            {% endfor %}
+          </tr>
+          <tr>
+            <td class="matrix-label">Best Suited For</td>
+            {% assign mon_best = "Graphic Designers, Photographers, General Office|Video Editors, Coders, Large Canvas Multi-Window|Immersive Workstations, Financial Spreadsheets" | split: "|" %}
+            {% for handle in monitors %}
+              <td class="spec-workflow-cell {% if current_handle == handle %}is-current-model{% endif %}">
+                <small>{{ mon_best[forloop.index0] }}</small>
+              </td>
+            {% endfor %}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<script>
+  function switchMatrixView(mode, btn) {
+    document.getElementById('matrix-docks').style.display = mode === 'docks' ? 'block' : 'none';
+    document.getElementById('matrix-monitors').style.display = mode === 'monitors' ? 'block' : 'none';
+    
+    // Update active class on buttons
+    const btns = btn.parentElement.querySelectorAll('.matrix-tab-btn');
+    btns.forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected', 'false');
+    });
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Nexa Dock Comparison",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Nexa Dock Comparison Matrix"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "collection_filters": {
+      "type": "nexa-collection-filters",
+      "settings": {}
+    }
+  },
+  "order": [
+    "collection_filters"
+  ]
+}

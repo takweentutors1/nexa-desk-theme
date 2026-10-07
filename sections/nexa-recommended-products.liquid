@@ -1,0 +1,207 @@
+{%- liquid
+  assign role = product.metafields.nexadesk.product_role | downcase
+  if role == blank
+    assign title_down = product.title | downcase
+    if title_down contains 'dock' or title_down contains 'hub'
+      assign role = 'dock'
+    elsif title_down contains 'monitor' or title_down contains 'screen'
+      assign role = 'monitor'
+    elsif title_down contains 'stand' or title_down contains 'riser'
+      assign role = 'stand'
+    endif
+  endif
+
+  assign is_dock = false
+  assign is_monitor = false
+  if role == 'dock'
+    assign is_dock = true
+  elsif role == 'monitor'
+    assign is_monitor = true
+  endif
+
+  assign current_variant = product.selected_or_first_available_variant
+  assign current_price = current_variant.price
+  assign pair_item = blank
+  assign other_products = collections.all.products | where: "id", "!=", product.id
+  
+  for p in collections.all.products
+    if p.id == product.id
+      continue
+    endif
+    
+    assign p_role = p.metafields.nexadesk.product_role | downcase
+    assign p_title = p.title | downcase
+    
+    if is_dock
+      if p_role == 'monitor' or p_title contains 'monitor' or p_title contains 'studio'
+        assign pair_item = p
+        break
+      endif
+    elsif is_monitor
+      if p_role == 'dock' or p_title contains 'dock' or p_title contains 'link'
+        assign pair_item = p
+        break
+      endif
+    else
+      assign pair_item = p
+      break
+    endif
+  endfor
+
+  if pair_item == blank
+    for p in collections.all.products
+      if p.id != product.id
+        assign pair_item = p
+        break
+      endif
+    endfor
+  endif
+
+  assign pair_variant = pair_item.selected_or_first_available_variant
+  assign pair_price = pair_variant.price
+  assign combined_raw = current_price | plus: pair_price
+  assign bundle_discount = combined_raw | times: 0.1 | round
+  assign bundle_total = combined_raw | minus: bundle_discount
+-%}
+
+<section class="pdp-recommended-section" aria-labelledby="complete-the-link-heading">
+  <div class="recommended-header">
+    <div class="recommended-badge">Ecosystem Synergy</div>
+    <h2 id="complete-the-link-heading" class="recommended-title">
+      Frequently Paired With This Setup
+    </h2>
+    <p class="recommended-subtitle">
+      Engineered for verified zero-latency plug-and-play compatibility with your {{ product.title }}.
+    </p>
+  </div>
+
+  {% if pair_item and current_variant and pair_variant %}
+    <div class="ecosystem-bundle-card">
+      <div class="bundle-callout-header">
+        <span class="bundle-tag">⚡ 10% Bundle Discount</span>
+        <span class="bundle-guarantee">Verified Compatible Pair</span>
+      </div>
+
+      <div class="bundle-items-visual">
+        <div class="bundle-item-card">
+          <div class="bundle-item-thumb-box">
+            {% if current_variant.image %}
+              <img src="{{ current_variant.image | image_url: width: 64 }}" alt="{{ product.title | escape }}" width="64" height="64" class="bundle-item-thumb">
+            {% endif %}
+          </div>
+          <div class="bundle-item-details">
+            <span class="bundle-item-label">Current Selection</span>
+            <strong class="bundle-item-title">{{ product.title }}</strong>
+            <span class="bundle-item-price">
+              {{ current_price | money }}
+            </span>
+          </div>
+        </div>
+
+        <div class="bundle-plus-sign" aria-hidden="true">+</div>
+
+        <div class="bundle-item-card">
+          <div class="bundle-item-thumb-box">
+            {% if pair_variant.image %}
+              <img src="{{ pair_variant.image | image_url: width: 64 }}" alt="{{ pair_item.title | escape }}" width="64" height="64" class="bundle-item-thumb">
+            {% else %}
+              <div class="bundle-thumb-placeholder">⚡</div>
+            {% endif %}
+          </div>
+          <div class="bundle-item-details">
+            <span class="bundle-item-label">Recommended Companion</span>
+            <a href="{{ pair_item.url }}" class="bundle-item-title hover-link">
+              {{ pair_item.title }}
+            </a>
+            <span class="bundle-item-price">
+              {{ pair_price | money }}
+            </span>
+          </div>
+        </div>
+
+        <div class="bundle-equals-sign" aria-hidden="true">=</div>
+
+        <div class="bundle-checkout-action">
+          <div class="bundle-pricing-summary">
+            <span class="bundle-save-badge">Save {{ bundle_discount | money }}</span>
+            <div class="bundle-final-price">
+              {{ bundle_total | money }} <span class="bundle-currency">{{ cart.currency.iso_code }}</span>
+            </div>
+            <s class="bundle-regular-price">{{ combined_raw | money }}</s>
+          </div>
+
+          <button
+            type="button"
+            class="bundle-add-all-btn js-add-bundle"
+            data-item1="{{ current_variant.id }}"
+            data-item2="{{ pair_variant.id }}"
+          >
+            Add Both to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="recommended-grid">
+    {% assign rec_count = 0 %}
+    {% for prod in collections.all.products %}
+      {% if prod.id == product.id %}{% continue %}{% endif %}
+      {% if rec_count >= 4 %}{% break %}{% endif %}
+      {% assign rec_count = rec_count | plus: 1 %}
+      
+      {% assign variant = prod.selected_or_first_available_variant %}
+      {% assign price = prod.price_min %}
+      {% assign img_url = prod.featured_image %}
+      {% assign prod_role = prod.metafields.nexadesk.product_role | default: 'Companion' %}
+
+      <div class="rec-card">
+        <div class="rec-card-image-wrap">
+          <a href="{{ prod.url }}" class="rec-image-link">
+            {% if img_url %}
+              <img
+                src="{{ img_url | image_url: width: 180 }}"
+                alt="{{ prod.title | escape }}"
+                loading="lazy"
+                class="rec-img"
+                width="180"
+                height="180"
+              />
+            {% else %}
+              <div class="rec-img-fallback">🖥️</div>
+            {% endif %}
+          </a>
+          <span class="rec-role-badge">{{ prod_role }}</span>
+        </div>
+
+        <div class="rec-card-content">
+          <a href="{{ prod.url }}" class="rec-title-link">
+            <h4 class="rec-title">{{ prod.title }}</h4>
+          </a>
+          <div class="rec-card-footer">
+            <div class="rec-price">
+              {{ price | money }}
+            </div>
+            {% if variant %}
+              <button
+                type="button"
+                class="rec-quick-add-btn js-quick-add"
+                data-id="{{ variant.id }}"
+                title="Quick Add"
+              >
+                + Quick Add
+              </button>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Nexa Recommended",
+  "settings": []
+}
+{% endschema %}

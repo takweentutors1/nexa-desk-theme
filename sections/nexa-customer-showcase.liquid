@@ -1,0 +1,257 @@
+<section class="customer-showcase-section page-width" data-section-id="{{ section.id }}" aria-label="Real UK Customer Workstation Stories">
+  <div class="showcase-header">
+    <div class="showcase-badge-pill">
+      <span class="showcase-pulse-dot" aria-hidden="true"></span>
+      <span class="showcase-badge-text">Real UK Customer Stories</span>
+    </div>
+
+    <h2 class="showcase-title">
+      See how people across the UK transformed their desks.
+    </h2>
+
+    <p class="showcase-sub">
+      Tap the glowing dots on any photo below to see the exact one-cable docks, screens, and ergonomic stands they used to get rid of wire clutter.
+    </p>
+
+    <!-- Carousel Nav Tabs -->
+    <div class="showcase-tabs-row" role="tablist">
+      <button type="button" class="showcase-tab-btn is-active" id="sc-tab-0" onclick="switchShowcase(0)">
+        <strong>Sophie M.</strong>
+        <span>Edinburgh &bull; MacBook Air</span>
+      </button>
+      <button type="button" class="showcase-tab-btn" id="sc-tab-1" onclick="switchShowcase(1)">
+        <strong>David K.</strong>
+        <span>London &bull; Windows Dell XPS</span>
+      </button>
+      <button type="button" class="showcase-tab-btn" id="sc-tab-2" onclick="switchShowcase(2)">
+        <strong>Emma R.</strong>
+        <span>Bristol &bull; MacBook Pro</span>
+      </button>
+      <button type="button" class="showcase-tab-btn" id="sc-tab-3" onclick="switchShowcase(3)">
+        <strong>James &amp; Sarah L.</strong>
+        <span>Cambridge &bull; Shared Mac &amp; PC</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Active Showcase Stage -->
+  <div class="showcase-main-card nexa-card" id="showcase-card">
+    <div class="showcase-visual-side">
+      <!-- Simulated Desk Photograph Canvas with Interactive Hotspot Pins -->
+      <div class="showcase-photo-frame" id="showcase-photo-frame">
+        <div class="desk-visual-backdrop" id="showcase-backdrop"></div>
+
+        <!-- Dynamic Hotspots Container -->
+        <div class="showcase-hotspots-layer" id="showcase-hotspots-layer"></div>
+      </div>
+    </div>
+
+    <div class="showcase-story-side">
+      <div class="story-rating-stars">★★★★★</div>
+      <span class="story-verified-badge" id="sc-verified">Verified UK Order &bull; Edinburgh, Scotland</span>
+      <h3 class="story-customer-name" id="sc-name">Sophie M. &bull; Remote Accountant</h3>
+      <blockquote class="story-quote" id="sc-quote">
+        "Before this, I had four separate tangled plugs all over my desk. Now when I sit down, I just plug in one single cord. Both my big monitors light up and my MacBook charges fast. My workspace feels so peaceful now."
+      </blockquote>
+
+      <!-- Gear used in this desk list -->
+      <div class="story-gear-used">
+        <h4 class="gear-title">Gear Used in this Setup:</h4>
+        <div class="gear-pills-list" id="sc-gear-list"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const SHOWCASE_DATA = [
+    {
+      name: 'Sophie M.',
+      role: 'Remote Accountant',
+      city: 'Edinburgh, Scotland',
+      verified: 'Verified UK Order • Edinburgh, Scotland',
+      quote: '"Before this, I had four separate tangled plugs all over my desk. Now when I sit down, I just plug in one single cord. Both my big monitors light up and my MacBook charges fast. My workspace feels so peaceful now."',
+      hotspots: [
+        {
+          title: 'NexaDesk One-Cable Dual Dock',
+          category: 'Desk Power Hub',
+          price: '£169.00',
+          top: '48%',
+          left: '50%',
+          benefit: 'Plugs straight into the wall to charge her MacBook and run two big screens through one wire.'
+        },
+        {
+          title: 'Adjustable Eye-Level Laptop Stand',
+          category: 'Laptop Riser',
+          price: '£49.00',
+          top: '42%',
+          left: '22%',
+          benefit: 'Brings her screen to comfortable eye height so her neck does not hurt by 5 PM.'
+        },
+        {
+          title: 'Clear & Crisp 27" Computer Monitor',
+          category: 'Wide Screen',
+          price: '£229.00',
+          top: '22%',
+          left: '46%',
+          benefit: 'Flicker-free glass with big, easy-to-read text that prevents tired eyes.'
+        }
+      ]
+    },
+    {
+      name: 'David K.',
+      role: '3D Designer & Architect',
+      city: 'London, England',
+      verified: 'Verified UK Order • London, England',
+      quote: '"My work laptop is power-hungry and cheap adapters always got burning hot or wouldn\'t charge the battery. This hub powers my laptop without breaking a sweat, even during heavy 3D rendering."',
+      hotspots: [
+        {
+          title: 'High-Power Pro Dock (100W)',
+          category: 'Heavy-Duty Hub',
+          price: '£219.00',
+          top: '52%',
+          left: '52%',
+          benefit: 'Sends rapid, safe power into demanding Windows laptops while streaming 2 big screens.'
+        },
+        {
+          title: 'Comfortable Wireless Trackball Mouse',
+          category: 'Ergonomic Mouse',
+          price: '£49.00',
+          top: '58%',
+          left: '78%',
+          benefit: 'You move the ball with your thumb instead of sliding your wrist, stopping soreness completely.'
+        },
+        {
+          title: 'Extra Wide Curved Desk Screen (34")',
+          category: 'Panoramic Screen',
+          price: '£389.00',
+          top: '20%',
+          left: '42%',
+          benefit: 'Wraps gently around your eyesight so you can view all your windows side by side.'
+        }
+      ]
+    },
+    {
+      name: 'Emma R.',
+      role: 'Online Project Manager',
+      city: 'Bristol, England',
+      verified: 'Verified UK Order • Bristol, England',
+      quote: '"Moving from messy wires on the dining table to this clean desk made working from home a joy. No more scrambling for adapters five minutes before a team video call."',
+      hotspots: [
+        {
+          title: 'Standard One-Cable Dock',
+          category: 'Compact Hub',
+          price: '£119.00',
+          top: '50%',
+          left: '48%',
+          benefit: 'Tucks neatly under the screen riser and powers everything silently.'
+        },
+        {
+          title: 'Quiet Wireless Typing Keyboard',
+          category: 'Silent Keyboard',
+          price: '£59.00',
+          top: '64%',
+          left: '32%',
+          benefit: 'Soft, quiet keys with real Apple Mac shortcut buttons.'
+        },
+        {
+          title: 'Rotating Swivel Aluminum Stand',
+          category: 'Swivel Stand',
+          price: '£69.00',
+          top: '40%',
+          left: '20%',
+          benefit: 'Smooth 360-degree swivel to angle your webcam perfectly for video meetings.'
+        }
+      ]
+    },
+    {
+      name: 'James & Sarah L.',
+      role: 'Remote Couple (Tech & Education)',
+      city: 'Cambridge, England',
+      verified: 'Verified UK Order • Cambridge, England',
+      quote: '"I use an Apple MacBook for work and my partner uses a Windows laptop. We share the same desk without ever having to swap cables or fiddle with settings. One cable fits both machines."',
+      hotspots: [
+        {
+          title: 'NexaDesk One-Cable Dual Dock',
+          category: 'Universal Hub',
+          price: '£169.00',
+          top: '48%',
+          left: '50%',
+          benefit: 'Works automatically with both Apple Mac and Windows without installing any software.'
+        },
+        {
+          title: 'Ergonomic Silent Wireless Mouse',
+          category: 'Silent Mouse',
+          price: '£39.00',
+          top: '60%',
+          left: '75%',
+          benefit: 'Switches between the MacBook and Windows PC in a single click.'
+        }
+      ]
+    }
+  ];
+
+  function switchShowcase(idx) {
+    document.querySelectorAll('.showcase-tab-btn').forEach((b, i) => {
+      b.classList.toggle('is-active', i === idx);
+    });
+
+    const item = SHOWCASE_DATA[idx];
+    if (!item) return;
+
+    document.getElementById('sc-name').textContent = item.name + ' • ' + item.role;
+    document.getElementById('sc-verified').textContent = item.verified;
+    document.getElementById('sc-quote').textContent = item.quote;
+
+    // Render Hotspot Pins
+    const pinsLayer = document.getElementById('showcase-hotspots-layer');
+    if (pinsLayer) {
+      pinsLayer.innerHTML = item.hotspots.map((hs, hidx) => `
+        <div class="showcase-pin-node" style="top:${hs.top}; left:${hs.left};" onclick="toggleHotspotPopover(${idx}, ${hidx})">
+          <span class="pin-ripple"></span>
+          <span class="pin-core-dot"></span>
+          <div class="pin-info-popover" id="popover-${idx}-${hidx}">
+            <span class="popover-category">${hs.category}</span>
+            <strong class="popover-title">${hs.title}</strong>
+            <span class="popover-price">${hs.price}</span>
+            <p class="popover-benefit">${hs.benefit}</p>
+            <a href="/pages/find-my-setup" class="popover-cta">See Setup Builder &rarr;</a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Render Gear List
+    const gearList = document.getElementById('sc-gear-list');
+    if (gearList) {
+      gearList.innerHTML = item.hotspots.map(hs => `
+        <div class="gear-card-chip">
+          <strong>${hs.title}</strong>
+          <span class="chip-price">${hs.price}</span>
+        </div>
+      `).join('');
+    }
+  }
+
+  function toggleHotspotPopover(sIdx, hIdx) {
+    const popover = document.getElementById(`popover-${sIdx}-${hIdx}`);
+    if (!popover) return;
+    const isShowing = popover.style.display === 'block';
+    document.querySelectorAll('.pin-info-popover').forEach(p => p.style.display = 'none');
+    popover.style.display = isShowing ? 'none' : 'block';
+  }
+
+  document.addEventListener('DOMContentLoaded', () => switchShowcase(0));
+</script>
+
+{% schema %}
+{
+  "name": "Nexa Customer Showcase",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Nexa Customer Showcase"
+    }
+  ]
+}
+{% endschema %}

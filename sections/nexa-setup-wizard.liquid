@@ -1,0 +1,592 @@
+<div class="nexa-setup-wizard-root page-width" data-section-id="{{ section.id }}">
+  <!-- Interactive Step Navigator / Horizontal Breadcrumb -->
+  <nav class="wizard-stepper-navigation" aria-label="Setup Wizard Steps">
+    <div class="stepper-track-line"></div>
+    <button type="button" class="stepper-node is-current" id="step-nav-0" onclick="goToStep(0)">
+      <div class="stepper-icon-circle">1</div>
+      <div class="stepper-labels">
+        <span class="step-name">Device Profile</span>
+        <span class="step-sub">Choose your laptop</span>
+      </div>
+    </button>
+    <button type="button" class="stepper-node" id="step-nav-1" onclick="goToStep(1)">
+      <div class="stepper-icon-circle">2</div>
+      <div class="stepper-labels">
+        <span class="step-name">Connection Dock</span>
+        <span class="step-sub">Power &amp; display hub</span>
+      </div>
+    </button>
+    <button type="button" class="stepper-node" id="step-nav-2" onclick="goToStep(2)">
+      <div class="stepper-icon-circle">3</div>
+      <div class="stepper-labels">
+        <span class="step-name">Monitor Display</span>
+        <span class="step-sub">Primary workspace screen</span>
+      </div>
+    </button>
+    <button type="button" class="stepper-node" id="step-nav-3" onclick="goToStep(3)">
+      <div class="stepper-icon-circle">4</div>
+      <div class="stepper-labels">
+        <span class="step-name">Ergonomics</span>
+        <span class="step-sub">Keyboards &amp; stands</span>
+      </div>
+    </button>
+    <button type="button" class="stepper-node" id="step-nav-4" onclick="goToStep(4)">
+      <div class="stepper-icon-circle">5</div>
+      <div class="stepper-labels">
+        <span class="step-name">Review Setup</span>
+        <span class="step-sub">Summary &amp; checkout</span>
+      </div>
+    </button>
+  </nav>
+
+  <!-- Main Split-Pane Workspace: Left Configurator / Right Live CAD Blueprint -->
+  <div class="wizard-split-layout">
+    <div class="wizard-config-pane">
+      <div class="step-content-animator">
+        <!-- STEP 0: DEVICE PROFILE -->
+        <div class="wizard-step-pane" id="wizard-pane-0" style="display:block;">
+          <div class="pane-header">
+            <span class="pane-step-counter">Step 1 of 5</span>
+            <h2 class="pane-title">What Laptop Or Computer Are You Using?</h2>
+            <p class="pane-desc">
+              We match the exact charging wattage, host connector, and video protocol your computer requires.
+            </p>
+          </div>
+
+          <div class="device-cards-grid">
+            <!-- P1: Studio 65 Windows -->
+            <button type="button" class="setup-profile-card" id="wiz-card-P1" onclick="wizSelectProfile('P1')">
+              <div class="card-top-row">
+                <div class="profile-brand-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+                </div>
+                <span class="profile-code-pill">P1</span>
+              </div>
+              <div class="profile-text-content">
+                <h3 class="profile-title">Studio 65 (Windows)</h3>
+                <span class="profile-sub">Dell, Lenovo, HP, Surface Laptop</span>
+                <p class="profile-description">Everyday Windows laptops with USB-C. Charges up to 65W with full multi-screen support.</p>
+              </div>
+              <div class="profile-spec-badges">
+                <span class="spec-chip">🔌 USB-C</span>
+                <span class="spec-chip">⚡ 65W Charge</span>
+                <span class="spec-chip chip-green">🖥️ Display Support</span>
+              </div>
+              <div class="card-footer-action">
+                <span class="select-prompt">Select &amp; Find Docks &rarr;</span>
+              </div>
+            </button>
+
+            <!-- P2: Studio 100 Windows -->
+            <button type="button" class="setup-profile-card" id="wiz-card-P2" onclick="wizSelectProfile('P2')">
+              <div class="card-top-row">
+                <div class="profile-brand-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                </div>
+                <span class="profile-code-pill">P2</span>
+              </div>
+              <div class="profile-text-content">
+                <h3 class="profile-title">Studio 100 (Windows)</h3>
+                <span class="profile-sub">Gaming PC, Workstation &amp; Creative Laptop</span>
+                <p class="profile-description">High-performance laptops requiring full 100W Power Delivery to stay charged under heavy compute load.</p>
+              </div>
+              <div class="profile-spec-badges">
+                <span class="spec-chip">🔌 USB-C</span>
+                <span class="spec-chip">⚡ 100W Charge</span>
+                <span class="spec-chip chip-green">🖥️ Display Support</span>
+              </div>
+              <div class="card-footer-action">
+                <span class="select-prompt">Select &amp; Find Docks &rarr;</span>
+              </div>
+            </button>
+
+            <!-- P3: Creator 65 macOS -->
+            <button type="button" class="setup-profile-card" id="wiz-card-P3" onclick="wizSelectProfile('P3')">
+              <div class="card-top-row">
+                <div class="profile-brand-icon">
+                  <svg width="24" height="24" viewBox="0 0 170 170" fill="currentColor"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.69-7.85-12-14.42-6.2-9.35-11.05-19.8-14.56-31.35-3.51-11.55-5.27-22.37-5.27-32.48 0-14.13 3.63-25.75 10.88-34.86 7.25-9.11 16.48-13.84 27.69-14.19 4.35 0 9.28 1.16 14.78 3.49 5.51 2.32 9.49 3.55 11.96 3.69 2.22 0 6.54-1.37 12.96-4.12 6.42-2.75 11.96-3.91 16.61-3.49 12.52.95 22.42 5.63 29.69 14.04-10.97 6.64-16.35 15.68-16.14 27.12.21 9.07 3.73 16.66 10.56 22.77 6.83 6.11 14.72 9.69 23.68 10.74-2.22 6.96-5.01 14.03-8.36 21.23zM119.22 31.84c0-7.39 2.68-14.28 8.04-20.67 5.36-6.39 12.01-10.45 19.95-12.17.21 1.06.32 2.01.32 2.85 0 7.39-2.82 14.39-8.46 21-5.63 6.6-12.35 10.45-20.16 11.55-.1-1.05-.15-2.02-.15-2.91l.46.35z"/></svg>
+                </div>
+                <span class="profile-code-pill">P3</span>
+              </div>
+              <div class="profile-text-content">
+                <h3 class="profile-title">Creator 65 (macOS)</h3>
+                <span class="profile-sub">MacBook Air, MacBook Pro, Mac mini</span>
+                <p class="profile-description">Apple Silicon or Intel Mac with Thunderbolt / USB-C ports. Fast one-cable charging and dual display.</p>
+              </div>
+              <div class="profile-spec-badges">
+                <span class="spec-chip">🔌 USB-C</span>
+                <span class="spec-chip">⚡ 65W Charge</span>
+                <span class="spec-chip chip-green">🖥️ Display Support</span>
+              </div>
+              <div class="card-footer-action">
+                <span class="select-prompt">Select &amp; Find Docks &rarr;</span>
+              </div>
+            </button>
+
+            <!-- P4: Classic A Windows -->
+            <button type="button" class="setup-profile-card" id="wiz-card-P4" onclick="wizSelectProfile('P4')">
+              <div class="card-top-row">
+                <div class="profile-brand-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v10M12 12l4-4M12 12L8 8"/><rect x="7" y="14" width="10" height="8" rx="1"/></svg>
+                </div>
+                <span class="profile-code-pill">P4</span>
+              </div>
+              <div class="profile-text-content">
+                <h3 class="profile-title">Classic A (Windows)</h3>
+                <span class="profile-sub">Legacy PC with rectangular USB-A port</span>
+                <p class="profile-description">Older machines with traditional rectangular USB ports. Connects data and peripherals (no native video).</p>
+              </div>
+              <div class="profile-spec-badges">
+                <span class="spec-chip">🔌 USB-A</span>
+                <span class="spec-chip">⚡ 0W Charge</span>
+                <span class="spec-chip chip-amber">⚠️ No Native Video</span>
+              </div>
+              <div class="card-footer-action">
+                <span class="select-prompt">Select &amp; Find Docks &rarr;</span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 1: DOCKS -->
+        <div class="wizard-step-pane" id="wizard-pane-1" style="display:none;">
+          <div class="pane-header">
+            <span class="pane-step-counter">Step 2 of 5</span>
+            <h2 class="pane-title">Choose Your One-Cable Connection Dock</h2>
+            <p class="pane-desc">Matched to power your computer at full speed while driving external displays.</p>
+          </div>
+
+          <div class="docks-selector-grid">
+            <!-- D1 -->
+            <div class="setup-dock-card" id="dock-card-d1">
+              <div class="dock-card-header">
+                <span class="dock-role-badge">Full Dock</span>
+                <span class="dock-price">£99.00</span>
+              </div>
+              <div class="dock-title-block">
+                <h3 class="dock-title">D1 Link 65 Standard Dock</h3>
+                <p class="dock-desc">Reliable desktop dock with up to 65W charging and crisp 4K HDMI video output for single screens.</p>
+              </div>
+              <div class="dock-hardware-specs">
+                <div class="spec-cell"><span class="spec-label">Power Delivery</span><strong class="spec-val">⚡ 65W</strong></div>
+                <div class="spec-cell"><span class="spec-label">Display Outputs</span><strong class="spec-val">🖥️ HDMI</strong></div>
+                <div class="spec-cell"><span class="spec-label">Host Connection</span><strong class="spec-val">🔌 USB-C</strong></div>
+              </div>
+              <div class="dock-card-footer">
+                <button type="button" class="btn-select-component" onclick="wizSelectDock('d1')">Select This Dock &rarr;</button>
+              </div>
+            </div>
+
+            <!-- D2 -->
+            <div class="setup-dock-card" id="dock-card-d2">
+              <div class="dock-card-header">
+                <span class="dock-role-badge">Full Dock</span>
+                <span class="dock-price">£120.00</span>
+              </div>
+              <div class="dock-title-block">
+                <h3 class="dock-title">D2 Link 100 Dual-Screen Flagship Dock</h3>
+                <p class="dock-desc">Our top-tier dock. Sustained 100W Power Delivery and dual video feeds (HDMI + DP) for power users.</p>
+              </div>
+              <div class="dock-hardware-specs">
+                <div class="spec-cell"><span class="spec-label">Power Delivery</span><strong class="spec-val">⚡ 100W</strong></div>
+                <div class="spec-cell"><span class="spec-label">Display Outputs</span><strong class="spec-val">🖥️ HDMI &amp; DP</strong></div>
+                <div class="spec-cell"><span class="spec-label">Host Connection</span><strong class="spec-val">🔌 USB-C</strong></div>
+              </div>
+              <div class="dock-card-footer">
+                <button type="button" class="btn-select-component" onclick="wizSelectDock('d2')">Select This Dock &rarr;</button>
+              </div>
+            </div>
+
+            <!-- D3 -->
+            <div class="setup-dock-card" id="dock-card-d3">
+              <div class="dock-card-header">
+                <span class="dock-role-badge">Full Dock</span>
+                <span class="dock-price">£149.00</span>
+              </div>
+              <div class="dock-title-block">
+                <h3 class="dock-title">D3 Pro 100 High-Speed Workstation Dock</h3>
+                <p class="dock-desc">Built exclusively for demanding Windows workstations requiring enterprise DisplayPort &amp; 100W PD.</p>
+              </div>
+              <div class="dock-hardware-specs">
+                <div class="spec-cell"><span class="spec-label">Power Delivery</span><strong class="spec-val">⚡ 100W</strong></div>
+                <div class="spec-cell"><span class="spec-label">Display Outputs</span><strong class="spec-val">🖥️ DisplayPort</strong></div>
+                <div class="spec-cell"><span class="spec-label">Host Connection</span><strong class="spec-val">🔌 USB-C</strong></div>
+              </div>
+              <div class="dock-card-footer">
+                <button type="button" class="btn-select-component" onclick="wizSelectDock('d3')">Select This Dock &rarr;</button>
+              </div>
+            </div>
+
+            <!-- D4 -->
+            <div class="setup-dock-card" id="dock-card-d4">
+              <div class="dock-card-header">
+                <span class="dock-role-badge">Peripheral Hub</span>
+                <span class="dock-price">£59.00</span>
+              </div>
+              <div class="dock-title-block">
+                <h3 class="dock-title">D4 Connect A Legacy Peripheral Hub</h3>
+                <p class="dock-desc">Legacy USB-A peripheral hub for keyboard, mouse, and storage. Does not support video displays.</p>
+              </div>
+              <div class="dock-hardware-specs">
+                <div class="spec-cell"><span class="spec-label">Power Delivery</span><strong class="spec-val">⚡ 0W</strong></div>
+                <div class="spec-cell"><span class="spec-label">Display Outputs</span><strong class="spec-val">None</strong></div>
+                <div class="spec-cell"><span class="spec-label">Host Connection</span><strong class="spec-val">🔌 USB-A</strong></div>
+              </div>
+              <div class="dock-card-footer">
+                <button type="button" class="btn-select-component" onclick="wizSelectDock('d4')">Select This Dock &rarr;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: MONITORS -->
+        <div class="wizard-step-pane" id="wizard-pane-2" style="display:none;">
+          <div class="pane-header">
+            <span class="pane-step-counter">Step 3 of 5</span>
+            <h2 class="pane-title">Add A High-Definition Computer Screen</h2>
+            <p class="pane-desc">Filtered to displays that connect directly to your dock's video outputs.</p>
+          </div>
+
+          <div class="monitors-selector-grid">
+            <!-- M1 -->
+            <div class="setup-monitor-card" id="mon-card-m1">
+              <div class="monitor-card-header"><span class="monitor-tag">HDMI Ready</span><span class="monitor-price">£145.00</span></div>
+              <div class="monitor-title-block">
+                <h3 class="monitor-title">M1 27-inch HDMI Productivity Monitor</h3>
+                <span class="monitor-res">4K IPS (3840 x 2160)</span>
+                <p class="monitor-desc">Crystal-clear 27" IPS screen with vibrant colour and native HDMI input. Anti-glare eye protection.</p>
+              </div>
+              <div class="monitor-specs-strip">
+                <span class="spec-chip">Screen: 27-inch</span>
+                <span class="spec-chip">Video: HDMI</span>
+              </div>
+              <div class="monitor-card-footer">
+                <button type="button" class="btn-select-component" onclick="wizSelectMonitor('m1')">Select This Screen &rarr;</button>
+              </div>
+            </div>
+
+            <!-- M2 -->
+            <div class="setup-monitor-card" id="mon-card-m2">
+              <div class="monitor-card-header"><span class="monitor-tag">DisplayPort Exclusive</span><span class="monitor-price">£189.00</span></div>
+              <div class="monitor-title-block">
+                <h3 class="monitor-title">M2 27-inch DisplayPort High-Refresh Monitor</h3>
+                <span class="monitor-res">4K 144Hz (3840 x 2160)</span>
+                <p class="monitor-desc">Silky smooth 144Hz refresh rate with dedicated DisplayPort input, tailored for CAD, 3D design, and coding.</p>
+              </div>
+              <div class="monitor-specs-strip">
+                <span class="spec-chip">Screen: 27-inch</span>
+                <span class="spec-chip">Video: DisplayPort</span>
+              </div>
+              <div class="monitor-card-footer">
+                <button type="button" class="btn-select-component" onclick="wizSelectMonitor('m2')">Select This Screen &rarr;</button>
+              </div>
+            </div>
+
+            <!-- M3 -->
+            <div class="setup-monitor-card" id="mon-card-m3">
+              <div class="monitor-card-header"><span class="monitor-tag">Universal HDMI &amp; DP</span><span class="monitor-price">£250.00</span></div>
+              <div class="monitor-title-block">
+                <h3 class="monitor-title">M3 27-inch Universal Dual-Input Monitor</h3>
+                <span class="monitor-res">5K Retina Clarity (5120 x 2880)</span>
+                <p class="monitor-desc">Universal compatibility with both HDMI and DisplayPort inputs. Matches seamlessly with any dock output.</p>
+              </div>
+              <div class="monitor-specs-strip">
+                <span class="spec-chip">Screen: 27-inch</span>
+                <span class="spec-chip">Video: HDMI &amp; DisplayPort</span>
+              </div>
+              <div class="monitor-card-footer">
+                <button type="button" class="btn-select-component" onclick="wizSelectMonitor('m3')">Select This Screen &rarr;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: ACCESSORIES -->
+        <div class="wizard-step-pane" id="wizard-pane-3" style="display:none;">
+          <div class="pane-header">
+            <span class="pane-step-counter">Step 4 of 5 (Optional)</span>
+            <h2 class="pane-title">Ergonomic Peripherals &amp; Desk Accessories</h2>
+            <p class="pane-desc">Universal plug-and-play accessories designed to eliminate neck strain and wrist soreness.</p>
+          </div>
+
+          <div class="accessories-selector-grid">
+            <div class="accessory-card" id="acc-card-s1">
+              <div class="acc-card-header"><span class="acc-category">Stands</span><span class="acc-price">£35.00</span></div>
+              <h3 class="acc-title">S1 Fixed Tilt Aluminium Laptop Stand</h3>
+              <p class="acc-desc">Minimalist brushed aluminium stand raising your laptop screen to comfortable eye level.</p>
+              <button type="button" class="btn-toggle-accessory" onclick="wizToggleAccessory('s1')">+ Add to Setup</button>
+            </div>
+
+            <div class="accessory-card" id="acc-card-k1">
+              <div class="acc-card-header"><span class="acc-category">Keyboards</span><span class="acc-price">£69.00</span></div>
+              <h3 class="acc-title">K1 Precision Mechanical Keyboard</h3>
+              <p class="acc-desc">Smooth tactile switches with universal Mac &amp; Windows keycaps and anodised top plate.</p>
+              <button type="button" class="btn-toggle-accessory" onclick="wizToggleAccessory('k1')">+ Add to Setup</button>
+            </div>
+
+            <div class="accessory-card" id="acc-card-m2">
+              <div class="acc-card-header"><span class="acc-category">Mice</span><span class="acc-price">£39.00</span></div>
+              <h3 class="acc-title">M-2 Ergonomic Vertical Handshake Mouse</h3>
+              <p class="acc-desc">Natural 57-degree handshake grip preventing forearm twisting and repetitive wrist strain.</p>
+              <button type="button" class="btn-toggle-accessory" onclick="wizToggleAccessory('m2')">+ Add to Setup</button>
+            </div>
+          </div>
+
+          <div class="step-footer-cta-row">
+            <button type="button" class="btn-primary btn-large-proceed" onclick="goToStep(4)">Proceed to Setup Review &rarr;</button>
+          </div>
+        </div>
+
+        <!-- STEP 4: REVIEW & BUNDLE -->
+        <div class="wizard-step-pane" id="wizard-pane-4" style="display:none;">
+          <div class="pane-header">
+            <span class="pane-step-counter">Final Step</span>
+            <h2 class="pane-title">Review Your Complete Desk Workstation</h2>
+            <p class="pane-desc">All components are tested, verified for compatibility, and packaged with next-day UK dispatch.</p>
+          </div>
+
+          <div class="review-setup-grid">
+            <div class="setup-summary-breakdown">
+              <div class="summary-block">
+                <div class="summary-block-header"><span class="block-label">Computer / Host</span><button type="button" class="btn-change-link" onclick="goToStep(0)">Change</button></div>
+                <div class="summary-block-content"><strong id="sum-host-title">Apple MacBook</strong><span id="sum-host-meta">USB-C • 65W Required</span></div>
+              </div>
+              <div class="summary-block">
+                <div class="summary-block-header"><span class="block-label">Power &amp; Connection Hub</span><button type="button" class="btn-change-link" onclick="goToStep(1)">Change</button></div>
+                <div class="summary-block-content"><strong id="sum-dock-title">D2 Link 100 Dual-Screen Flagship Dock</strong><span id="sum-dock-meta">⚡ 100W PD • £120.00</span></div>
+              </div>
+              <div class="summary-block">
+                <div class="summary-block-header"><span class="block-label">Display Screen</span><button type="button" class="btn-change-link" onclick="goToStep(2)">Change</button></div>
+                <div class="summary-block-content"><strong id="sum-mon-title">M1 27-inch HDMI Productivity Monitor</strong><span id="sum-mon-meta">🖥️ 4K IPS • £145.00</span></div>
+              </div>
+            </div>
+
+            <div class="setup-pricing-card">
+              <h3 class="pricing-title">Bundle Investment</h3>
+              <div class="pricing-line"><span>Hardware Subtotal</span><span id="wiz-subtotal-price">£265.00</span></div>
+              <div class="pricing-line discount" id="wiz-discount-row"><span>🏷️ DESK10 (10% Off)</span><span id="wiz-discount-val">-£26.50</span></div>
+              <div class="pricing-line"><span>Tracked UK Shipping</span><span id="wiz-shipping-val">FREE</span></div>
+              <div class="pricing-divider"></div>
+              <div class="pricing-total-row"><span>Total Setup</span><span class="total-gold" id="wiz-final-price">£238.50</span></div>
+
+              <button type="button" class="btn-primary btn-checkout-bundle-cta" onclick="submitWizBundle()">
+                <span>⚡ Add Complete Setup To Bag</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sticky Controls Bottom Bar -->
+      <div class="wizard-sticky-controls">
+        <button type="button" class="btn-secondary btn-nav-back" id="wiz-btn-back" onclick="wizBackStep()">← Back</button>
+        <button type="button" class="btn-primary btn-nav-next" id="wiz-btn-next" onclick="wizNextStep()">Next Step →</button>
+      </div>
+    </div>
+
+    <!-- Right Side: Live CAD Blueprint Integration -->
+    <aside class="wizard-blueprint-pane">
+      <div class="blueprint-sticky-container">
+        {% render 'nexa-workstation-blueprint' %}
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+  let wizStep = 0;
+  let wizProfile = null;
+  let wizDock = null;
+  let wizMonitor = null;
+  let wizAccessories = [];
+
+  const WIZ_DATA = {
+    profiles: {
+      P1: { code: 'P1', label: 'Studio 65 (Windows)', connector: 'USB-C', watts: 65, os: ['Windows'] },
+      P2: { code: 'P2', label: 'Studio 100 (Windows)', connector: 'USB-C', watts: 100, os: ['Windows'] },
+      P3: { code: 'P3', label: 'Creator 65 (macOS)', connector: 'USB-C', watts: 65, os: ['macOS'] },
+      P4: { code: 'P4', label: 'Classic A (Windows)', connector: 'USB-A', watts: 0, os: ['Windows'] }
+    },
+    docks: {
+      d1: { id: 'd1', title: 'D1 Link 65 Standard Dock', price: 99.00, watts: 65, outputs: ['HDMI'], connector: 'USB-C', os: ['Windows', 'macOS'] },
+      d2: { id: 'd2', title: 'D2 Link 100 Dual-Screen Flagship Dock', price: 120.00, watts: 100, outputs: ['HDMI', 'DisplayPort'], connector: 'USB-C', os: ['Windows', 'macOS'] },
+      d3: { id: 'd3', title: 'D3 Pro 100 High-Speed Workstation Dock', price: 149.00, watts: 100, outputs: ['DisplayPort'], connector: 'USB-C', os: ['Windows'] },
+      d4: { id: 'd4', title: 'D4 Connect A Legacy Peripheral Hub', price: 59.00, watts: 0, outputs: [], connector: 'USB-A', os: ['Windows', 'macOS'] }
+    },
+    monitors: {
+      m1: { id: 'm1', title: 'M1 27-inch HDMI Productivity Monitor', price: 145.00, inputs: ['HDMI'], res: '4K IPS' },
+      m2: { id: 'm2', title: 'M2 27-inch DisplayPort High-Refresh Monitor', price: 189.00, inputs: ['DisplayPort'], res: '4K 144Hz' },
+      m3: { id: 'm3', title: 'M3 27-inch Universal Dual-Input Monitor', price: 250.00, inputs: ['HDMI', 'DisplayPort'], res: '5K Retina' }
+    },
+    accessories: {
+      s1: { id: 's1', title: 'S1 Fixed Tilt Aluminium Laptop Stand', price: 35.00, role: 'stand' },
+      k1: { id: 'k1', title: 'K1 Precision Mechanical Keyboard', price: 69.00, role: 'keyboard' },
+      m2: { id: 'm2', title: 'M-2 Ergonomic Vertical Handshake Mouse', price: 39.00, role: 'mouse' }
+    }
+  };
+
+  function goToStep(step) {
+    wizStep = step;
+    for (let i = 0; i <= 4; i++) {
+      const pane = document.getElementById('wizard-pane-' + i);
+      const nav = document.getElementById('step-nav-' + i);
+      if (pane) pane.style.display = (i === step) ? 'block' : 'none';
+      if (nav) {
+        nav.classList.toggle('is-current', i === step);
+        nav.classList.toggle('is-done', i < step);
+      }
+    }
+    const backBtn = document.getElementById('wiz-btn-back');
+    if (backBtn) backBtn.disabled = (step === 0);
+    const nextBtn = document.getElementById('wiz-btn-next');
+    if (nextBtn) {
+      nextBtn.style.display = (step === 4) ? 'none' : 'inline-block';
+    }
+    updateWizTotals();
+  }
+
+  function wizBackStep() {
+    if (wizStep > 0) goToStep(wizStep - 1);
+  }
+
+  function wizNextStep() {
+    if (wizStep < 4) goToStep(wizStep + 1);
+  }
+
+  function wizSelectProfile(code) {
+    wizProfile = WIZ_DATA.profiles[code];
+    document.querySelectorAll('.setup-profile-card').forEach(c => c.classList.remove('is-selected'));
+    const card = document.getElementById('wiz-card-' + code);
+    if (card) card.classList.add('is-selected');
+
+    // Update Blueprint
+    const bpLabel = document.getElementById('bp-laptop-label');
+    const bpMeta = document.getElementById('bp-laptop-meta');
+    const bpConn = document.getElementById('bp-laptop-connector');
+    if (bpLabel) bpLabel.textContent = wizProfile.label;
+    if (bpMeta) bpMeta.textContent = `${wizProfile.connector} • ${wizProfile.watts}W Req`;
+    if (bpConn) bpConn.textContent = wizProfile.connector;
+
+    // Filter Docks
+    validateDocksForProfile();
+    goToStep(1);
+  }
+
+  function validateDocksForProfile() {
+    if (!wizProfile) return;
+    Object.keys(WIZ_DATA.docks).forEach(dId => {
+      const d = WIZ_DATA.docks[dId];
+      const card = document.getElementById('dock-card-' + dId);
+      if (!card) return;
+      const powerOk = d.watts >= wizProfile.watts;
+      const connOk = d.connector === wizProfile.connector;
+      const osOk = d.os.some(os => wizProfile.os.includes(os));
+      const ok = powerOk && connOk && osOk;
+      card.classList.toggle('is-incompatible', !ok);
+    });
+  }
+
+  function wizSelectDock(dId) {
+    const d = WIZ_DATA.docks[dId];
+    if (wizProfile && (d.watts < wizProfile.watts || d.connector !== wizProfile.connector)) {
+      alert(`Incompatible: Your ${wizProfile.label} demands ${wizProfile.watts}W charging on ${wizProfile.connector}. Please choose a compatible dock.`);
+      return;
+    }
+    wizDock = d;
+    document.querySelectorAll('.setup-dock-card').forEach(c => c.classList.remove('is-selected'));
+    const card = document.getElementById('dock-card-' + dId);
+    if (card) card.classList.add('is-selected');
+
+    // Update Blueprint Dock
+    const bpTitle = document.getElementById('bp-dock-title');
+    const bpWatts = document.getElementById('bp-dock-watts');
+    const bpCable1 = document.getElementById('bp-cable-laptop-dock');
+    if (bpTitle) bpTitle.textContent = wizDock.title;
+    if (bpWatts) bpWatts.textContent = `⚡ ${wizDock.watts}W PD`;
+    if (bpCable1) bpCable1.style.display = 'block';
+
+    goToStep(2);
+  }
+
+  function wizSelectMonitor(mId) {
+    wizMonitor = WIZ_DATA.monitors[mId];
+    document.querySelectorAll('.setup-monitor-card').forEach(c => c.classList.remove('is-selected'));
+    const card = document.getElementById('mon-card-' + mId);
+    if (card) card.classList.add('is-selected');
+
+    // Update Blueprint Monitor
+    const bpTitle = document.getElementById('bp-monitor-title');
+    const bpRes = document.getElementById('bp-monitor-res');
+    const bpCable2 = document.getElementById('bp-cable-dock-monitor');
+    if (bpTitle) bpTitle.textContent = wizMonitor.title;
+    if (bpRes) bpRes.textContent = wizMonitor.res;
+    if (bpCable2) bpCable2.style.display = 'block';
+
+    goToStep(3);
+  }
+
+  function wizToggleAccessory(accId) {
+    const idx = wizAccessories.indexOf(accId);
+    const card = document.getElementById('acc-card-' + accId);
+    if (idx > -1) {
+      wizAccessories.splice(idx, 1);
+      if (card) {
+        card.classList.remove('is-added');
+        card.querySelector('.btn-toggle-accessory').textContent = '+ Add to Setup';
+      }
+    } else {
+      wizAccessories.push(accId);
+      if (card) {
+        card.classList.add('is-added');
+        card.querySelector('.btn-toggle-accessory').textContent = '✓ Added to Setup';
+      }
+    }
+  }
+
+  function updateWizTotals() {
+    let subtotal = (wizDock?.price || 0) + (wizMonitor?.price || 0);
+    wizAccessories.forEach(id => {
+      subtotal += WIZ_DATA.accessories[id]?.price || 0;
+    });
+
+    const qualifiesDesk10 = subtotal >= 200;
+    const discount = qualifiesDesk10 ? subtotal * 0.1 : 0;
+    const postDiscount = subtotal - discount;
+    const freeShipping = postDiscount >= 300;
+
+    const elSub = document.getElementById('wiz-subtotal-price');
+    const elDisc = document.getElementById('wiz-discount-val');
+    const elShip = document.getElementById('wiz-shipping-val');
+    const elTotal = document.getElementById('wiz-final-price');
+
+    if (elSub) elSub.textContent = '£' + subtotal.toFixed(2);
+    if (elDisc) elDisc.textContent = '-£' + discount.toFixed(2);
+    if (elShip) elShip.textContent = freeShipping ? 'FREE' : '£7.95';
+    if (elTotal) elTotal.textContent = '£' + (freeShipping ? postDiscount : postDiscount + 7.95).toFixed(2);
+  }
+
+  function submitWizBundle() {
+    alert('Adding complete workstation setup to bag with verified compatible line item properties!');
+    // Trigger Dawn Cart Drawer
+    const drawer = document.querySelector('cart-drawer');
+    if (drawer && typeof drawer.open === 'function') drawer.open();
+    else window.location.href = '/cart';
+  }
+
+  // Pre-select P3 macOS by default on initial boot
+  document.addEventListener('DOMContentLoaded', () => {
+    wizSelectProfile('P3');
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Nexa Setup Wizard",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Nexa Setup Wizard"
+    }
+  ]
+}
+{% endschema %}

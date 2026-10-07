@@ -1,0 +1,120 @@
+{%- comment -%} Exact port of Hydrogen CompatibilityWidget.jsx (UI-PDP-02). Metafields: custom.product_role, custom.supported_os, custom.host_connector, custom.dock_charging_output, custom.dock_video_outputs {%- endcomment -%}
+{%- liquid
+  assign t = product.title | downcase
+  assign role = product.metafields.custom.product_role.value | default: '' | downcase
+  if role == blank
+    if t contains 'monitor'
+      assign role = 'monitor'
+    else
+      assign role = 'dock'
+    endif
+  endif
+  assign host = product.metafields.custom.host_connector.value | default: 'USB-C'
+  assign watts = product.metafields.custom.dock_charging_output.value | default: 0 | plus: 0
+  assign os_raw = product.metafields.custom.supported_os.value
+  assign vo_raw = product.metafields.custom.dock_video_outputs.value
+-%}
+<div class="pdp-compatibility-card" id="nexa-compat-{{ section.id }}" role="region" aria-label="Device Compatibility Checker"
+  data-role="{{ role }}" data-host="{{ host | escape }}" data-watts="{{ watts }}"
+  data-os='{{ os_raw | json | escape }}' data-video='{{ vo_raw | json | escape }}'>
+  <div class="pdp-compat-header" role="button" tabindex="0" aria-expanded="true">
+    <div class="compat-header-left">
+      <span class="compat-icon-badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></span>
+      <div class="compat-header-title"><h4>Will it fit my device?</h4><span class="compat-subtitle">Instant hardware &amp; power verification</span></div>
+    </div>
+    <div class="compat-header-right">
+      <span class="compat-status-badge is-verified" data-badge></span>
+      <span class="accordion-chevron open">▾</span>
+    </div>
+  </div>
+  <div class="pdp-compat-body">
+    <p class="compat-selector-prompt">Choose your laptop setup to verify exact charging wattage, port matching, and display support:</p>
+    <div class="compat-profiles-grid" role="radiogroup" aria-label="Select laptop device profile" data-profiles></div>
+    <div class="compat-verdict-box" data-verdict></div>
+    <div class="compat-specs-checklist" data-checklist></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var root=document.getElementById('nexa-compat-{{ section.id }}');if(!root)return;
+  var KEY='nexadesk_setup_session_v1';
+  var ICONS={
+    P1:'<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>',
+    P2:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
+    P3:'<svg width="24" height="24" viewBox="0 0 170 170" fill="currentColor"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.69-7.85-12-14.42-6.2-9.35-11.05-19.8-14.56-31.35-3.51-11.55-5.27-22.37-5.27-32.48 0-14.13 3.63-25.75 10.88-34.86 7.25-9.11 16.48-13.84 27.69-14.19 4.35 0 9.28 1.16 14.78 3.49 5.51 2.32 9.49 3.55 11.96 3.69 2.22 0 6.54-1.37 12.96-4.12 6.42-2.75 11.96-3.91 16.61-3.49 12.52.95 22.42 5.63 29.69 14.04-10.97 6.64-16.35 15.68-16.14 27.12.21 9.07 3.73 16.66 10.56 22.77 6.83 6.11 14.72 9.69 23.68 10.74-2.22 6.96-5.01 14.03-8.36 21.23zM119.22 31.84c0-7.39 2.68-14.28 8.04-20.67 5.36-6.39 12.01-10.45 19.95-12.17.21 1.06.32 2.01.32 2.85 0 7.39-2.82 14.39-8.46 21-5.63 6.6-12.35 10.45-20.16 11.55-.1-1.05-.15-2.02-.15-2.91l.46.35z"/></svg>',
+    P4:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v10M12 12l4-4M12 12L8 8"/><rect x="7" y="14" width="10" height="8" rx="1"/></svg>'
+  };
+  var PROFILES=[
+    {code:'P1',label:'Windows & PC',subTitle:'Dell, Lenovo, HP, Surface',operating_system:'Windows',host_connector:'USB-C',video_support:true,required_charging_power:65},
+    {code:'P2',label:'High-Power Workstation',subTitle:'Gaming or Heavy Creative PC',operating_system:'Windows',host_connector:'USB-C',video_support:true,required_charging_power:100},
+    {code:'P3',label:'Apple MacBook',subTitle:'Air, Pro, Mac mini, iMac (M1/M2/M3/M4)',operating_system:'macOS',host_connector:'USB-C',video_support:true,required_charging_power:65},
+    {code:'P4',label:'Older USB-A Laptop',subTitle:'Only has classic rectangular USB',operating_system:'Windows',host_connector:'USB-A',video_support:false,required_charging_power:0}
+  ];
+  function list(raw){
+    if(!raw)return [];
+    try{var p=JSON.parse(raw);if(Array.isArray(p))return p;if(typeof p==='string'){try{var q=JSON.parse(p);if(Array.isArray(q))return q;}catch(e){}return p.split(',').map(function(s){return s.trim();}).filter(Boolean);}}catch(e){}
+    return String(raw).split(',').map(function(s){return s.trim();}).filter(Boolean);
+  }
+  var d=root.dataset;
+  var osList=list(d.os);if(!osList.length)osList=['Windows','macOS'];
+  var spec={role:d.role,host:d.host||'USB-C',watts:Number(d.watts)||0,os:osList,video:list(d.video)};
+  function lc(a){return a.map(function(s){return String(s).trim().toLowerCase();});}
+  function evalDock(p){
+    var reasons=[];
+    var dOS=lc(spec.os),dOut=lc(spec.video);
+    if(spec.role!=='hub-only'&&(!spec.host||!dOS.length||!dOut.length))return {compatible:false,reason:'Missing required specifications. Contact support.'};
+    if(!p.video_support)reasons.push('Device profile does not support USB-C video output. Browse individual products.');
+    if(spec.role==='hub-only')reasons.push('Excluded: Hub-only device without dedicated display output.');
+    if(p.host_connector.toLowerCase()!==spec.host.toLowerCase())reasons.push('Excluded: Connector mismatch (device requires '+p.host_connector+', dock has '+spec.host+').');
+    var all=dOS.indexOf('both')>-1||dOS.indexOf('universal')>-1||(dOS.indexOf('windows')>-1&&dOS.indexOf('macos')>-1);
+    if(!(all||dOS.indexOf(p.operating_system.toLowerCase())>-1))reasons.push('Excluded: OS incompatibility (device requires '+p.operating_system+').');
+    if(spec.watts<p.required_charging_power)reasons.push('Excluded: '+spec.watts+'W charging output (requires '+p.required_charging_power+'W minimum).');
+    if(!dOut.length&&spec.role!=='hub-only')reasons.push('Excluded: Dock does not have video outputs.');
+    return reasons.length?{compatible:false,reason:reasons[0]}:{compatible:true,reason:'Compatible with '+p.label};
+  }
+  function evalFor(p){
+    if(spec.role==='monitor'){
+      if(!p.video_support)return {compatible:false,reason:'Your device port does not support external video display.'};
+      return {compatible:true,reason:'Compatible with standard HDMI / DisplayPort display connections.'};
+    }
+    return evalDock(p);
+  }
+  var active=PROFILES[0];
+  try{var s=JSON.parse(localStorage.getItem(KEY)||'null');if(s&&s.selectedProfile){active=PROFILES.filter(function(x){return x.code===s.selectedProfile.code;})[0]||active;}}catch(e){}
+  function save(p){try{var s=JSON.parse(localStorage.getItem(KEY)||'null')||{selectedProfile:null,selectedDock:null,selectedMonitor:null,selectedAccessories:[]};s.selectedProfile=p;localStorage.setItem(KEY,JSON.stringify(s));}catch(e){}}
+  var CHECK='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" /></svg>';
+  var WARN='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>';
+  function render(){
+    var r=evalFor(active),ok=r.compatible;
+    var badge=root.querySelector('[data-badge]');
+    badge.className='compat-status-badge '+(ok?'is-verified':'is-warning');
+    badge.innerHTML=ok?CHECK+'<span>Verified Fit</span>':WARN+'<span>Attention Required</span>';
+    root.querySelector('[data-profiles]').innerHTML=PROFILES.map(function(p){var s=p.code===active.code;
+      return '<button type="button" role="radio" aria-checked="'+s+'" class="compat-profile-btn'+(s?' selected':'')+'" data-code="'+p.code+'"><div class="profile-btn-icon">'+ICONS[p.code]+'</div><div class="profile-btn-details"><span class="profile-label">'+p.label+'</span><span class="profile-sub">'+p.subTitle+'</span></div>'+(s?'<span class="profile-selected-dot"></span>':'')+'</button>';}).join('');
+    var msg;
+    if(ok)msg=active.code==='P3'?'Plug-and-play ready for your Mac. Delivers full charging power and crystal-clear display output without installing any drivers.':'Works straight out of the box with your Windows PC. Charges your laptop at up to '+spec.watts+'W and connects all your desk gear instantly.';
+    else msg=active.code==='P4'?'Older rectangular USB ports cannot carry monitor video signals or charge your laptop battery. For multiple screens, select our NexaLink D4 or use a USB-C machine.':r.reason;
+    var bubble=ok?'<div class="verdict-bubble success"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" /></svg></div>':'<div class="verdict-bubble warning"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg></div>';
+    var v=root.querySelector('[data-verdict]');
+    v.className='compat-verdict-box '+(ok?'match-success':'match-failure');
+    v.innerHTML='<div class="verdict-icon">'+bubble+'</div><div class="verdict-text"><h5>'+(ok?'100% Guaranteed Fit with your '+active.label:'Attention: Check your '+active.label+' port')+'</h5><p></p></div>';
+    v.querySelector('p').textContent=msg;
+    var items=[['Operating System:',spec.os.join(' & ')],['Connector:',spec.host+' Plug']];
+    if(spec.watts>0)items.push(['Power Delivery:',spec.watts+'W Fast Charge']);
+    if(spec.video.length)items.push(['Video Outputs:',spec.video.join(' + ')]);
+    var c=root.querySelector('[data-checklist]');c.innerHTML='';
+    items.forEach(function(i){var e=document.createElement('div');e.className='checklist-item';e.innerHTML='<span class="check-bullet">✓</span><span class="check-label"></span><span class="check-val"></span>';e.children[1].textContent=i[0];e.children[2].textContent=i[1];c.appendChild(e);});
+    root.querySelectorAll('.compat-profile-btn').forEach(function(b){b.addEventListener('click',function(){active=PROFILES.filter(function(x){return x.code===b.dataset.code;})[0];save(active);render();document.dispatchEvent(new CustomEvent('nexa:profile-change',{detail:{profile:active}}));});});
+  }
+  var head=root.querySelector('.pdp-compat-header'),body=root.querySelector('.pdp-compat-body'),chev=root.querySelector('.accordion-chevron');
+  function toggle(){var o=body.style.display==='none';body.style.display=o?'':'none';head.setAttribute('aria-expanded',o);chev.classList.toggle('open',o);}
+  head.addEventListener('click',toggle);
+  head.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle();}});
+  render();
+})();
+</script>
+
+{% schema %}
+{ "name": "Nexa Compatibility Widget", "settings": [], "presets": [{ "name": "Nexa Compatibility Widget" }] }
+{% endschema %}

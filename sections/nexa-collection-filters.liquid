@@ -1,0 +1,285 @@
+{%- comment -%}
+  Nexa Collection Filters Section
+  Replaces standard Dawn filters with exact Hydrogen replica.
+{%- endcomment -%}
+
+<div class="collection-filters-section page-width" data-section-id="{{ section.id }}">
+  <div class="collection-layout-grid">
+    <!-- Desktop Sticky Sidebar -->
+    <div class="sticky-filter-wrapper" id="nexa-desktop-sidebar">
+      <div class="faceted-filter-content">
+        <!-- Top Header Row -->
+        <div class="filter-header-bar">
+          <div class="filter-title-wrap">
+            <svg class="filter-title-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="4" y1="21" x2="4" y2="14" />
+              <line x1="4" y1="10" x2="4" y2="3" />
+              <line x1="12" y1="21" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12" y2="3" />
+              <line x1="20" y1="21" x2="20" y2="16" />
+              <line x1="20" y1="12" x2="20" y2="3" />
+              <line x1="1" y1="14" x2="7" y2="14" />
+              <line x1="9" y1="8" x2="15" y2="8" />
+              <line x1="17" y1="16" x2="23" y2="16" />
+            </svg>
+            <span class="filter-main-title">Filters</span>
+            <span class="filter-active-pill" id="filter-active-pill" style="display: none;">0 active</span>
+          </div>
+          <div class="filter-header-actions">
+            <button type="button" class="filter-reset-btn" id="filter-reset-btn" style="display: none;" onclick="window.location.href='{{ collection.url }}'" aria-label="Clear all filters">Reset</button>
+          </div>
+        </div>
+
+        <!-- Accordion 1: OS -->
+        <div class="filter-accordion-item is-open" id="acc-os">
+          <button type="button" class="filter-accordion-header header-os" onclick="toggleFilterAccordion('acc-os')">
+            <div class="accordion-header-left">
+              <span class="accordion-section-icon os-icon">💻</span>
+              <span class="accordion-label">
+                <span>What computer do you use?</span>
+                <small class="accordion-sublabel">Guarantees 1-cord plug &amp; play</small>
+              </span>
+            </div>
+            <div class="accordion-header-right">
+              <span class="accordion-count-badge">3</span>
+              <span class="accordion-chevron is-rotated" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </span>
+            </div>
+          </button>
+          <div class="filter-accordion-body">
+            <div class="os-badge-grid">
+              <button type="button" class="os-pill-btn" onclick="toggleFilterParam('os', 'macOS', this)">
+                <svg width="16" height="16" viewBox="0 0 384 512" fill="currentColor" style="margin-bottom: 6px;"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.3 48.6-.7 84.4-80.1 98.6-118.9-39.7-18.9-57.8-56.1-57.7-91.7zM252.1 84.5c18.5-22.9 29.8-53.5 26.4-84.5-26.5 1.1-58.4 17.7-77.9 40.5-16.7 19.4-29.6 50.8-25.5 81.2 29.6 2.3 58.5-14.3 77-37.2z" /></svg>
+                <span>Apple Mac</span>
+              </button>
+              <button type="button" class="os-pill-btn" onclick="toggleFilterParam('os', 'Windows', this)">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="margin-bottom: 6px;"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.949-1.8" /></svg>
+                <span>Windows PC</span>
+              </button>
+              <button type="button" class="os-pill-btn" onclick="toggleFilterParam('os', 'Linux', this)">
+                <span style="font-size: 16px; margin-bottom: 4px; display: block;">🐧</span>
+                <span>Chrome/Linux</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Accordion 2: Wattage -->
+        <div class="filter-accordion-item is-open" id="acc-watts">
+          <button type="button" class="filter-accordion-header header-wattage" onclick="toggleFilterAccordion('acc-watts')">
+            <div class="accordion-header-left">
+              <span class="accordion-section-icon wattage-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="currentColor" />
+                </svg>
+              </span>
+              <span class="accordion-label">
+                <span>Laptop Fast Charging</span>
+                <small class="accordion-sublabel">Leave your brick in your bag</small>
+              </span>
+            </div>
+            <div class="accordion-header-right">
+              <span class="accordion-chevron is-rotated" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </span>
+            </div>
+          </button>
+          <div class="filter-accordion-body">
+            <div class="wattage-control-group">
+              <div class="wattage-slider-wrap">
+                <input type="range" min="0" max="140" step="5" class="wattage-slider" id="wattage-slider" oninput="document.getElementById('wattage-val').textContent=this.value+'W'; updateFilterParam('minWattage', this.value)" value="0">
+                <div class="wattage-slider-labels">
+                  <span>0W</span>
+                  <span class="current-val-label" id="wattage-val">0W</span>
+                  <span>140W</span>
+                </div>
+              </div>
+              <div class="wattage-presets">
+                <button type="button" class="wattage-preset-btn" onclick="setWattage(65, this)">
+                  <span class="preset-label">65W</span>
+                  <span class="preset-desc">Thin &amp; Light</span>
+                </button>
+                <button type="button" class="wattage-preset-btn" onclick="setWattage(100, this)">
+                  <span class="preset-label">100W</span>
+                  <span class="preset-desc">Pro Laptops</span>
+                </button>
+                <button type="button" class="wattage-preset-btn" onclick="setWattage(140, this)">
+                  <span class="preset-label">140W</span>
+                  <span class="preset-desc">Workstations</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Accordion 3: Ports -->
+        <div class="filter-accordion-item is-open" id="acc-ports">
+          <button type="button" class="filter-accordion-header header-ports" onclick="toggleFilterAccordion('acc-ports')">
+            <div class="accordion-header-left">
+              <span class="accordion-section-icon ports-icon">🎬</span>
+              <span class="accordion-label">
+                <span>Screens &amp; Cord Connections</span>
+                <small class="accordion-sublabel">Pick what you want to plug in</small>
+              </span>
+            </div>
+            <div class="accordion-header-right">
+              <span class="accordion-count-badge">4</span>
+              <span class="accordion-chevron is-rotated" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </span>
+            </div>
+          </button>
+          <div class="filter-accordion-body">
+            <div class="ports-toggle-list">
+              <label class="port-toggle-row">
+                <input type="checkbox" class="port-checkbox sr-only" onchange="toggleFilterParam('ports', 'Dual Display', this.parentElement)">
+                <div class="port-custom-box" aria-hidden="true"><span>✓</span></div>
+                <div class="port-info">
+                  <span class="port-title">2 Big Screens at Once</span>
+                  <span class="port-desc">Run dual monitors from one single wire</span>
+                </div>
+                <span class="port-spec-tag">Dual Monitor</span>
+              </label>
+              <label class="port-toggle-row">
+                <input type="checkbox" class="port-checkbox sr-only" onchange="toggleFilterParam('ports', 'HDMI', this.parentElement)">
+                <div class="port-custom-box" aria-hidden="true"><span>✓</span></div>
+                <div class="port-info">
+                  <span class="port-title">Standard TV &amp; Screen Plug (HDMI)</span>
+                  <span class="port-desc">Fits virtually every monitor or TV in the UK</span>
+                </div>
+                <span class="port-spec-tag">Universal</span>
+              </label>
+              <label class="port-toggle-row">
+                <input type="checkbox" class="port-checkbox sr-only" onchange="toggleFilterParam('ports', 'DisplayPort', this.parentElement)">
+                <div class="port-custom-box" aria-hidden="true"><span>✓</span></div>
+                <div class="port-info">
+                  <span class="port-title">Pro Monitor Plug (DisplayPort)</span>
+                  <span class="port-desc">For ultra-smooth high refresh desk screens</span>
+                </div>
+                <span class="port-spec-tag">Pro Video</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Accordion 4: Stock -->
+        <div class="filter-accordion-item is-open" id="acc-stock">
+          <button type="button" class="filter-accordion-header header-availability" onclick="toggleFilterAccordion('acc-stock')">
+            <div class="accordion-header-left">
+              <span class="accordion-section-icon availability-icon">📦</span>
+              <span class="accordion-label">
+                <span>Availability</span>
+                <small class="accordion-sublabel">Direct UK Dispatch</small>
+              </span>
+            </div>
+            <div class="accordion-header-right">
+              <span class="accordion-count-badge">1</span>
+              <span class="accordion-chevron is-rotated" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </span>
+            </div>
+          </button>
+          <div class="filter-accordion-body">
+            <div class="availability-options">
+              <label class="port-toggle-row">
+                <input type="checkbox" class="port-checkbox sr-only" onchange="toggleFilterParam('inStock', 'true', this.parentElement)">
+                <div class="port-custom-box" aria-hidden="true"><span>✓</span></div>
+                <div class="port-info">
+                  <span class="port-title">In Stock for Rapid Delivery</span>
+                  <span class="port-desc">Leaves UK warehouse within 24 hours</span>
+                </div>
+                <span class="in-stock-dot" aria-hidden="true"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-sidebar-footer">
+          <span class="filter-footer-count">
+            Showing <strong>{{ collection.products_count }}</strong> matching setups
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="collection-products-area">
+      <!-- We can put products grid here if we want to bundle it, but if it's just the filter section, we can end it here -->
+      <div class="products-grid-four-col">
+        {%- for product in collection.products -%}
+          {% render 'nexa-product-card', card_product: product %}
+        {%- else -%}
+          <p class="no-products-msg" style="grid-column: 1/-1; padding: 40px; text-align: center;">No products match the selected filters.</p>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function toggleFilterAccordion(id) {
+    const el = document.getElementById(id);
+    const chevron = el.querySelector('.accordion-chevron');
+    if (el.classList.contains('is-open')) {
+      el.classList.remove('is-open');
+      chevron.classList.remove('is-rotated');
+      el.querySelector('.filter-accordion-body').style.display = 'none';
+    } else {
+      el.classList.add('is-open');
+      chevron.classList.add('is-rotated');
+      el.querySelector('.filter-accordion-body').style.display = 'block';
+    }
+  }
+
+  function toggleFilterParam(key, value, btnOrLabelElement) {
+    btnOrLabelElement.classList.toggle('is-selected');
+    updateActiveCount();
+  }
+
+  function setWattage(val, btn) {
+    document.getElementById('wattage-slider').value = val;
+    document.getElementById('wattage-val').textContent = val + 'W';
+    document.querySelectorAll('.wattage-preset-btn').forEach(b => b.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    updateActiveCount();
+  }
+
+  function updateActiveCount() {
+    let count = document.querySelectorAll('.is-selected').length;
+    if (document.getElementById('wattage-slider').value > 0) count++;
+    
+    const pill = document.getElementById('filter-active-pill');
+    const reset = document.getElementById('filter-reset-btn');
+    if (count > 0) {
+      pill.style.display = 'inline-block';
+      pill.textContent = count + ' active';
+      reset.style.display = 'inline-block';
+    } else {
+      pill.style.display = 'none';
+      reset.style.display = 'none';
+    }
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Nexa Collection Filters",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Nexa Collection Filters"
+    }
+  ]
+}
+{% endschema %}

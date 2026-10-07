@@ -1,0 +1,40 @@
+{
+  "sections": {
+    "hero": {
+      "type": "nexa-hero-assembly",
+      "settings": {
+        "badge_text": "GEN-4 THUNDERBOLT & DUAL 4K ARCHITECTURE",
+        "title_line1": "Engineered For Speed.",
+        "title_line2": "Built For Creative Mastery.",
+        "subtitle": "Single-cable precision docking, studio-grade 100W power delivery, and multi-display synchronization for Mac, Windows, and Linux professionals.",
+        "cta_text": "Launch Setup Configurator",
+        "cta_link": "/pages/find-my-setup",
+        "secondary_text": "Explore Hardware Matrix",
+        "secondary_link": "/collections/all"
+      }
+    },
+    "device_selector": {
+      "type": "nexa-device-selector",
+      "settings": {}
+    },
+    "power_visualizer": {
+      "type": "nexa-power-visualizer",
+      "settings": {}
+    },
+    "bento_grid": {
+      "type": "nexa-bento-grid",
+      "settings": {}
+    },
+    "customer_showcase": {
+      "type": "nexa-customer-showcase",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "device_selector",
+    "power_visualizer",
+    "bento_grid",
+    "customer_showcase"
+  ]
+}

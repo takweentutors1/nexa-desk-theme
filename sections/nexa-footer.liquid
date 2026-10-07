@@ -1,0 +1,136 @@
+{%- comment -%} Exact port of Hydrogen Footer.jsx {%- endcomment -%}
+<footer class="footer-dark-mega">
+  <div class="footer-top-banner">
+    <div class="footer-container">
+      <div class="footer-trust-grid">
+        <div class="trust-item">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+          <div><strong>Free Fast UK Delivery</strong><span>On all desk setups &amp; orders over £300</span></div>
+        </div>
+        <div class="trust-item">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          <div><strong>Guaranteed to Fit Your Laptop</strong><span>Tested to work without extra adapters</span></div>
+        </div>
+        <div class="trust-item">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+          <div><strong>30-Day Home Trial</strong><span>Easy, free returns if you change your mind</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-main-content">
+    <div class="footer-container">
+      <div class="footer-columns-grid">
+        <div class="footer-col brand-col">
+          <div class="footer-brand-title">
+            {% render 'nexa-logo', size: 28, class: 'footer-logo-icon' %}
+            <span>NexaDesk</span>
+          </div>
+          <p class="footer-brand-tagline">We make tidy, comfortable desk setups simple for anyone working from home or in the office. Everything you need, guaranteed to work together.</p>
+
+          <div class="uk-dispatch-wrapper">
+            <button type="button" class="uk-dispatch-status-badge is-interactive" id="nexa-dispatch-btn" aria-expanded="false" aria-controls="uk-dispatch-details-panel" aria-label="Toggle UK delivery and shipping details">
+              <span class="pulse-green-dot" aria-hidden="true"></span>
+              <div class="dispatch-badge-copy">
+                <span class="dispatch-text-main">Dispatched in 24h from UK Hub</span>
+                <span class="dispatch-text-sub">Order within <strong id="nexa-dispatch-cutoff">4h 12m</strong> for Next-Day Delivery</span>
+              </div>
+              <svg class="dispatch-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div id="uk-dispatch-details-panel" class="dispatch-drawer-panel">
+              <div class="dispatch-drawer-inner">
+                <div class="popover-header"><div class="popover-status-dot" aria-hidden="true"></div><span class="popover-title">Fast UK Packing &amp; Delivery</span></div>
+                <p class="popover-summary">Every order placed before <strong>3:00 PM GMT</strong> is carefully checked, packaged, and sent out the very same working day from our Northamptonshire depot.</p>
+                <div class="popover-carriers-list">
+                  <div class="carrier-row"><span class="carrier-name">Royal Mail Tracked 24</span><span class="carrier-eta">Arrives in 1 to 2 Days</span></div>
+                  <div class="carrier-row"><span class="carrier-name">DPD Carbon-Neutral Courier</span><span class="carrier-eta">Next Working Day Delivery</span></div>
+                  <div class="carrier-row highlight"><span class="carrier-name">Orders Over £300</span><span class="carrier-eta free">FREE Next-Day Delivery</span></div>
+                </div>
+                <div class="popover-footer"><span>Standard mainland UK delivery is £7.95 for orders under £300. Comes with text and email delivery tracking.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col-heading">Desk Gear</h4>
+          <ul class="footer-links-list">
+            <li><a href="/collections/all">All Desk Products</a></li>
+            <li><a href="/collections/docks-hubs">One-Cable Docks &amp; Hubs</a></li>
+            <li><a href="/collections/monitors">Computer Screens</a></li>
+            <li><a href="/collections/stands">Laptop Stands &amp; Risers</a></li>
+            <li><a href="/collections/keyboards">Comfortable Keyboards</a></li>
+            <li><a href="/collections/mice">Wireless Mice</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-col-heading">Helpful Tools</h4>
+          <ul class="footer-links-list">
+            <li><a href="/pages/find-my-setup" class="highlight-link">Desk Setup Finder Quiz<span class="link-tag">Easy Tool</span></a></li>
+            <li><a href="/pages/compare" class="highlight-link">Compare Docks Side-by-Side<span class="link-tag">Compare</span></a></li>
+            <li><a href="/pages/compatibility-faq">Which Plugs Fit My Laptop? (FAQ)</a></li>
+            <li><a href="/pages/compatibility-faq">Connecting Two Screens to a Mac</a></li>
+            <li><a href="/blogs/journal">Healthy &amp; Comfortable Desk Tips</a></li>
+            <li><a href="/pages/about">About Our UK Story</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col newsletter-col">
+          <h4 class="footer-col-heading">Get 10% Off Your First Order</h4>
+          <p class="footer-newsletter-desc">Join our friendly newsletter for simple desk setup tips, early deals, and an instant 10% discount code.</p>
+          <div class="newsletter-success-box" id="nexa-news-ok" style="display:none">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>You're in! Check your inbox for your 10% off code.</span>
+          </div>
+          <form class="footer-newsletter-form" id="nexa-news-form">
+            <input type="email" required placeholder="Enter your email address" class="footer-email-input">
+            <button type="submit" class="footer-submit-btn">Join</button>
+          </form>
+          <div class="promo-reminder-box">
+            <span class="promo-badge">PROMO</span>
+            <span class="promo-copy">Use code <strong>DESK10</strong> for 10% off orders over £200.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom-bar">
+        <div class="footer-copyright">© {{ 'now' | date: '%Y' }} NexaDesk Ltd. Registered in England &amp; Wales. All rights reserved.</div>
+        <div class="footer-payment-methods" aria-label="Accepted payment methods">
+          <span class="payment-pill">Apple Pay</span><span class="payment-pill">Google Pay</span><span class="payment-pill">Visa</span><span class="payment-pill">Mastercard</span><span class="payment-pill">Amex</span>
+        </div>
+        <div class="footer-legal-links">
+          <a href="/policies/privacy-policy">Privacy</a>
+          <a href="/policies/terms-of-service">Terms</a>
+          <a href="/policies/shipping-policy">Shipping</a>
+          <a href="/policies/refund-policy">Refunds</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-brand-watermark" aria-hidden="true">NEXADESK</div>
+</footer>
+
+<script>
+(function(){
+  var btn=document.getElementById('nexa-dispatch-btn'),panel=document.getElementById('uk-dispatch-details-panel');
+  if(btn&&panel){btn.addEventListener('click',function(){
+    var o=panel.classList.toggle('is-open');btn.classList.toggle('is-active',o);btn.setAttribute('aria-expanded',o);
+  });}
+  var el=document.getElementById('nexa-dispatch-cutoff');
+  function tick(){
+    var n=new Date(),t=new Date();t.setHours(15,0,0,0);
+    var d=t-n;if(d<=0){t.setDate(t.getDate()+1);d=t-n;}
+    if(el)el.textContent=Math.floor(d/36e5)+'h '+Math.floor((d%36e5)/6e4)+'m';
+  }
+  tick();setInterval(tick,60000);
+  var f=document.getElementById('nexa-news-form'),ok=document.getElementById('nexa-news-ok');
+  if(f)f.addEventListener('submit',function(e){e.preventDefault();f.style.display='none';ok.style.display='flex';});
+})();
+</script>
+
+{% schema %}
+{ "name": "Nexa Footer", "settings": [], "presets": [{ "name": "Nexa Footer" }] }
+{% endschema %}

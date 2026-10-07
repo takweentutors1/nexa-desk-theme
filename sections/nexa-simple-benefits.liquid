@@ -1,0 +1,141 @@
+{%- liquid
+  assign title_lower = product.title | downcase
+  assign type_lower = product.type | downcase
+  assign handle_lower = product.handle | downcase
+
+  assign is_dock = false
+  assign is_monitor = false
+  
+  if title_lower contains 'dock' or type_lower contains 'dock' or handle_lower contains 'd'
+    assign is_dock = true
+  elsif title_lower contains 'monitor' or type_lower contains 'monitor' or handle_lower contains 'm'
+    assign is_monitor = true
+  endif
+
+  assign wattage = product.metafields.custom.dock_charging_output.value | plus: 0
+  assign video_outputs = product.metafields.custom.dock_video_outputs.value
+  assign has_dual_video = false
+  assign has_video = false
+
+  if video_outputs != blank
+    assign video_outputs_size = video_outputs | size
+    if video_outputs_size >= 2 or title_lower contains 'dual'
+      assign has_dual_video = true
+    endif
+    if video_outputs_size > 0
+      assign has_video = true
+    endif
+  endif
+-%}
+
+<section class="benefits-section" aria-label="Product Benefits in Plain English">
+  <div class="section-header">
+    <h2 class="section-title">In 30 Seconds: What This Does</h2>
+    <p class="section-subtitle" style="color: #94a3b8; font-size: 0.95rem; margin-top: 4px;">
+      {%- if is_dock -%}
+        Designed to replace desktop cable clutter with one seamless plug.
+      {%- elsif is_monitor -%}
+        Designed for ergonomic comfort and distraction-free clarity.
+      {%- else -%}
+        Certified hardware built to link your setup without signal loss.
+      {%- endif -%}
+    </p>
+  </div>
+  <div class="benefits-grid">
+    {%- if is_dock -%}
+      <div class="benefit-card">
+        <div class="benefit-icon-svg">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="currentColor"><path d="M7 2c-1.1 0-2 .9-2 2v2h2V4h10v2h2V4c0-1.1-.9-2-2-2H7zm-2 5v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V7H5zm3 7h1v2H8v-2zm3-4h2v2h-2V10zm3 4h1v2h-1v-2z" /></svg>
+        </div>
+        <h3 class="benefit-title">One-Cable Command Center</h3>
+        <p class="benefit-description">Plug in one cable to charge your laptop, connect dual monitors, keyboard, mouse, and internet all at once.</p>
+      </div>
+      {%- if wattage > 0 -%}
+        <div class="benefit-card">
+          <div class="benefit-icon-svg">
+            <svg viewBox="0 0 24 24" width="48" height="48" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4zm-.34 16H8.67V5.33h6.66v14.67z" /></svg>
+          </div>
+          <h3 class="benefit-title">{{ wattage }}W Rapid Laptop Power</h3>
+          <p class="benefit-description">Charges your laptop while you work — keep your bulky manufacturer charger safely packed in your backpack.</p>
+        </div>
+      {%- endif -%}
+      {%- if has_dual_video -%}
+        <div class="benefit-card">
+          <div class="benefit-icon-svg">
+            <svg viewBox="0 0 24 24" width="48" height="48" fill="currentColor"><path d="M20 3H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h14l4 4v-4h.1c1-.1 1.9-1 1.9-2V5c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2z" /></svg>
+          </div>
+          <h3 class="benefit-title">Dual 4K Screens Side-by-Side</h3>
+          <p class="benefit-description">Plug in two external monitors with crisp, jitter-free video. Spread spreadsheets, code, or video edits with ease.</p>
+        </div>
+      {%- elsif has_video -%}
+        <div class="benefit-card">
+          <div class="benefit-icon-svg">
+            <svg viewBox="0 0 24 24" width="48" height="48" fill="currentColor"><path d="M20 3H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h14l4 4v-4h.1c1-.1 1.9-1 1.9-2V5c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2z" /></svg>
+          </div>
+          <h3 class="benefit-title">Ultra-Sharp Monitor Link</h3>
+          <p class="benefit-description">Expand your laptop display to a large desktop monitor with instant plug-and-play clarity.</p>
+        </div>
+      {%- endif -%}
+      <div class="benefit-card">
+        <div class="benefit-icon-svg">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" /></svg>
+        </div>
+        <h3 class="benefit-title">Universal Apple & PC Fit</h3>
+        <p class="benefit-description">Engineered for MacBook Pro, MacBook Air, Dell XPS, Lenovo ThinkPad, and Microsoft Surface laptops.</p>
+      </div>
+
+    {%- elsif is_monitor -%}
+      <div class="benefit-card">
+        <div class="benefit-icon-svg">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="currentColor"><path d="M20 3H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h14l4 4v-4h.1c1-.1 1.9-1 1.9-2V5c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2z" /></svg>
+        </div>
+        <h3 class="benefit-title">2x More Workspace & Crisp Text</h3>
+        <p class="benefit-description">Gives you expansive screen space with sharp text and vivid, accurate colors that reduce eye fatigue all day.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon-svg">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="currentColor"><path d="M7 2c-1.1 0-2 .9-2 2v2h2V4h10v2h2V4c0-1.1-.9-2-2-2H7zm-2 5v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V7H5zm3 7h1v2H8v-2zm3-4h2v2h-2V10zm3 4h1v2h-1v-2z" /></svg>
+        </div>
+        <h3 class="benefit-title">Single-Cable USB-C Input</h3>
+        <p class="benefit-description">Sends video from your laptop to the screen while sending charging power back to your battery simultaneously.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon-svg">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" /></svg>
+        </div>
+        <h3 class="benefit-title">Universal Display Connectivity</h3>
+        <p class="benefit-description">Equipped with HDMI, DisplayPort, and USB-C ports to connect any Mac, Windows desktop, or gaming console.</p>
+      </div>
+
+    {%- else -%}
+      <div class="benefit-card">
+        <div class="benefit-icon-svg">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="currentColor"><path d="M7 2c-1.1 0-2 .9-2 2v2h2V4h10v2h2V4c0-1.1-.9-2-2-2H7zm-2 5v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V7H5zm3 7h1v2H8v-2zm3-4h2v2h-2V10zm3 4h1v2h-1v-2z" /></svg>
+        </div>
+        <h3 class="benefit-title">Certified High-Speed Interconnect</h3>
+        <p class="benefit-description">Guaranteed to carry full power and 4K/8K video bandwidth without flickering, stuttering, or dropouts.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon-svg">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4zm-.34 16H8.67V5.33h6.66v14.67z" /></svg>
+        </div>
+        <h3 class="benefit-title">100W Max Fast-Charge Rated</h3>
+        <p class="benefit-description">Heavy-gauge internal copper wiring delivers full 100W power safely to your device without overheating.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon-svg">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" /></svg>
+        </div>
+        <h3 class="benefit-title">Reinforced Metal Strain-Relief</h3>
+        <p class="benefit-description">Durable nylon braiding and gold-plated plugs withstand over 15,000 bends for years of reliable daily use.</p>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Nexa Benefits",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,152 @@
+{%- comment -%} Exact port of Hydrogen ProductGallery.jsx (UI-PDP-01) {%- endcomment -%}
+{%- liquid
+  assign pills_raw = section.settings.spec_pills
+  if product.metafields.custom.spec_pills != blank
+    assign pills_raw = product.metafields.custom.spec_pills.value | join: '|'
+    assign pill_sep = '|'
+  else
+    assign pill_sep = ','
+  endif
+  assign pills = pills_raw | split: pill_sep
+  assign media_list = product.media | where: 'media_type', 'image'
+  assign count = media_list.size
+-%}
+<div class="pdp-sticky-gallery-wrap" id="nexa-gal-{{ section.id }}" data-count="{{ count }}">
+  {%- if count > 1 -%}
+    <div class="pdp-thumbnails-rail" role="tablist" aria-label="Product thumbnails">
+      {%- for m in media_list -%}
+        <button type="button" role="tab" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="View image {{ forloop.index }} of {{ count }}" class="pdp-thumb-btn{% if forloop.first %} active{% endif %}" data-idx="{{ forloop.index0 }}" data-url="{{ m | image_url: width: 1400 }}">
+          <img src="{{ m | image_url: width: 160, height: 160, crop: 'center' }}" alt="{{ m.alt | default: product.title | escape }}" loading="lazy" width="80" height="80">
+        </button>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  <div class="pdp-main-stage-container">
+    <div class="pdp-main-stage" role="region" aria-label="Product Image Showcase with interactive zoom">
+      <div class="pdp-stage-badges">
+        <span class="pdp-hub-pill"><span class="pulse-green-dot"></span><span>UK Warehouse Stock</span></span>
+        <button type="button" class="pdp-expand-btn" aria-label="Expand image to fullscreen" title="Expand to Fullscreen">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+        </button>
+      </div>
+
+      {%- if count > 0 -%}
+        <div class="pdp-image-viewport">
+          <img class="pdp-rendered-img" src="{{ media_list.first | image_url: width: 1400 }}" alt="{{ media_list.first.alt | default: product.title | escape }}" width="1000" height="1000" style="aspect-ratio:1/1;width:100%;object-fit:contain">
+          <div class="pdp-magnifier-lens" style="background-image:url({{ media_list.first | image_url: width: 1400 }});background-position:50% 50%;opacity:0" aria-hidden="true"></div>
+        </div>
+      {%- else -%}
+        <div class="pdp-image-placeholder">No image available</div>
+      {%- endif -%}
+
+      {%- if count > 1 -%}
+        <div class="pdp-mobile-pagination">
+          {%- for m in media_list -%}<span class="pdp-page-dot{% if forloop.first %} active{% endif %}"></span>{%- endfor -%}
+          <span class="pdp-mobile-counter">1/{{ count }}</span>
+        </div>
+      {%- endif -%}
+
+      {%- if pills.size > 0 and pills.first != blank -%}
+        <div class="pdp-spec-hotspots-layer">
+          {%- for pill in pills limit: 2 -%}
+            <div class="pdp-hardware-hotspot {% if forloop.first %}hotspot-left{% else %}hotspot-right{% endif %}">
+              <span class="hotspot-beacon"><span class="beacon-ring"></span><span class="beacon-dot"></span></span>
+              <div class="hotspot-tooltip"><strong>Hardware Spec</strong><span>{{ pill | strip }}</span></div>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="pdp-gallery-caption-bar">
+      <div class="caption-features">
+        <span class="feat-chip"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>Dispatch in 24h</span></span>
+        <span class="feat-chip"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>2-Year UK Warranty</span></span>
+        <span class="feat-chip"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg><span>Hover image to zoom</span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var root=document.getElementById('nexa-gal-{{ section.id }}');if(!root)return;
+  var title={{ product.title | json }};
+  var thumbs=[].slice.call(root.querySelectorAll('.pdp-thumb-btn'));
+  var urls=thumbs.length?thumbs.map(function(t){return t.dataset.url;}):[(root.querySelector('.pdp-rendered-img')||{}).src];
+  var n=urls.length,idx=0;
+  var stage=root.querySelector('.pdp-main-stage'),img=root.querySelector('.pdp-rendered-img'),lens=root.querySelector('.pdp-magnifier-lens');
+  var dots=root.querySelectorAll('.pdp-page-dot'),counter=root.querySelector('.pdp-mobile-counter');
+  var layer=root.querySelector('.pdp-spec-hotspots-layer');
+  function set(i){
+    idx=Math.max(0,Math.min(n-1,i));
+    if(img)img.src=urls[idx];if(lens)lens.style.backgroundImage='url('+urls[idx]+')';
+    thumbs.forEach(function(t,k){t.classList.toggle('active',k===idx);t.setAttribute('aria-selected',k===idx);});
+    dots.forEach(function(d,k){d.classList.toggle('active',k===idx);});
+    if(counter)counter.textContent=(idx+1)+'/'+n;
+    if(layer)layer.style.display=idx===0?'':'none';
+    if(lb)lbRender();
+  }
+  thumbs.forEach(function(t,k){t.addEventListener('click',function(){set(k);});t.addEventListener('mouseenter',function(){set(k);});});
+  if(stage){
+    stage.addEventListener('mouseenter',function(){stage.classList.add('is-zoomed');if(lens)lens.style.opacity=1;});
+    stage.addEventListener('mouseleave',function(){stage.classList.remove('is-zoomed');if(lens)lens.style.opacity=0;root.querySelectorAll('.pdp-hardware-hotspot').forEach(function(h){h.classList.remove('active');});});
+    stage.addEventListener('mousemove',function(e){
+      var r=stage.getBoundingClientRect();
+      var x=Math.max(0,Math.min(100,(e.clientX-r.left)/r.width*100)),y=Math.max(0,Math.min(100,(e.clientY-r.top)/r.height*100));
+      if(lens)lens.style.backgroundPosition=x+'% '+y+'%';
+    });
+    var sx=0,ex=0;
+    stage.addEventListener('touchstart',function(e){sx=e.targetTouches[0].clientX;ex=sx;},{passive:true});
+    stage.addEventListener('touchmove',function(e){ex=e.targetTouches[0].clientX;},{passive:true});
+    stage.addEventListener('touchend',function(){var d=sx-ex;if(Math.abs(d)>45){if(d>0&&idx<n-1)set(idx+1);else if(d<0&&idx>0)set(idx-1);}});
+  }
+  root.querySelectorAll('.pdp-hardware-hotspot').forEach(function(h){
+    h.addEventListener('mouseenter',function(){h.classList.add('active');});
+    h.addEventListener('mouseleave',function(){h.classList.remove('active');});
+    h.addEventListener('click',function(e){e.stopPropagation();h.classList.toggle('active');});
+  });
+  /* Lightbox */
+  var lb=null;
+  function lbRender(){
+    lb.querySelector('.lightbox-img').src=urls[idx];
+    lb.querySelector('.prev') && (lb.querySelector('.prev').disabled=idx===0);
+    lb.querySelector('.next') && (lb.querySelector('.next').disabled=idx===n-1);
+    var c=lb.querySelector('.lb-count');if(c)c.textContent=(idx+1)+' / '+n;
+  }
+  function close(){if(lb){lb.remove();lb=null;document.removeEventListener('keydown',key);}}
+  function key(e){if(e.key==='Escape')close();if(e.key==='ArrowRight'&&idx<n-1)set(idx+1);if(e.key==='ArrowLeft'&&idx>0)set(idx-1);}
+  var exp=root.querySelector('.pdp-expand-btn');
+  if(exp)exp.addEventListener('click',function(e){
+    e.stopPropagation();if(lb)return;
+    lb=document.createElement('div');lb.className='pdp-lightbox-overlay';lb.setAttribute('role','dialog');lb.setAttribute('aria-modal','true');lb.setAttribute('aria-label','High-resolution full screen image preview');
+    lb.innerHTML='<div class="pdp-lightbox-stage"><button type="button" class="lightbox-close-btn" aria-label="Close fullscreen view">✕</button>'
+      +(n>1?'<button type="button" class="lightbox-nav-btn prev" aria-label="Previous image">‹</button><button type="button" class="lightbox-nav-btn next" aria-label="Next image">›</button>':'')
+      +'<div class="lightbox-image-box"><img class="lightbox-img" alt=""></div><div class="lightbox-footer"><span class="lb-title"></span>'+(n>1?'<span class="lb-count"></span>':'')+'</div></div>';
+    lb.querySelector('.lb-title').textContent=title;
+    lb.querySelector('.lightbox-img').alt=title;
+    document.body.appendChild(lb);
+    lb.addEventListener('click',close);
+    lb.querySelector('.pdp-lightbox-stage').addEventListener('click',function(ev){ev.stopPropagation();});
+    lb.querySelector('.lightbox-close-btn').addEventListener('click',close);
+    var p=lb.querySelector('.prev'),nx=lb.querySelector('.next');
+    if(p)p.addEventListener('click',function(){set(idx-1);});
+    if(nx)nx.addEventListener('click',function(){set(idx+1);});
+    document.addEventListener('keydown',key);lbRender();
+  });
+  document.addEventListener('variant:change',function(e){
+    var m=e.detail&&e.detail.mediaUrl;if(!m)return;
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Nexa Product Gallery",
+  "settings": [
+    { "type": "text", "id": "spec_pills", "label": "Hotspot spec pills (comma separated, first 2 used)", "default": "100W Power Delivery, Dual 4K Display Outputs", "info": "Overridden by product metafield custom.spec_pills (list of text) if set." }
+  ],
+  "presets": [{ "name": "Nexa Product Gallery" }]
+}
+{% endschema %}

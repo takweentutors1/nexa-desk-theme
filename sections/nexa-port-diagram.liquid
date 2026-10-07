@@ -1,0 +1,125 @@
+{%- comment -%} Exact port of Hydrogen PortDiagram.jsx. Metafields: custom.dock_charging_output, custom.dock_video_outputs {%- endcomment -%}
+{%- liquid
+  assign title_l = product.title | downcase
+  assign wattage = product.metafields.custom.dock_charging_output.value | default: 0 | plus: 0
+  assign vo = product.metafields.custom.dock_video_outputs.value | json | downcase
+  assign vo_raw = product.metafields.custom.dock_video_outputs.value | downcase
+  assign has_dp = false
+  if vo contains 'displayport' or vo contains 'dp'
+    assign has_dp = true
+  endif
+  assign has_dual = false
+  if title_l contains 'dual' or vo contains ',' 
+    assign has_dual = true
+  endif
+  assign is_legacy = false
+  if product.handle contains 'd4' or title_l contains 'usb-a'
+    assign is_legacy = true
+  endif
+  assign is_monitor = false
+  if title_l contains 'monitor'
+    assign is_monitor = true
+  endif
+  assign is_cable = false
+  assign first_char = product.handle | slice: 0
+  if is_monitor == false and title_l contains 'dock' == false and first_char != 'd'
+    assign is_cable = true
+  endif
+  assign first_word = product.title | split: ' ' | first
+  assign watt_show = wattage
+  if wattage <= 0
+    assign watt_show = 100
+  endif
+-%}
+<div class="pdp-port-explorer-card" id="nexa-ports-{{ section.id }}" role="region" aria-label="Interactive Port Diagram and Hardware Explorer">
+  <div class="port-explorer-header">
+    <div class="explorer-title-box">
+      <div class="explorer-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+        <span>Hardware Architecture</span>
+      </div>
+      <h4>Interactive Port &amp; Pinout Explorer</h4>
+      <p class="explorer-sub">Hover or tap any port to see maximum resolution, transfer bandwidth, and compatible monitor connectors.</p>
+    </div>
+    <div class="explorer-tab-controls" role="tablist">
+      <button type="button" role="tab" aria-selected="true" class="explorer-tab-btn active" data-tab="rear"><span class="t-rear">Rear Ports</span></button>
+      <button type="button" role="tab" aria-selected="false" class="explorer-tab-btn" data-tab="front"><span class="t-front">Front Ports</span></button>
+      <button type="button" class="mobile-zoom-btn" aria-label="Open fullscreen port layout modal" title="Enlarge Diagram"><span>Enlarge ⤢</span></button>
+    </div>
+  </div>
+
+  <div class="port-blueprint-stage">
+    <div class="chassis-diagram-surface">
+      <div class="chassis-header-bar">
+        <span class="chassis-label"></span>
+        <span class="chassis-status-indicator"><span class="indicator-led"></span><span>LIVE PINOUT</span></span>
+      </div>
+      <div class="chassis-ports-row"></div>
+    </div>
+    <div class="port-detail-callout" role="status" aria-live="polite"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var root=document.getElementById('nexa-ports-{{ section.id }}');if(!root)return;
+  var title={{ product.title | json }},first={{ first_word | json }};
+  var wattage={{ watt_show }};
+  var hasDP={{ has_dp }},hasDual={{ has_dual }},isLegacy={{ is_legacy }},isMonitor={{ is_monitor }},isCable={{ is_cable }};
+  function P(id,name,spec,type,tag,icon,primary){return {id:id,name:name,spec:spec,type:type,tag:tag,icon:icon,primary:primary};}
+  var cfg;
+  if(isCable){cfg={
+    front:[P('c-plug-1','USB-C Reversible Head','Symmetrical oval design — plugs in either way up','usbc','Connector A','🔌'),P('c-shield','Alloy Shell & Strain Relief','Anodized aluminum collar prevents bending damage','controls','Durability','🛡️'),P('c-braid','Double-Braided Nylon Jacket','Tangle-free, abrasion-resistant outer shielding','screen','Build Quality','🧵')],
+    rear:[P('c-plug-2','High-Speed Host Connector','Gold-plated pins carry 100W power and 40Gbps video','host','Connector B','⚡'),P('c-emarker','Smart E-Marker Chip','Regulates voltage safely to protect your laptop battery','switch','Safety Tech','🧠'),P('c-copper','Oxygen-Free Copper Core','Maximum signal clarity with zero video flicker','power','Signal Wire','✨')]};}
+  else if(isMonitor){cfg={
+    front:[P('m-screen','Matte IPS Display Panel','Anti-glare screen with wide 178° viewing angle — easy on the eyes','screen','Display','🖥️'),P('m-power-led','Gentle Status Light','Soft white glow indicates active connection and sleep mode','led','System','💡'),P('m-osd-btns','Simple Quick-Settings Buttons','Adjust brightness and switch inputs with one tactile click','controls','Controls','⚙️')],
+    rear:[P('m-usbc-in','USB-C All-in-One Plug','Single cable carries laptop screen video AND charges your battery','usbc','Power & Video','⚡'),P('m-hdmi-1','HDMI 2.0 Port','Universal connection for laptops, PCs, Apple TV, or consoles','video','Display In','📺'),P('m-dp-1','DisplayPort 1.4','High-refresh rate input for ultra-smooth scrolling and gaming','video','Display In','🖥️'),P('m-audio-out','Desktop Speaker Out','3.5mm jack to connect desktop speakers or wired headphones','audio','Audio','🎧'),P('m-ac-power','Standard Wall Power','Built-in power supply (no bulky adapter box hanging off your desk)','power','Power','🔌')]};}
+  else if(isLegacy){cfg={
+    front:[P('fa-usb1','Classic USB Port 1','Fast 5Gbps file transfers for flash drives and external hard drives','usba','Data','💾'),P('fa-usb2','Fast-Charge USB Port 2','Charges your smartphone or wireless headphones while you work','usba','Data & Charge','🔋'),P('fa-audio','Headphone & Mic Jack','Standard 3.5mm plug for Zoom calls and crisp stereo music','audio','Audio','🎧'),P('fa-led','Connection Indicator','Illuminates when your computer is safely linked and ready','led','Status','💡')],
+    rear:[P('ra-host','Computer Host Cable','Connects to your laptop via included USB cable','host','Laptop Link','💻'),P('ra-usb3','Wireless Mouse Port','Interference-free connection for mouse dongles','usba','Accessories','🖱️'),P('ra-usb4','Keyboard / Webcam Port','Reliable connection for desktop keyboard or high-def webcam','usba','Accessories','⌨️'),P('ra-eth','Wired Gigabit Internet','Rock-solid wired connection — stops Wi-Fi dropouts on video calls','lan','Ethernet','🌐'),P('ra-pwr','Wall Power Input','Dedicated power supply keeps the dock humming reliably','power','Power','🔌')]};}
+  else{
+    var rear=[P('r-host-pd','Laptop Link ('+wattage+'W Power Delivery)','One cable powers your laptop battery full speed while connecting all screens and gear','host','One-Cable Host','⚡',true),P('r-hdmi-1','HDMI Monitor Plug','Connects your main external monitor with sharp, colorful 4K video','video','Monitor Plug','📺')];
+    if(hasDP||hasDual)rear.push(P('r-dp-1','DisplayPort Monitor Plug','Connects your second monitor for a dual-screen productivity setup','video','Monitor Plug','🖥️'));
+    rear.push(P('r-lan','Rock-Solid Wired Internet','High-speed 1000Mbps Ethernet — no more patchy Wi-Fi during video meetings','lan','Fast Internet','🌐'),P('r-usba-1','Dual Accessory USB Ports (x2)','Neatly plug in your keyboard, mouse, and webcam out of sight','usba','Desk Peripherals','⌨️'),P('r-dc-in','Clean Desktop Power Input','Powers all connected screens, hard drives, and laptop safely','power','Wall Power','🔌'));
+    cfg={front:[P('f-pwr-btn','One-Touch Power Button','Sleep or wake your entire workstation with a single press','switch','Power Switch','🔘'),P('f-usbc-10g','Ultra-Fast USB-C Port','Super-speed data for phones, backup drives, and fast file transfers','usbc','Fast Data','⚡'),P('f-usba-10g','Front Fast-Charge USB','Quick-access charging port for phone or earbuds','usba','Fast Charge','📱'),P('f-sd-card','Camera Memory Card Slots','Insert SD or microSD camera cards — copies photos in seconds','media','Photo Reader','📷'),P('f-audio','Headphone & Microphone Jack','Clear 3.5mm connection for crystal-clear work calls and music','audio','Audio','🎧')],rear:rear};
+  }
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  var tab='rear',sel=null;
+  root.querySelector('.t-rear').textContent='Rear Ports ('+cfg.rear.length+')';
+  root.querySelector('.t-front').textContent='Front Ports ('+cfg.front.length+')';
+  function rec(p){
+    if(p.type==='video')return 'Connect directly to your HDMI or DisplayPort monitor for native 4K refresh rates without latency.';
+    if(p.type==='host')return 'Plug the included Thunderbolt / USB-C cable here to charge your laptop up to '+wattage+'W.';
+    if(p.type==='lan')return 'Plug in your router cable for maximum stability during video calls and large file transfers.';
+    return 'Plug & Play compatible with zero drivers needed.';
+  }
+  function render(){
+    var ports=cfg[tab],cur=sel||ports[0];
+    root.querySelectorAll('.explorer-tab-btn').forEach(function(b){var a=b.dataset.tab===tab;b.classList.toggle('active',a);b.setAttribute('aria-selected',a);});
+    root.querySelector('.chassis-label').textContent='NEXA '+first+' • '+tab.toUpperCase()+' PANEL';
+    var row=root.querySelector('.chassis-ports-row');
+    row.innerHTML=ports.map(function(p,i){var s=p.id===cur.id;
+      return '<button type="button" class="port-pin-slot '+p.type+(s?' active':'')+'" data-id="'+p.id+'" aria-label="'+esc(p.name+': '+p.spec)+'"><span class="pin-number">0'+(i+1)+'</span><div class="port-icon-wrap"><span class="port-emoji">'+p.icon+'</span></div><span class="port-pin-label">'+esc(p.tag)+'</span>'+(s?'<span class="pin-active-glow"></span>':'')+'</button>';}).join('');
+    root.querySelector('.port-detail-callout').innerHTML='<div class="callout-header"><div class="callout-tag-row"><span class="callout-chip">'+esc(cur.tag)+'</span><span class="callout-type-badge">'+cur.type.toUpperCase()+'</span></div><h5 class="callout-title">'+esc(cur.name)+'</h5></div><p class="callout-desc">'+esc(cur.spec)+'</p><div class="callout-compat-footer"><span class="compat-bullet">💡 Recommendation:</span><span class="compat-text">'+esc(rec(cur))+'</span></div>';
+    row.querySelectorAll('.port-pin-slot').forEach(function(b,i){
+      function pick(){sel=ports[i];render();}
+      b.addEventListener('click',pick);b.addEventListener('mouseenter',function(){if(sel!==ports[i])pick();});
+    });
+  }
+  root.querySelectorAll('.explorer-tab-btn').forEach(function(b){b.addEventListener('click',function(){tab=b.dataset.tab;sel=null;render();});});
+  function list(arr,pre){return arr.map(function(p,i){return '<div class="modal-port-item"><span class="item-idx">'+pre+'0'+(i+1)+'</span><div class="item-text"><strong>'+esc(p.name)+'</strong><span>'+esc(p.spec)+'</span></div></div>';}).join('');}
+  root.querySelector('.mobile-zoom-btn').addEventListener('click',function(){
+    var m=document.createElement('div');m.className='port-modal-overlay';m.setAttribute('role','dialog');m.setAttribute('aria-modal','true');m.setAttribute('aria-label','Full-size Port Blueprint Modal');
+    m.innerHTML='<div class="port-modal-content"><div class="port-modal-header"><h5>'+esc(title)+' • Complete Port Blueprint</h5><button type="button" class="port-modal-close" aria-label="Close modal">✕</button></div><div class="port-modal-body"><div class="modal-section"><h6>Rear Panel Ports</h6><div class="modal-ports-list">'+list(cfg.rear,'R')+'</div></div><div class="modal-section"><h6>Front Panel Ports</h6><div class="modal-ports-list">'+list(cfg.front,'F')+'</div></div></div></div>';
+    document.body.appendChild(m);
+    m.addEventListener('click',function(){m.remove();});
+    m.querySelector('.port-modal-content').addEventListener('click',function(e){e.stopPropagation();});
+    m.querySelector('.port-modal-close').addEventListener('click',function(){m.remove();});
+  });
+  render();
+})();
+</script>
+
+{% schema %}
+{ "name": "Nexa Port Diagram", "settings": [], "presets": [{ "name": "Nexa Port Diagram" }] }
+{% endschema %}
