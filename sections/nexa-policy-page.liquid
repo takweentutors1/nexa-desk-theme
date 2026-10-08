@@ -22,6 +22,7 @@
       <a href="/policies/refund-policy" class="policy-tab-link" data-policy="refund-policy">🛡️ 30-Day Returns</a>
       <a href="/policies/privacy-policy" class="policy-tab-link" data-policy="privacy-policy">🔒 Privacy Policy</a>
       <a href="/policies/terms-of-service" class="policy-tab-link" data-policy="terms-of-service">⚖️ Terms of Service</a>
+      <a href="/policies/legal-notice" class="policy-tab-link" data-policy="legal-notice">📜 Legal Notice</a>
     </div>
   </header>
 
@@ -323,6 +324,43 @@
           <h2>4. Statutory Consumer Rights</h2>
           <p>Nothing in these terms reduces or modifies your statutory consumer rights under the Consumer Rights Act 2015 or Consumer Contracts Regulations.</p>
         `
+      },
+      'legal-notice': {
+        title: 'Legal Notice & Company Imprint',
+        badge: '🏛️ STATUTORY COMPANY INFORMATION (UK)',
+        lead: 'Statutory regulatory disclosures and corporate registration details for NexaDesk Ltd in accordance with the Companies Act 2006.',
+        highlights: [
+          { icon: '🏛️', title: 'Companies House', desc: 'Registered in England and Wales' },
+          { icon: '📍', title: 'Registered Office', desc: 'Northamptonshire, United Kingdom' },
+          { icon: '✉️', title: 'Contact Direct', desc: 'support@nexadesk.co.uk' }
+        ],
+        body: `
+          <h2>1. Company Information</h2>
+          <p><strong>NexaDesk Ltd</strong> is a private limited company registered in England and Wales.</p>
+          <ul>
+            <li><strong>Trading Name:</strong> NexaDesk UK</li>
+            <li><strong>Nature of Business:</strong> Ergonomic workstation hardware, docking solutions & electronic accessories</li>
+            <li><strong>Registered Jurisdiction:</strong> England and Wales (United Kingdom)</li>
+            <li><strong>Central Fulfilment Hub:</strong> Northamptonshire, NN1, United Kingdom</li>
+          </ul>
+
+          <h2>2. Contact & Communications</h2>
+          <p>For customer support, order enquiries, corporate procurement, or legal correspondence:</p>
+          <ul>
+            <li><strong>General & Technical Enquiries:</strong> <a href="mailto:support@nexadesk.co.uk">support@nexadesk.co.uk</a></li>
+            <li><strong>Corporate Privacy & Compliance:</strong> <a href="mailto:privacy@nexadesk.co.uk">privacy@nexadesk.co.uk</a></li>
+            <li><strong>Support Hours:</strong> Monday through Friday, 09:00 – 17:30 GMT</li>
+          </ul>
+
+          <h2>3. Value Added Tax (VAT)</h2>
+          <p>All consumer retail prices displayed on this storefront are inclusive of UK Value Added Tax (VAT) at the prevailing standard rate of 20%. Detailed VAT invoices with company tax breakdowns are automatically dispatched upon order fulfilment.</p>
+
+          <h2>4. Intellectual Property & Brand Assets</h2>
+          <p>All product designs, schematics, digital artwork, typography, and website content on this domain are the intellectual property of NexaDesk Ltd or its licensed partners and are protected under UK and international copyright treaties.</p>
+
+          <h2>5. Dispute Resolution</h2>
+          <p>In accordance with the Alternative Dispute Resolution for Consumer Disputes (Competent Authorities and Information) Regulations 2015, we are committed to resolving any consumer concerns amicably and fairly through our dedicated UK support team.</p>
+        `
       }
     };
 
@@ -332,6 +370,7 @@
       if (path.includes('refund')) activeKey = 'refund-policy';
       else if (path.includes('privacy')) activeKey = 'privacy-policy';
       else if (path.includes('terms')) activeKey = 'terms-of-service';
+      else if (path.includes('legal-notice')) activeKey = 'legal-notice';
 
       const data = POLICY_DATA[activeKey];
       if (!data) return;
