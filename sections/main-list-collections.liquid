@@ -1,0 +1,112 @@
+{%- comment -%}
+  Nexa Curated Workspace Collections Hub (/collections)
+  Features Hero Banner + Cyberpunk Bento Cards Grid + Real Catalog Product Previews
+{%- endcomment -%}
+
+<div class="collections-hub-wrapper page-width" data-section-id="{{ section.id }}">
+  <!-- Hero Header -->
+  <div class="collections-hub-hero">
+    <div class="collections-hub-badge">
+      <span class="hub-sparkle" aria-hidden="true"></span>
+      <span>Engineered Workstation Categories</span>
+    </div>
+    <h1 class="collections-hub-title">Curated Workspace Collections</h1>
+    <p class="collections-hub-subtitle">
+      Explore single-cable docks, ultra-sharp 4K monitors, ergonomic aluminum risers, and silent peripherals guaranteed to work seamlessly with your Mac or PC.
+    </p>
+    <div class="collections-hub-meta">
+      <span class="meta-pill">🇬🇧 UK Hub Direct Dispatch</span>
+      <span class="meta-pill-outline">30-Day Risk-Free Desk Trial</span>
+    </div>
+  </div>
+
+  <!-- Collections Grid -->
+  <div class="collections-hub-grid">
+    {%- for collection in collections -%}
+      {%- if collection.all_products_count > 0 or collection.products_count > 0 or collection.handle != 'frontpage' -%}
+        <div class="collection-hub-card">
+          <a href="{{ collection.url }}" class="collection-hub-card-link" aria-label="Explore {{ collection.title | escape }}">
+            <div class="collection-hub-image-box">
+              {%- if collection.featured_image -%}
+                <img
+                  src="{{ collection.featured_image | image_url: width: 800 }}"
+                  alt="{{ collection.title | escape }}"
+                  loading="lazy"
+                  class="collection-hub-img"
+                  width="800"
+                  height="500"
+                >
+              {%- elsif collection.products.first.featured_media -%}
+                <img
+                  src="{{ collection.products.first.featured_media | image_url: width: 800 }}"
+                  alt="{{ collection.title | escape }}"
+                  loading="lazy"
+                  class="collection-hub-img"
+                  width="800"
+                  height="500"
+                >
+              {%- else -%}
+                <div class="collection-hub-placeholder">
+                  <span class="placeholder-icon">⚡</span>
+                </div>
+              {%- endif -%}
+              <div class="collection-hub-overlay"></div>
+              <div class="collection-hub-count-badge">
+                {{ collection.all_products_count | default: collection.products_count | default: 0 }} Setups
+              </div>
+            </div>
+
+            <div class="collection-hub-card-body">
+              <div class="collection-hub-card-top">
+                <h2 class="collection-hub-card-title">{{ collection.title }}</h2>
+                <span class="collection-hub-arrow-icon" aria-hidden="true">&rarr;</span>
+              </div>
+              <p class="collection-hub-card-desc">
+                {{ collection.description | strip_html | truncate: 120 | default: 'Tested plug-and-play workspace hardware engineered for high-performance desk setups.' }}
+              </p>
+              <div class="collection-hub-cta-row">
+                <span class="collection-hub-cta-btn">
+                  <span>Browse Gear</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </span>
+              </div>
+            </div>
+          </a>
+        </div>
+      {%- endif -%}
+    {%- else -%}
+      {%- comment -%} Fallback if store collections array is empty {%- endcomment -%}
+      {%- assign fallback_slugs = "docks-hubs,monitors,stands,keyboards,mice,all" | split: "," -%}
+      {%- assign fallback_titles = "One-Cable Docks & Hubs,Computer Screens & Monitors,Adjustable Laptop Stands,Comfortable Keyboards,Precision Wireless Mice,All Desk Gear" | split: "," -%}
+      {%- assign fallback_descs = "Single-cable charging, dual 4K video, and all your peripherals connected instantly.,Anti-glare IPS and high-refresh panels with calibrated color accuracy.,Heavy-duty anodized aluminum stands to bring screens to ergonomic eye level.,Quiet mechanical and scissor-switch typing tuned for productive workflows.,Ergonomic wireless mice engineered for all-day comfort without wrist strain.,Complete collection of engineered desk hardware and accessories." | split: "," -%}
+
+      {%- for slug in fallback_slugs -%}
+        <div class="collection-hub-card">
+          <a href="/collections/{{ slug }}" class="collection-hub-card-link">
+            <div class="collection-hub-card-body">
+              <h2 class="collection-hub-card-title">{{ fallback_titles[forloop.index0] }}</h2>
+              <p class="collection-hub-card-desc">{{ fallback_descs[forloop.index0] }}</p>
+              <div class="collection-hub-cta-row">
+                <span class="collection-hub-cta-btn">Browse Collection &rarr;</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collections List Hub",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Collections List Hub"
+    }
+  ]
+}
+{% endschema %}
