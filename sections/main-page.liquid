@@ -1,0 +1,19 @@
+<div class="nexa-standard-page-container" style="max-width: 1200px; margin: 0 auto; padding: 3rem 1.5rem 5rem;">
+  <header class="nexa-page-header" style="margin-bottom: 2.5rem; text-align: center;">
+    <h1 style="font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 800; color: #ffffff; margin-bottom: 0.75rem;">
+      {{ page.title }}
+    </h1>
+  </header>
+  <div class="nexa-page-body rte" style="color: #cbd5e1; font-size: 1.05rem; line-height: 1.7; background: rgba(14, 21, 38, 0.6); border: 1px solid rgba(148, 163, 184, 0.15); border-radius: 16px; padding: 2.5rem; backdrop-filter: blur(12px);">
+    {{ page.content }}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Standard Page",
+  "tag": "section",
+  "class": "section",
+  "settings": []
+}
+{% endschema %}

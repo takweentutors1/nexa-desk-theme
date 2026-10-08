@@ -61,7 +61,11 @@
     {% sections 'header-group' %}
 
     <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
-      {{ content_for_layout }}
+      {%- if request.path == '/pages/compare' or request.path == '/pages/compare-docks' -%}
+        {% section 'nexa-spec-diff-toggle' %}
+      {%- else -%}
+        {{ content_for_layout }}
+      {%- endif -%}
     </main>
 
     {% sections 'footer-group' %}

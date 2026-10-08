@@ -1,43 +1,85 @@
 <div class="nexa-compare-page" data-section-id="{{ section.id }}">
-  <div class="compare-hero">
-    <h1 class="compare-hero-title">Compare Docking Stations</h1>
-    <p class="compare-hero-subtitle">
-      Select models below to compare hardware specifications side-by-side.
+  <!-- Breadcrumbs & Status Pill -->
+  <div class="compare-hero-header">
+    <nav class="compare-breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span style="color: #64748b;">/</span>
+      <a href="/pages/find-my-setup">Setup Helper</a>
+      <span style="color: #64748b;">/</span>
+      <span style="color: #d4af37; font-weight: 600;">Side-by-Side Dock Comparison</span>
+    </nav>
+    <div class="compare-badge-pill">
+      <span>⚖️ HARDWARE SPECIFICATION ENGINE</span>
+    </div>
+    <h1 class="compare-title">Compare Docking Stations Side-by-Side</h1>
+    <p class="compare-lead">
+      Direct hardware specification comparison across Nexa certified docking hubs. Evaluate host connectivity, USB-C Power Delivery, multi-display support, and OS compatibility with instant diff highlighting.
     </p>
+  </div>
 
-    <div class="compare-actions-bar">
-      <label class="toggle-diff-label">
+  <!-- Interactive Controls Bar -->
+  <div class="compare-controls-card">
+    <div class="compare-profile-picker">
+      <span class="picker-label-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        Filter by Laptop Profile:
+      </span>
+      <select id="compare-profile-select" class="profile-select-dropdown" onchange="filterByLaptopProfile(this.value)">
+        <option value="all">⚡ All Laptop Profiles (Show All Docks)</option>
+        <option value="P1">P1: Windows Lightweight (USB-C / 65W)</option>
+        <option value="P2">P2: Windows Power User (Dual Screen / 100W)</option>
+        <option value="P3">P3: Apple Silicon MacBook (Thunderbolt / 65W)</option>
+        <option value="P4">P4: Legacy USB-A / Data Peripheral Hub</option>
+      </select>
+    </div>
+
+    <!-- UI-COMP-02: Spec Diff Toggle Switch -->
+    <div class="compare-diff-toggle-wrapper">
+      <label class="toggle-switch-container" for="toggle-diff-checkbox">
         <input
           type="checkbox"
           id="toggle-diff-checkbox"
+          class="toggle-switch-input"
           onchange="toggleDifferences(this.checked)"
         />
         <span class="toggle-slider"></span>
-        Highlight Differences
+        <span class="toggle-switch-label">
+          <span>Highlight Differences</span>
+          <span class="diff-count-badge" id="diff-counter-pill">Live</span>
+        </span>
       </label>
     </div>
   </div>
 
-  <div class="compare-dock-selector" id="compare-dock-selector">
-    <!-- Pills will be rendered here by JS or statically -->
+  <!-- Dock Quick Selector Pills Strip -->
+  <div class="compare-selector-section">
+    <div class="selector-section-header">
+      <span>Select Up to 4 Docks to Compare:</span>
+      <span class="selector-count-badge" id="selector-count-badge">3 of 4 Active</span>
+    </div>
+    <div class="compare-pills-row" id="compare-dock-selector">
+      <!-- Injected via JavaScript -->
+    </div>
   </div>
 
+  <!-- Empty State -->
   <div id="compare-empty-state" class="compare-empty-state" style="display: none;">
     <div class="empty-state-icon">⚖️</div>
-    <h2 class="empty-state-title">No Docks Selected</h2>
+    <h2 class="empty-state-title">No Docking Stations Selected</h2>
     <p class="empty-state-desc">
-      Select up to 3 docks or hubs from the pills above to view a comprehensive side-by-side
-      specification comparison.
+      Choose at least one model from the buttons above to view side-by-side hardware specifications, port layouts, and pricing.
     </p>
     <button
       type="button"
-      class="btn-launch-builder"
+      class="btn-dock-view"
+      style="display: inline-flex; margin: 0 auto; padding: 0.75rem 1.75rem; background: #d4af37; color: #030712; font-weight: 700;"
       onclick="resetCompareSelection()"
     >
-      Compare All 3 Default Docks
+      Restore Default Comparison (D1, D2, D3)
     </button>
   </div>
 
+  <!-- Main Comparison Matrix Container -->
   <div
     id="compare-matrix-container"
     class="compare-matrix-container"
@@ -58,125 +100,161 @@
                 </span>
               </div>
             </th>
-            <!-- Dock Header Cols will be injected via JS based on selection -->
+            <!-- Dock Header Columns dynamically populated by JS -->
           </tr>
         </thead>
         <tbody id="compare-table-body">
-          <!-- Rows injected via JS -->
+          <!-- Specification rows dynamically injected via JS -->
         </tbody>
       </table>
     </div>
   </div>
 
+  <!-- Bottom Interactive Configurator CTA -->
   <div class="compare-bottom-builder-cta">
-    <span class="cta-inner-badge">✨ Complete Workstation Configurator</span>
-    <h2 class="cta-heading">Want a Guaranteed Zero-Guesswork Setup?</h2>
-    <p class="cta-subtext">
-      Use our interactive 4-step wizard to automatically pair your laptop with compatible docks,
-      certified monitors, and precision desktop accessories.
+    <span class="cta-inner-badge">✨ Guaranteed Compatibility Guarantee</span>
+    <h2 style="font-size: 1.85rem; font-weight: 800; color: #ffffff; margin: 0.75rem 0 0.5rem;">
+      Unsure Which Docking Station Matches Your Laptop?
+    </h2>
+    <p style="color: #94a3b8; max-width: 650px; margin: 0 auto 1.5rem; font-size: 1rem; line-height: 1.6;">
+      Take our quick 30-second setup quiz. We'll automatically identify your laptop port capabilities, calculate required wattage, and pair the perfect dock and dual monitors.
     </p>
-    <a href="/pages/setup-builder" class="btn-launch-builder">
-      <span>Launch Interactive Setup Builder</span>
-      <span aria-hidden="true">&rarr;</span>
-    </a>
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+      <a href="/pages/find-my-setup" class="hero-primary-btn" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 1.85rem; background: linear-gradient(135deg, #d4af37, #f59e0b); color: #030712; font-weight: 700; border-radius: 10px; text-decoration: none;">
+        <span>Launch Find My Setup Quiz</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+      <a href="/collections/all" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 1.85rem; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; font-weight: 600; border-radius: 10px; text-decoration: none;">
+        <span>Browse All Products</span>
+      </a>
+    </div>
   </div>
 </div>
 
 <script>
   (function() {
-    const FALLBACK_DOCKS = [
+    const DOCKS = [
       {
         id: 'gid://shopify/Product/D1',
+        code: 'D1',
         handle: 'd1-link-65',
-        title: 'D1 Link 65 Standard Dock',
+        title: 'D1 Link 65 Desktop Dock',
         price: '99.00',
         currency: 'GBP',
         host_connector: 'USB-C',
-        supported_operating_systems: ['Windows', 'macOS'],
+        host_bandwidth: '10 Gbps USB 3.2 Gen 2',
         dock_charging_output: 65,
-        dock_video_outputs: ['HDMI'],
-        product_role: 'dock',
-        image: 'https://cdn.shopify.com/s/files/1/0688/1755/1584/files/D1_Link_65.png?v=1',
-        tag: 'Best for MacBook Air & 65W PC'
+        dock_video_outputs: ['HDMI 2.0 (4K@60Hz)'],
+        max_external_displays: '1 Monitor',
+        downstream_ports: '2x USB-A 3.0, 1x USB-C Data, Gigabit LAN, 3.5mm Audio',
+        power_supply: 'Included 90W GaN External Brick',
+        cable_type: 'Detachable 1.0m Braided USB-C Cable Included',
+        supported_operating_systems: ['Windows', 'macOS'],
+        profiles: ['P1', 'P3'],
+        tag: 'Best for MacBook Air & 65W Ultrabooks',
+        image: 'https://cdn.shopify.com/s/files/1/1019/4983/3580/files/d1-link-65-desktop-docking-station.png?v=1790711413'
       },
       {
         id: 'gid://shopify/Product/D2',
+        code: 'D2',
         handle: 'd2-link-100',
-        title: 'D2 Link 100 Dual-Screen Flagship Dock',
+        title: 'D2 Link 100 Flagship Dual Dock',
         price: '120.00',
         currency: 'GBP',
         host_connector: 'USB-C',
-        supported_operating_systems: ['Windows', 'macOS'],
+        host_bandwidth: '10 Gbps (MST Multi-Stream)',
         dock_charging_output: 100,
-        dock_video_outputs: ['HDMI', 'DisplayPort'],
-        product_role: 'dock',
-        image: 'https://cdn.shopify.com/s/files/1/0688/1755/1584/files/D2_Link_100.png?v=1',
-        tag: 'Flagship Dual-Screen Pick'
+        dock_video_outputs: ['HDMI 2.0', 'DisplayPort 1.4'],
+        max_external_displays: '2 Monitors (Dual Extended 4K@60Hz on Win, Mirror/Dual on Mac)',
+        downstream_ports: '3x USB-A 3.0, 1x USB-C 10Gbps, Gigabit LAN, SD Card Reader',
+        power_supply: 'Included 130W High-Efficiency Power Adapter',
+        cable_type: 'Detachable 1.0m 100W E-Marked USB-C Cable',
+        supported_operating_systems: ['Windows', 'macOS'],
+        profiles: ['P2', 'P3'],
+        tag: 'Flagship Dual-Screen Pick for Workstations',
+        image: 'https://cdn.shopify.com/s/files/1/1019/4983/3580/files/d2-link-100-silver-docking-station.png?v=1790712112'
       },
       {
         id: 'gid://shopify/Product/D3',
+        code: 'D3',
         handle: 'd3-pro-100',
-        title: 'D3 Pro 100 High-Speed Workstation Dock',
+        title: 'D3 Pro 100 High-Speed Workstation',
         price: '149.00',
         currency: 'GBP',
         host_connector: 'USB-C',
-        supported_operating_systems: ['Windows'],
+        host_bandwidth: 'Thunderbolt 4 / USB4 (40 Gbps)',
         dock_charging_output: 100,
-        dock_video_outputs: ['DisplayPort'],
-        product_role: 'dock',
-        image: 'https://cdn.shopify.com/s/files/1/0688/1755/1584/files/D3_Pro_100.png?v=1',
-        tag: 'Windows CAD & Heavy Workstation'
+        dock_video_outputs: ['Dual DisplayPort 1.4', 'HDMI 2.1'],
+        max_external_displays: 'Up to 3 Extended Displays (Windows CAD / Triple Setup)',
+        downstream_ports: '4x USB-A 3.2, 2x USB-C 10Gbps, 2.5Gbps Ethernet, Optical Audio',
+        power_supply: 'Included 150W Heavy-Duty Adapter',
+        cable_type: '0.8m Certified 40Gbps Thunderbolt Cable',
+        supported_operating_systems: ['Windows'],
+        profiles: ['P2'],
+        tag: 'Windows CAD, Engineering & High-Power Laptops',
+        image: 'https://cdn.shopify.com/s/files/1/1019/4983/3580/files/d3-pro-100-usb-c-docking-station.png?v=1790712517'
       },
       {
         id: 'gid://shopify/Product/D4',
+        code: 'D4',
         handle: 'd4-connect-a',
         title: 'D4 Connect A Legacy Peripheral Hub',
         price: '59.00',
         currency: 'GBP',
         host_connector: 'USB-A',
-        supported_operating_systems: ['Windows', 'macOS'],
+        host_bandwidth: '5 Gbps USB 3.0',
         dock_charging_output: 0,
-        dock_video_outputs: [],
-        product_role: 'hub-only',
-        image: 'https://cdn.shopify.com/s/files/1/0688/1755/1584/files/D4_Connect_A.png?v=1',
-        tag: 'USB-A Data Hub Only'
+        dock_video_outputs: ['None (Data & Peripherals Only)'],
+        max_external_displays: '0 (Connect screen directly to laptop)',
+        downstream_ports: '4x USB-A 3.0, Gigabit LAN, 3.5mm Headphone Jack',
+        power_supply: 'Bus-Powered (Powered by Host PC)',
+        cable_type: 'Integrated Heavy-Duty USB-A Cable (15cm)',
+        supported_operating_systems: ['Windows', 'macOS'],
+        profiles: ['P4'],
+        tag: 'Universal Legacy USB-A Data Hub',
+        image: 'https://cdn.shopify.com/s/files/1/1019/4983/3580/files/d4-connect-a.png?v=1790710793'
       }
     ];
 
-    let selectedIds = FALLBACK_DOCKS.slice(0, 3).map(d => d.id);
+    let selectedIds = DOCKS.slice(0, 3).map(d => d.id);
     let showDifferencesOnly = false;
-
-    function getDockCode(dock) {
-      const match = dock.title.match(/D[1-4]/i) || dock.handle.match(/d[1-4]/i);
-      if (match) return match[0].toUpperCase();
-      if (dock.handle.includes('65')) return 'D1';
-      if (dock.handle.includes('100') && !dock.handle.includes('pro')) return 'D2';
-      if (dock.handle.includes('pro')) return 'D3';
-      if (dock.handle.includes('connect')) return 'D4';
-      return 'DOCK';
-    }
+    let activeProfileFilter = 'all';
 
     function renderPills() {
       const container = document.getElementById('compare-dock-selector');
+      if (!container) return;
       container.innerHTML = '';
-      FALLBACK_DOCKS.forEach(dock => {
+
+      DOCKS.forEach(dock => {
         const isSelected = selectedIds.includes(dock.id);
-        const isDisabled = !isSelected && selectedIds.length >= 3;
+        const matchesProfile = activeProfileFilter === 'all' || dock.profiles.includes(activeProfileFilter);
+
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = `dock-pill ${isSelected ? 'is-selected' : ''}`;
-        btn.textContent = getDockCode(dock);
+        btn.className = `dock-pill-btn ${isSelected ? 'is-active' : ''}`;
+        btn.style.opacity = matchesProfile ? '1' : '0.45';
+
+        btn.innerHTML = `
+          <span class="${isSelected ? 'pill-check-indicator' : 'pill-plus-indicator'}">${isSelected ? '✓' : '+'}</span>
+          <span><strong>${dock.code}</strong> &middot; ${dock.title.replace('Desktop Dock', '').replace('Flagship Dual Dock', '').replace('High-Speed Workstation', '').replace('Legacy Peripheral Hub', '').trim()}</span>
+          <span style="font-size: 0.75rem; color: #d4af37;">£${dock.price}</span>
+        `;
+
         btn.onclick = () => toggleDock(dock.id);
-        if (isDisabled) btn.disabled = true;
         container.appendChild(btn);
       });
+
+      const badge = document.getElementById('selector-count-badge');
+      if (badge) {
+        badge.textContent = `${selectedIds.length} of ${DOCKS.length} Active`;
+      }
     }
 
     function toggleDock(id) {
       if (selectedIds.includes(id)) {
         selectedIds = selectedIds.filter(i => i !== id);
       } else {
-        if (selectedIds.length >= 3) {
+        if (selectedIds.length >= 4) {
           selectedIds = [...selectedIds.slice(1), id];
         } else {
           selectedIds.push(id);
@@ -188,45 +266,60 @@
     window.removeDock = function(id) {
       selectedIds = selectedIds.filter(item => item !== id);
       render();
-    }
+    };
 
     window.resetCompareSelection = function() {
-      selectedIds = FALLBACK_DOCKS.slice(0, 3).map(d => d.id);
+      selectedIds = DOCKS.slice(0, 3).map(d => d.id);
       render();
-    }
+    };
+
+    window.filterByLaptopProfile = function(profile) {
+      activeProfileFilter = profile;
+      if (profile !== 'all') {
+        const matchingDocks = DOCKS.filter(d => d.profiles.includes(profile));
+        if (matchingDocks.length > 0) {
+          selectedIds = matchingDocks.map(d => d.id);
+        }
+      }
+      render();
+    };
 
     window.toggleDifferences = function(checked) {
       showDifferencesOnly = checked;
       const container = document.getElementById('compare-matrix-container');
-      if (checked) {
-        container.classList.add('compare-diff-active');
-      } else {
-        container.classList.remove('compare-diff-active');
+      if (container) {
+        if (checked) {
+          container.classList.add('compare-diff-active');
+        } else {
+          container.classList.remove('compare-diff-active');
+        }
       }
       renderTable();
-    }
+    };
 
     function renderTable() {
-      const selectedDocks = FALLBACK_DOCKS.filter(d => selectedIds.includes(d.id));
+      const selectedDocks = DOCKS.filter(d => selectedIds.includes(d.id));
       const headerRow = document.getElementById('compare-header-row');
       const tbody = document.getElementById('compare-table-body');
-      
-      // Update count
-      document.getElementById('compare-count-subtitle').textContent = `Comparing ${selectedDocks.length} models`;
+      const counterSubtitle = document.getElementById('compare-count-subtitle');
 
-      // Keep only first TH (Specifications)
+      if (!headerRow || !tbody) return;
+
+      if (counterSubtitle) {
+        counterSubtitle.textContent = `Comparing ${selectedDocks.length} models`;
+      }
+
       while (headerRow.children.length > 1) {
         headerRow.removeChild(headerRow.lastChild);
       }
 
       selectedDocks.forEach(dock => {
-        const dockCode = getDockCode(dock);
         const th = document.createElement('th');
         th.className = 'th-dock-col';
         th.innerHTML = `
           <div class="dock-header-card">
             <div class="dock-header-top-row">
-              <span class="dock-code-tag">${dockCode} MODEL</span>
+              <span class="dock-code-tag">${dock.code} MODEL</span>
               ${selectedDocks.length > 1 ? `<button type="button" class="dock-remove-btn" onclick="removeDock('${dock.id}')" title="Remove ${dock.title}" aria-label="Remove ${dock.title}">✕</button>` : ''}
             </div>
             <div class="dock-img-box">
@@ -236,6 +329,9 @@
             <div class="dock-header-price-row">
               <span class="dock-header-price">£${dock.price}</span>
               <span class="dock-header-tax-pill">Free UK Delivery</span>
+            </div>
+            <div style="font-size: 0.75rem; color: #fbbf24; font-weight: 500;">
+              ${dock.tag}
             </div>
             <div class="dock-header-actions">
               <a href="/products/${dock.handle}" class="btn-dock-view">
@@ -248,7 +344,6 @@
         headerRow.appendChild(th);
       });
 
-      // Rows
       const specs = [
         {
           id: 'price',
@@ -256,33 +351,40 @@
           getValue: d => d.price,
           render: d => `
             <div>
-              <span style="font-weight: 700; color: #22c55e; font-size: 1.05rem;">£${d.price}</span>
-              <div style="font-size: 0.75rem; color: #94a3b8;">Inc. UK VAT</div>
+              <span style="font-weight: 700; color: #22c55e; font-size: 1.15rem;">£${d.price}</span>
+              <div style="font-size: 0.75rem; color: #94a3b8;">Inc. 20% UK VAT</div>
             </div>
           `
         },
         {
           id: 'host_connector',
-          label: 'Host Interface',
+          label: 'Host Laptop Port',
           getValue: d => d.host_connector,
-          render: d => `<span>${d.host_connector === 'USB-C' ? '⚡ USB-C (Thunderbolt Compatible)' : '🔌 USB-A 3.0'}</span>`
+          render: d => `
+            <div>
+              <strong style="color: ${d.host_connector === 'USB-C' ? '#38bdf8' : '#fbbf24'}; font-size: 1rem;">
+                ${d.host_connector === 'USB-C' ? '⚡ USB-C / Thunderbolt' : '🔌 Standard USB-A 3.0'}
+              </strong>
+              <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 0.2rem;">${d.host_bandwidth}</div>
+            </div>
+          `
         },
         {
           id: 'charging_output',
-          label: 'Laptop Power Delivery',
+          label: 'Laptop Charging (PD)',
           getValue: d => d.dock_charging_output,
           render: d => `
             <div>
               ${d.dock_charging_output > 0 
-                ? `<span style="color: #fbbf24; font-weight: 600;">⚡ ${d.dock_charging_output}W GaN Power Delivery</span>`
-                : `<span style="color: #94a3b8;">Bus-Powered (No Laptop Charge)</span>`
+                ? `<span style="display: inline-flex; align-items: center; gap: 0.3rem; background: rgba(251, 191, 36, 0.12); border: 1px solid rgba(251, 191, 36, 0.3); color: #fbbf24; padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 700; font-size: 0.95rem;">⚡ ${d.dock_charging_output}W Fast Power Delivery</span>`
+                : `<span style="background: rgba(148, 163, 184, 0.1); color: #94a3b8; padding: 0.25rem 0.65rem; border-radius: 6px; font-size: 0.85rem;">Bus-Powered (No Laptop Charge)</span>`
               }
             </div>
           `
         },
         {
           id: 'os_support',
-          label: 'OS Compatibility',
+          label: 'Operating System Compatibility',
           getValue: d => d.supported_operating_systems.join(','),
           render: d => {
             const osStr = d.supported_operating_systems.join(', ').toLowerCase();
@@ -290,31 +392,54 @@
             const hasWin = osStr.includes('win');
             return `
               <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-                ${hasMac ? `<span style="background: rgba(255,255,255,0.08); padding: 0.2rem 0.55rem; border-radius: 4px; font-size: 0.8rem;"> macOS</span>` : ''}
-                ${hasWin ? `<span style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); color: #38bdf8; padding: 0.2rem 0.55rem; font-size: 0.8rem; border-radius: 4px;">⊞ Windows</span>` : ''}
+                ${hasMac ? `<span style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #ffffff; padding: 0.25rem 0.65rem; border-radius: 6px; font-size: 0.82rem; font-weight: 600;"> macOS</span>` : ''}
+                ${hasWin ? `<span style="background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 0.25rem 0.65rem; font-size: 0.82rem; border-radius: 6px; font-weight: 600;">⊞ Windows</span>` : ''}
+                ${!hasMac ? `<span style="font-size: 0.72rem; color: #f87171; display: block; width: 100%; margin-top: 0.2rem;">Not recommended for macOS</span>` : ''}
               </div>
             `;
           }
         },
         {
           id: 'video_outputs',
-          label: 'Video Outputs',
+          label: 'Display Video Ports',
           getValue: d => d.dock_video_outputs.join(','),
-          render: d => d.dock_video_outputs.length ? d.dock_video_outputs.join(' + ') : 'None'
+          render: d => `
+            <div>
+              <div style="color: #f8fafc; font-weight: 600;">${d.dock_video_outputs.join(' &bull; ')}</div>
+              <div style="font-size: 0.78rem; color: #38bdf8; margin-top: 0.25rem;">🖥️ ${d.max_external_displays}</div>
+            </div>
+          `
+        },
+        {
+          id: 'downstream_ports',
+          label: 'Hub & Accessory Ports',
+          getValue: d => d.downstream_ports,
+          render: d => `<span style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.5;">${d.downstream_ports}</span>`
+        },
+        {
+          id: 'power_supply',
+          label: 'Power Supply Included',
+          getValue: d => d.power_supply,
+          render: d => `<span style="font-size: 0.85rem; color: #94a3b8;">${d.power_supply}</span>`
+        },
+        {
+          id: 'cable_type',
+          label: 'In-The-Box Host Cable',
+          getValue: d => d.cable_type,
+          render: d => `<span style="font-size: 0.85rem; color: #cbd5e1;">${d.cable_type}</span>`
         }
       ];
 
       tbody.innerHTML = '';
       specs.forEach(spec => {
-        // Calculate difference
         const vals = new Set(selectedDocks.map(d => spec.getValue(d)));
         const isDiff = vals.size > 1;
 
         const tr = document.createElement('tr');
         tr.className = `compare-row ${isDiff ? 'is-differing' : 'is-identical'}`;
-        
+
         let html = `<td class="td-feature-label">
-          ${isDiff && showDifferencesOnly ? `<span class="diff-sparkle-marker">✨</span>` : ''}
+          ${isDiff ? `<span class="diff-sparkle-marker">✨</span>` : ''}
           <span>${spec.label}</span>
         </td>`;
 
@@ -330,20 +455,24 @@
     function render() {
       const container = document.getElementById('compare-matrix-container');
       const emptyState = document.getElementById('compare-empty-state');
-      
+
       renderPills();
-      
+
       if (selectedIds.length === 0) {
-        container.style.display = 'none';
-        emptyState.style.display = 'flex';
+        if (container) container.style.display = 'none';
+        if (emptyState) emptyState.style.display = 'block';
       } else {
-        container.style.display = 'block';
-        emptyState.style.display = 'none';
+        if (container) container.style.display = 'block';
+        if (emptyState) emptyState.style.display = 'none';
         renderTable();
       }
     }
 
-    document.addEventListener('DOMContentLoaded', render);
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', render);
+    } else {
+      render();
+    }
   })();
 </script>
 
