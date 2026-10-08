@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "nexa-search-page",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -1,0 +1,748 @@
+{%- comment -%}
+  Nexa Modern Search Page Section
+  Obsidian Dark Theme, Fully Responsive, Mobile First, Instant Suggestions
+{%- endcomment -%}
+
+{{ 'nexa-theme.css' | asset_url | stylesheet_tag }}
+
+<div class="nexa-search-page-wrapper">
+  <!-- Ambient background glow -->
+  <div class="nexa-search-glow" aria-hidden="true"></div>
+
+  <div class="nexa-search-inner">
+    <!-- Header / Breadcrumbs -->
+    <div class="nexa-search-breadcrumbs">
+      <a href="{{ routes.root_url }}">Home</a>
+      <span class="sep">/</span>
+      <span class="active">Search Gear</span>
+    </div>
+
+    <!-- Search Hero Box -->
+    <div class="nexa-search-hero">
+      <div class="nexa-search-badge">
+        <span class="badge-dot"></span>
+        <span>Precision Catalog Search</span>
+      </div>
+
+      <h1 class="nexa-search-title">
+        {%- if search.performed and search.terms != blank -%}
+          Search Results for <span class="highlight-query">“{{ search.terms | escape }}”</span>
+        {%- else -%}
+          Find Your Ideal <span class="highlight-query">Desk Setup</span>
+        {%- endif -%}
+      </h1>
+
+      <p class="nexa-search-subtitle">
+        Search our range of dual 4K docks, Thunderbolt hubs, ergonomic stands, and mechanical accessories.
+      </p>
+
+      <!-- Search Input Form -->
+      <form action="{{ routes.search_url }}" method="get" role="search" class="nexa-search-form" id="NexaSearchForm">
+        <input type="hidden" name="type" value="product">
+        <input type="hidden" name="options[prefix]" value="last">
+
+        <div class="nexa-search-input-pill">
+          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+
+          <input
+            type="search"
+            name="q"
+            id="NexaSearchInput"
+            value="{{ search.terms | escape }}"
+            placeholder="Search docks, monitors, 100W charging, laptop stands..."
+            class="nexa-search-input-field"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+            required
+          >
+
+          {%- if search.terms != blank -%}
+            <button
+              type="button"
+              class="nexa-search-clear-btn"
+              onclick="document.getElementById('NexaSearchInput').value=''; document.getElementById('NexaSearchInput').focus();"
+              aria-label="Clear search"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          {%- endif -%}
+
+          <button type="submit" class="nexa-search-submit-btn" aria-label="Submit search">
+            <span>Search</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      </form>
+
+      <!-- Popular Query Chips -->
+      <div class="nexa-popular-chips-wrap">
+        <span class="chips-label">Popular Searches:</span>
+        <div class="chips-list">
+          <a href="{{ routes.search_url }}?type=product&q=D1+Link+65" class="nexa-chip">⚡ D1 Link 65</a>
+          <a href="{{ routes.search_url }}?type=product&q=D2+Link+100" class="nexa-chip">⚡ D2 Link 100</a>
+          <a href="{{ routes.search_url }}?type=product&q=Dual+Monitor" class="nexa-chip">🖥️ Dual Monitor</a>
+          <a href="{{ routes.search_url }}?type=product&q=Dock" class="nexa-chip">🔌 Docks &amp; Hubs</a>
+          <a href="{{ routes.search_url }}?type=product&q=Stand" class="nexa-chip">📐 Laptop Stands</a>
+          <a href="/pages/setup-builder" class="nexa-chip chip-highlight">🎯 Setup Helper</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Section -->
+    <div class="nexa-search-results-section">
+      {%- if search.performed -%}
+        <div class="nexa-results-meta-bar">
+          <div class="results-count-text">
+            {%- if search.results_count == 0 -%}
+              <span>No matching products found for <strong>“{{ search.terms | escape }}”</strong></span>
+            {%- else -%}
+              <span>Found <strong>{{ search.results_count }}</strong> workstation {% if search.results_count == 1 %}product{% else %}products{% endif %}</span>
+            {%- endif -%}
+          </div>
+
+          {%- if search.results_count > 0 -%}
+            <div class="results-actions">
+              <a href="{{ routes.all_products_collection_url }}" class="browse-all-link">
+                View Entire Catalog &rarr;
+              </a>
+            </div>
+          {%- endif -%}
+        </div>
+
+        {%- if search.results_count > 0 -%}
+          {%- paginate search.results by 24 -%}
+            <div class="nexa-search-grid">
+              {%- for item in search.results -%}
+                {%- if item.object_type == 'product' -%}
+                  <div class="nexa-grid-item">
+                    {% render 'nexa-product-card', card_product: item %}
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+
+            {%- if paginate.pages > 1 -%}
+              <div class="nexa-search-pagination">
+                {%- if paginate.previous -%}
+                  <a href="{{ paginate.previous.url }}" class="nexa-page-btn prev">
+                    &larr; Previous
+                  </a>
+                {%- endif -%}
+
+                <span class="nexa-page-current">Page {{ paginate.current_page }} of {{ paginate.pages }}</span>
+
+                {%- if paginate.next -%}
+                  <a href="{{ paginate.next.url }}" class="nexa-page-btn next">
+                    Next &rarr;
+                  </a>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- endpaginate -%}
+
+        {%- else -%}
+          <!-- Empty State -->
+          <div class="nexa-search-empty-card">
+            <div class="empty-icon-ring">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                <line x1="8" y1="11" x2="14" y2="11"></line>
+              </svg>
+            </div>
+            <h2 class="empty-title">We couldn't find matches for “{{ search.terms | escape }}”</h2>
+            <p class="empty-desc">
+              Check your spelling, try broader keywords (e.g. “dock”, “screen”, “cable”), or use our interactive Setup Finder to match your exact laptop model.
+            </p>
+            <div class="empty-actions">
+              <a href="/pages/setup-builder" class="empty-btn-primary">
+                <span>🎯 Interactive Setup Helper</span>
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+              <a href="{{ routes.all_products_collection_url }}" class="empty-btn-secondary">
+                <span>Browse All Workstation Gear</span>
+              </a>
+            </div>
+          </div>
+        {%- endif -%}
+
+      {%- else -%}
+        <!-- Initial landing state before query -->
+        <div class="nexa-search-presearch">
+          <div class="presearch-header">
+            <h3 class="presearch-title">Featured Workstation Gear</h3>
+            <p class="presearch-desc">Frequently ordered single-cable setups engineered for UK professionals</p>
+          </div>
+
+          {%- assign featured_collection = collections['all'] | default: collections['all-products'] -%}
+          {%- if featured_collection and featured_collection.products_count > 0 -%}
+            <div class="nexa-search-grid">
+              {%- for product in featured_collection.products limit: 6 -%}
+                <div class="nexa-grid-item">
+                  {% render 'nexa-product-card', card_product: product %}
+                </div>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Nexa Precision Search Page Styles - Fully Responsive & Dark Luxury */
+  .nexa-search-page-wrapper {
+    position: relative;
+    background-color: #030712;
+    color: #f8fafc;
+    min-height: 80vh;
+    padding: 2.5rem 1.25rem 5rem;
+    overflow: hidden;
+  }
+
+  .nexa-search-glow {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 1000px;
+    height: 400px;
+    background: radial-gradient(ellipse at top, rgba(16, 185, 129, 0.12) 0%, rgba(56, 189, 248, 0.06) 50%, transparent 80%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .nexa-search-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1300px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .nexa-search-breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: #64748b;
+    margin-bottom: 2rem;
+  }
+
+  .nexa-search-breadcrumbs a {
+    color: #94a3b8;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nexa-search-breadcrumbs a:hover {
+    color: #38bdf8;
+  }
+
+  .nexa-search-breadcrumbs .sep {
+    color: #475569;
+  }
+
+  .nexa-search-breadcrumbs .active {
+    color: #e2e8f0;
+    font-weight: 500;
+  }
+
+  /* Hero Section */
+  .nexa-search-hero {
+    text-align: center;
+    max-width: 780px;
+    margin: 0 auto 3.5rem;
+    padding: 0 0.5rem;
+  }
+
+  .nexa-search-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #10b981;
+    margin-bottom: 1.25rem;
+  }
+
+  .nexa-search-badge .badge-dot {
+    width: 6px;
+    height: 6px;
+    background: #10b981;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #10b981;
+    animation: nexaSearchPulse 2s infinite;
+  }
+
+  @keyframes nexaSearchPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+  }
+
+  .nexa-search-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: #ffffff;
+    margin: 0 0 1rem;
+  }
+
+  .nexa-search-title .highlight-query {
+    background: linear-gradient(135deg, #d4af37 0%, #38bdf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .nexa-search-subtitle {
+    font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+    color: #94a3b8;
+    line-height: 1.6;
+    margin: 0 auto 2rem;
+    max-width: 620px;
+  }
+
+  /* Search Pill Bar */
+  .nexa-search-form {
+    margin: 0 auto 1.5rem;
+    width: 100%;
+    max-width: 680px;
+  }
+
+  .nexa-search-input-pill {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #0b1528;
+    border: 1.5px solid rgba(56, 189, 248, 0.28);
+    border-radius: 9999px;
+    padding: 0.45rem 0.55rem 0.45rem 1.25rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(56, 189, 248, 0.08);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .nexa-search-input-pill:focus-within {
+    border-color: #38bdf8;
+    background: #0f1e38;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5), 0 0 0 3px rgba(56, 189, 248, 0.25);
+  }
+
+  .nexa-search-input-pill .search-icon {
+    color: #38bdf8;
+    flex-shrink: 0;
+    margin-right: 0.75rem;
+  }
+
+  .nexa-search-input-field {
+    flex: 1;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    color: #ffffff !important;
+    font-size: 1rem !important;
+    line-height: 1.4 !important;
+    padding: 0.5rem 0 !important;
+    min-width: 0;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .nexa-search-input-field::placeholder {
+    color: #64748b;
+    font-weight: 400;
+  }
+
+  .nexa-search-clear-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.08);
+    border: none;
+    color: #94a3b8;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    margin: 0 0.5rem;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .nexa-search-clear-btn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    color: #f87171;
+  }
+
+  .nexa-search-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #ffffff;
+    font-size: 0.92rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 9999px;
+    padding: 0.72rem 1.4rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
+    flex-shrink: 0;
+  }
+
+  .nexa-search-submit-btn:hover {
+    background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+  }
+
+  /* Chips */
+  .nexa-popular-chips-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.65rem;
+    margin-top: 1.25rem;
+  }
+
+  .chips-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #64748b;
+  }
+
+  .chips-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .nexa-chip {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #cbd5e1;
+    background: #0d1a2d;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0.32rem 0.85rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .nexa-chip:hover {
+    background: rgba(56, 189, 248, 0.15);
+    border-color: #38bdf8;
+    color: #ffffff;
+    transform: translateY(-1px);
+  }
+
+  .nexa-chip.chip-highlight {
+    background: rgba(212, 175, 55, 0.12);
+    border-color: rgba(212, 175, 55, 0.4);
+    color: #fcd34d;
+    font-weight: 600;
+  }
+
+  .nexa-chip.chip-highlight:hover {
+    background: rgba(212, 175, 55, 0.22);
+    border-color: #d4af37;
+    color: #ffffff;
+  }
+
+  /* Results Meta Bar */
+  .nexa-results-meta-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .results-count-text {
+    font-size: 0.95rem;
+    color: #94a3b8;
+  }
+
+  .results-count-text strong {
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .browse-all-link {
+    color: #38bdf8;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .browse-all-link:hover {
+    color: #7dd3fc;
+    text-decoration: underline;
+  }
+
+  /* Search Results Grid */
+  .nexa-search-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.75rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .nexa-grid-item {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .nexa-grid-item .fluid-product-card-wrap {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Presearch Section */
+  .nexa-search-presearch {
+    margin-top: 2rem;
+  }
+
+  .presearch-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .presearch-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.35rem;
+  }
+
+  .presearch-desc {
+    font-size: 0.92rem;
+    color: #94a3b8;
+  }
+
+  /* Empty State Card */
+  .nexa-search-empty-card {
+    text-align: center;
+    max-width: 620px;
+    margin: 3rem auto;
+    padding: 3.5rem 2rem;
+    background: #081426;
+    border: 1px solid rgba(56, 189, 248, 0.15);
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  }
+
+  .empty-icon-ring {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: rgba(56, 189, 248, 0.08);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    color: #38bdf8;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .empty-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .empty-desc {
+    color: #94a3b8;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .empty-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    justify-content: center;
+  }
+
+  .empty-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.6rem;
+    background: linear-gradient(135deg, #d4af37 0%, #f59e0b 100%);
+    color: #030712;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.35);
+  }
+
+  .empty-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+  }
+
+  .empty-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.85rem 1.6rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #e2e8f0;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .empty-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+  }
+
+  /* Pagination */
+  .nexa-search-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 3rem 0;
+  }
+
+  .nexa-page-btn {
+    padding: 0.65rem 1.25rem;
+    background: #0b182b;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #cbd5e1;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .nexa-page-btn:hover {
+    background: #10233f;
+    border-color: #38bdf8;
+    color: #ffffff;
+  }
+
+  .nexa-page-current {
+    font-size: 0.88rem;
+    color: #94a3b8;
+  }
+
+  /* Responsive Breakpoints */
+  @media (max-width: 1024px) {
+    .nexa-search-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .nexa-search-page-wrapper {
+      padding: 1.75rem 1rem 4rem;
+    }
+
+    .nexa-search-hero {
+      margin-bottom: 2.25rem;
+    }
+
+    .nexa-search-input-pill {
+      padding: 0.35rem 0.45rem 0.35rem 1rem;
+    }
+
+    .nexa-search-input-field {
+      font-size: 0.92rem !important;
+    }
+
+    .nexa-search-submit-btn {
+      padding: 0.62rem 1.1rem;
+      font-size: 0.86rem;
+    }
+
+    .chips-label {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 0.25rem;
+    }
+
+    .nexa-results-meta-bar {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .nexa-search-grid {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    .empty-actions {
+      flex-direction: column;
+    }
+
+    .nexa-search-input-pill .search-icon {
+      width: 18px;
+      height: 18px;
+      margin-right: 0.5rem;
+    }
+
+    .nexa-search-submit-btn span {
+      display: inline;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Nexa Search Page",
+  "tag": "section",
+  "class": "section",
+  "settings": []
+}
+{% endschema %}
