@@ -305,6 +305,22 @@
 </div>
 
 <script>
+  function openFilterDrawer() {
+    var sidebar = document.querySelector(".faceted-filter-sidebar");
+    var overlay = document.querySelector(".filter-drawer-overlay");
+    if (sidebar) sidebar.classList.add("mobile-drawer-open");
+    if (overlay) overlay.classList.add("is-active");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeFilterDrawer() {
+    var sidebar = document.querySelector(".faceted-filter-sidebar");
+    var overlay = document.querySelector(".filter-drawer-overlay");
+    if (sidebar) sidebar.classList.remove("mobile-drawer-open");
+    if (overlay) overlay.classList.remove("is-active");
+    document.body.style.overflow = "";
+  }
+
   function toggleFilterAccordion(id) {
     const el = document.getElementById(id);
     const chevron = el.querySelector('.accordion-chevron');

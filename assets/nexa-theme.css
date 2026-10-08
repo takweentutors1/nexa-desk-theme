@@ -954,7 +954,7 @@ button.reset:hover:not(:has(> *)) {
   border-radius: 16px;
   box-shadow: 0 16px 36px -4px rgba(0, 0, 0, 0.12), 0 4px 14px -2px rgba(0, 0, 0, 0.04);
   padding: 0.65rem;
-  min-width: 320px;
+  min-width: 88vw; max-width: 360px;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -4123,7 +4123,7 @@ button.reset:hover:not(:has(> *)) {
     width: 140px;
   }
   .kinetic-cable-wrapper {
-    width: 320px;
+    width: 88vw; max-width: 360px;
   }
   .stage-controls-right {
     width: 100%;
@@ -9366,7 +9366,7 @@ button.reset:hover:not(:has(> *)) {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 320px;
+  max-width: 88vw; max-width: 360px;
 }
 
 .sticky-bar-variant-info {
@@ -17096,7 +17096,7 @@ button.reset:hover:not(:has(> *)) {
     position: fixed;
     top: 0;
     left: 0;
-    width: 320px;
+    width: 88vw; max-width: 360px;
     height: 100vh;
     max-height: 100vh;
     background: #0b0f19;
