@@ -938,6 +938,12 @@ button.reset:hover:not(:has(> *)) {
   pointer-events: none;
 }
 
+/* Align first nav dropdown to left so it does not overflow viewport */
+.header-menu-desktop > .nav-item-dropdown-wrapper:first-child .dropdown-flyout-menu {
+  left: 0;
+  transform: translateX(0) translateY(8px);
+}
+
 .nav-item-dropdown-wrapper:hover .dropdown-flyout-menu,
 .nav-item-dropdown-wrapper.is-open .dropdown-flyout-menu {
   opacity: 1;
@@ -946,33 +952,48 @@ button.reset:hover:not(:has(> *)) {
   pointer-events: auto;
 }
 
+.header-menu-desktop > .nav-item-dropdown-wrapper:first-child:hover .dropdown-flyout-menu,
+.header-menu-desktop > .nav-item-dropdown-wrapper:first-child.is-open .dropdown-flyout-menu {
+  transform: translateX(0) translateY(0);
+}
+
 .dropdown-flyout-inner {
-  background: rgba(255, 255, 255, 0.96);
+  background: rgba(15, 23, 42, 0.96);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 0, 0, 0.09);
-  border-radius: 16px;
-  box-shadow: 0 16px 36px -4px rgba(0, 0, 0, 0.12), 0 4px 14px -2px rgba(0, 0, 0, 0.04);
-  padding: 0.65rem;
-  min-width: 88vw; max-width: 360px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  box-shadow: 0 20px 48px -6px rgba(0, 0, 0, 0.65), 0 0 20px rgba(56, 189, 248, 0.08);
+  padding: 0.85rem;
+  width: 580px;
+  max-width: calc(100vw - 40px);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+/* For smaller dropdowns with fewer items */
+.dropdown-flyout-inner:has(> .dropdown-sub-card:nth-last-child(-n+2):first-child) {
+  width: 380px;
+  grid-template-columns: 1fr;
+}
+
+.dropdown-sub-card {
+  padding: 0.75rem 0.95rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  text-decoration: none;
+  transition: all 160ms ease;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
 }
 
-.dropdown-sub-card {
-  padding: 0.6rem 0.85rem;
-  border-radius: 10px;
-  text-decoration: none;
-  transition: all 160ms ease;
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-
 .dropdown-sub-card:hover {
-  background: rgba(0, 0, 0, 0.04);
-  transform: translateX(2px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(56, 189, 248, 0.35);
+  transform: translateY(-1px);
 }
 
 .dropdown-sub-header {
@@ -983,7 +1004,7 @@ button.reset:hover:not(:has(> *)) {
 }
 
 .dropdown-sub-title {
-  color: #0f172a;
+  color: #f8fafc;
   font-size: 0.88rem;
   font-weight: 600;
 }
@@ -991,17 +1012,17 @@ button.reset:hover:not(:has(> *)) {
 .dropdown-sub-badge {
   font-size: 0.68rem;
   font-weight: 700;
-  background: #dcfce7;
-  color: #059669;
-  padding: 0.15rem 0.45rem;
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+  padding: 0.15rem 0.5rem;
   border-radius: 9999px;
-  border: 1px solid rgba(5, 150, 105, 0.2);
+  border: 1px solid rgba(74, 222, 128, 0.3);
 }
 
 .dropdown-sub-desc {
-  color: #64748b;
+  color: #94a3b8;
   font-size: 0.78rem;
-  line-height: 1.35;
+  line-height: 1.4;
   margin: 0;
 }
 
@@ -4123,7 +4144,7 @@ button.reset:hover:not(:has(> *)) {
     width: 140px;
   }
   .kinetic-cable-wrapper {
-    width: 88vw; max-width: 360px;
+    width: 320px;
   }
   .stage-controls-right {
     width: 100%;
@@ -9366,7 +9387,7 @@ button.reset:hover:not(:has(> *)) {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 88vw; max-width: 360px;
+  max-width: 320px;
 }
 
 .sticky-bar-variant-info {
