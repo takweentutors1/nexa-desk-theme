@@ -14,19 +14,23 @@
         
         {%- assign is_setup = false -%}
         {%- assign is_device = false -%}
+        {%- assign is_role = false -%}
         {%- if raw_key_down contains 'setup' or raw_key_down contains 'bundle' -%}
           {%- assign is_setup = true -%}
-        {%- endif -%}
-        {%- if raw_key_down contains 'device' or raw_key_down contains 'profile' -%}
+        {%- elsif raw_key_down contains 'device' or raw_key_down contains 'profile' -%}
           {%- assign is_device = true -%}
+        {%- elsif raw_key_down contains 'role' -%}
+          {%- assign is_role = true -%}
         {%- endif -%}
 
-        <div class="cart-badge-chip {% if is_setup %}chip-setup{% elsif is_device %}chip-device{% else %}chip-meta{% endif %}">
+        <div class="cart-badge-chip {% if is_setup %}chip-setup{% elsif is_device %}chip-device{% elsif is_role %}chip-role{% else %}chip-meta{% endif %}">
           <span class="chip-icon">
             {%- if is_setup -%}
               🖥️
             {%- elsif is_device -%}
               ⚡
+            {%- elsif is_role -%}
+              🎯
             {%- else -%}
               🏷️
             {%- endif -%}

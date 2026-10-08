@@ -1,0 +1,317 @@
+{%- comment -%}
+  Nexa Modern Cart Section
+  High-performance, luxury workstation cart experience matching the Nexa dark theme design system.
+{%- endcomment -%}
+
+<div class="cart-page-wrapper" data-section-id="{{ section.id }}">
+  <!-- Free Shipping Milestone Progress Bar -->
+  <div class="cart-shipping-bar-wrap">
+    {% render 'nexa-free-shipping-bar' %}
+  </div>
+
+  <div class="cart-page-layout">
+    <!-- Left Column: Cart Items -->
+    <div class="cart-left-column">
+      {%- if cart.item_count > 0 -%}
+        <div class="cart-items-container">
+          <div class="cart-header-row">
+            <h1 class="cart-items-heading">Your Workstation Setup ({{ cart.item_count }} {{ cart.item_count | pluralize: 'Item', 'Items' }})</h1>
+            <a href="/collections" class="cart-continue-link">
+              <span>&larr; Continue Shopping</span>
+            </a>
+          </div>
+
+          <!-- Table Header for Desktop -->
+          <div class="cart-table-header" aria-hidden="true">
+            <span class="col-product">PRODUCT</span>
+            <span class="col-qty">QUANTITY</span>
+            <span class="col-total">TOTAL</span>
+          </div>
+
+          <form action="{{ routes.cart_url }}" method="post" id="cart-form" class="cart-form-items">
+            <ul class="cart-items-list" role="list">
+              {%- for item in cart.items -%}
+                <li class="cart-line-item" data-line-index="{{ forloop.index }}">
+                  <div class="cart-item-grid">
+                    <!-- Column 1: Image & Product Details -->
+                    <div class="cart-item-product-col">
+                      <div class="cart-item-image-box">
+                        {%- if item.image -%}
+                          <img
+                            src="{{ item.image | image_url: width: 240 }}"
+                            alt="{{ item.title | escape }}"
+                            width="100"
+                            height="100"
+                            loading="lazy"
+                            class="cart-item-thumb"
+                          >
+                        {%- else -%}
+                          <div class="cart-item-placeholder-icon">⚡</div>
+                        {%- endif -%}
+                      </div>
+
+                      <div class="cart-item-info">
+                        <a href="{{ item.url }}" class="cart-item-title-link">
+                          <h3 class="cart-item-title">{{ item.product.title }}</h3>
+                        </a>
+
+                        {%- unless item.product.has_only_default_variant -%}
+                          <div class="cart-item-variant-label">{{ item.variant.title }}</div>
+                        {%- endunless -%}
+
+                        <!-- Unit Price -->
+                        <div class="cart-item-unit-price">
+                          {%- if item.original_price != item.final_price -%}
+                            <s class="cart-price-strikethrough">{{ item.original_price | money }}</s>
+                            <span class="cart-price-current highlight">{{ item.final_price | money }}</span>
+                          {%- else -%}
+                            <span class="cart-price-current">{{ item.original_price | money }}</span>
+                          {%- endif -%}
+                        </div>
+
+                        <!-- Custom Properties / Badges (Role, Profile, Setup Reference) -->
+                        {% render 'nexa-cart-item-badge', item: item %}
+                      </div>
+                    </div>
+
+                    <!-- Column 2: Quantity Controls -->
+                    <div class="cart-item-qty-col">
+                      <div class="cart-quantity-selector" role="group" aria-label="Quantity for {{ item.title | escape }}">
+                        <a
+                          href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity={{ item.quantity | minus: 1 }}"
+                          class="cart-qty-btn cart-qty-minus"
+                          aria-label="Decrease quantity"
+                          onclick="updateCartItemQty({{ forloop.index }}, {{ item.quantity | minus: 1 }}, event)"
+                        >
+                          &minus;
+                        </a>
+                        <span class="cart-qty-val">{{ item.quantity }}</span>
+                        <a
+                          href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity={{ item.quantity | plus: 1 }}"
+                          class="cart-qty-btn cart-qty-plus"
+                          aria-label="Increase quantity"
+                          onclick="updateCartItemQty({{ forloop.index }}, {{ item.quantity | plus: 1 }}, event)"
+                        >
+                          &#43;
+                        </a>
+                      </div>
+
+                      <!-- Remove Item Link -->
+                      <a
+                        href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0"
+                        class="cart-item-remove-btn"
+                        aria-label="Remove {{ item.title | escape }} from cart"
+                        onclick="updateCartItemQty({{ forloop.index }}, 0, event)"
+                        title="Remove item"
+                      >
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <polyline points="3 6 5 6 21 6"></polyline>
+                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                          <line x1="10" y1="11" x2="10" y2="17"></line>
+                          <line x1="14" y1="11" x2="14" y2="17"></line>
+                        </svg>
+                      </a>
+                    </div>
+
+                    <!-- Column 3: Line Total -->
+                    <div class="cart-item-total-col">
+                      <span class="cart-line-total-price">{{ item.final_line_price | money }}</span>
+                    </div>
+                  </div>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </form>
+        </div>
+      {%- else -%}
+        <!-- Empty Cart State -->
+        <div class="cart-empty-luxury">
+          <div class="cart-empty-visual">
+            <div class="cart-empty-icon-wrap">
+              <svg
+                class="cart-empty-svg"
+                width="42"
+                height="42"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <path d="M16 10a4 4 0 0 1-8 0" />
+              </svg>
+              <span class="cart-empty-pulse-dot"></span>
+            </div>
+          </div>
+
+          <div class="cart-empty-text">
+            <h2 class="cart-empty-heading">Your Workstation Cart is Empty</h2>
+            <p class="cart-empty-desc">
+              You haven't added any high-performance docks, monitors, or ergonomic risers yet.
+            </p>
+          </div>
+
+          <div class="cart-empty-actions">
+            <a href="/pages/find-my-setup" class="cart-empty-btn-primary">
+              <span>Find My Setup (30-Sec Configurator)</span>
+              <span class="cta-arrow">&rarr;</span>
+            </a>
+            <a href="/collections" class="cart-empty-btn-secondary">
+              <span>Browse All Desk Gear</span>
+            </a>
+          </div>
+
+          <div class="cart-empty-perks">
+            <div class="cart-perk-item">
+              <span class="perk-icon">🛡️</span>
+              <span>3-Year Hardware Warranty &amp; Lifetime Technical Support</span>
+            </div>
+            <div class="cart-perk-item">
+              <span class="perk-icon">🚚</span>
+              <span>Free Next-Day UK Delivery on orders over £300</span>
+            </div>
+            <div class="cart-perk-item">
+              <span class="perk-icon">🔄</span>
+              <span>30-Day Hassle-Free Compatibility Returns</span>
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <!-- Right Column: Order Summary & Checkout -->
+    {%- if cart.item_count > 0 -%}
+      <div class="cart-right-column">
+        <div class="cart-summary-box">
+          <h2 class="summary-heading">Order Summary</h2>
+
+          <div class="summary-row-list">
+            <div class="summary-row">
+              <span class="summary-label">Hardware Subtotal</span>
+              <span class="summary-val">{{ cart.total_price | money }}</span>
+            </div>
+
+            <!-- DESK10 Discount Incentive -->
+            {%- assign subtotal_pounds = cart.total_price | divided_by: 100.0 -%}
+            {%- if subtotal_pounds >= 200 -%}
+              {%- assign desk10_discount = cart.total_price | times: 0.1 | round -%}
+              <div class="summary-row discount-row">
+                <span class="summary-label">🏷️ DESK10 Promo Eligible</span>
+                <span class="summary-val highlight-green">-10% at checkout</span>
+              </div>
+            {%- else -%}
+              <div class="desk10-cart-banner">
+                <div class="banner-icon">🏷️</div>
+                <div class="banner-body">
+                  <strong>Save 10% with code DESK10</strong>
+                  <p>Add £{{ 200 | minus: subtotal_pounds | times: 100 | money_without_currency }} more to unlock 10% off entire setup.</p>
+                </div>
+              </div>
+            {%- endif -%}
+
+            <div class="summary-row">
+              <span class="summary-label">UK Tracked Dispatch</span>
+              {%- if subtotal_pounds >= 300 -%}
+                <span class="summary-val free-ship">FREE</span>
+              {%- else -%}
+                <span class="summary-val">£7.95</span>
+              {%- endif -%}
+            </div>
+          </div>
+
+          <div class="summary-divider"></div>
+
+          <div class="summary-total-group">
+            <div class="total-row">
+              <div>
+                <span class="total-title">Total</span>
+                <span class="total-tax-note">Taxes &amp; UK VAT included</span>
+              </div>
+              <div class="total-price-display">
+                {{ cart.total_price | money }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Checkout Action -->
+          <div class="cart-checkout-actions">
+            <form action="{{ routes.cart_url }}" method="post">
+              <button
+                type="submit"
+                name="checkout"
+                class="btn-primary btn-cart-checkout"
+                id="btn-cart-checkout-submit"
+              >
+                <span>🔒 Proceed to Secure Checkout &rarr;</span>
+              </button>
+            </form>
+          </div>
+
+          <!-- Guarantee & Trust Strip -->
+          <div class="cart-trust-strip">
+            <div class="trust-item">
+              <span>🛡️</span>
+              <span>3-Year Warranty</span>
+            </div>
+            <div class="trust-item">
+              <span>🔄</span>
+              <span>30-Day Returns</span>
+            </div>
+            <div class="trust-item">
+              <span>⚡</span>
+              <span>DPD / Royal Mail</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  function updateCartItemQty(lineIndex, newQty, evt) {
+    if (evt) evt.preventDefault();
+    const form = document.getElementById('cart-form');
+    if (!form) return;
+
+    // Show loading state
+    const lineRow = document.querySelector(`[data-line-index="${lineIndex}"]`);
+    if (lineRow) lineRow.style.opacity = '0.5';
+
+    fetch('/cart/change.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        line: lineIndex,
+        quantity: Math.max(0, newQty)
+      })
+    })
+    .then(res => res.json())
+    .then(cart => {
+      // Reload page to reflect fresh calculations and discount state
+      window.location.reload();
+    })
+    .catch(err => {
+      console.error('Cart update error:', err);
+      window.location.reload();
+    });
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Nexa Cart Page",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Nexa Cart Page"
+    }
+  ]
+}
+{% endschema %}
