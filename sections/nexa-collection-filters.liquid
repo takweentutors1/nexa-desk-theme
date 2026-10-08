@@ -291,9 +291,7 @@
         <div class="products-grid">
           {% paginate collection.products by 48 %}
             {%- for product in collection.products -%}
-              {%- if product.available -%}
-                {% render 'nexa-product-card', card_product: product %}
-              {%- endif -%}
+              {% render 'nexa-product-card', card_product: product %}
             {%- else -%}
               <p class="no-products-msg" style="grid-column: 1/-1; padding: 40px; text-align: center;">No products match the selected filters.</p>
             {%- endfor -%}
