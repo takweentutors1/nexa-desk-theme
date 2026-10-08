@@ -65,6 +65,12 @@
         {% section 'nexa-spec-diff-toggle' %}
       {%- elsif request.path == '/pages/compatibility-faq' -%}
         {% section 'nexa-compatibility-faq-page' %}
+      {%- elsif request.path == '/pages/about' -%}
+        {% section 'nexa-about-page' %}
+      {%- elsif request.path contains '/policies/' -%}
+        {% section 'nexa-policy-page' %}
+      {%- elsif request.path contains '/blogs/' -%}
+        {% section 'nexa-journal-page' %}
       {%- else -%}
         {{ content_for_layout }}
       {%- endif -%}

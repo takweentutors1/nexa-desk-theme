@@ -1,0 +1,392 @@
+<div class="nexa-policy-page" data-section-id="{{ section.id }}">
+  <!-- Breadcrumbs -->
+  <nav class="policy-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span class="sep">/</span>
+    <span class="current" id="policy-breadcrumb-title">Store Policies</span>
+  </nav>
+
+  <!-- Hero Header -->
+  <header class="policy-hero-header">
+    <div class="policy-badge-pill" id="policy-badge-pill">
+      <span>🛡️ NEXADESK UK CUSTOMER ASSURANCE</span>
+    </div>
+    <h1 class="policy-hero-title" id="policy-hero-title">Store Policy</h1>
+    <p class="policy-hero-lead" id="policy-hero-lead">
+      Transparent guidelines, UK statutory rights, and guaranteed commitments for our customers.
+    </p>
+
+    <!-- Quick Policy Nav Switcher -->
+    <div class="policy-nav-tabs">
+      <a href="/policies/shipping-policy" class="policy-tab-link" data-policy="shipping-policy">📦 Shipping &amp; Delivery</a>
+      <a href="/policies/refund-policy" class="policy-tab-link" data-policy="refund-policy">🛡️ 30-Day Returns</a>
+      <a href="/policies/privacy-policy" class="policy-tab-link" data-policy="privacy-policy">🔒 Privacy Policy</a>
+      <a href="/policies/terms-of-service" class="policy-tab-link" data-policy="terms-of-service">⚖️ Terms of Service</a>
+    </div>
+  </header>
+
+  <!-- Key Guarantees Triple Card Bar -->
+  <div class="policy-highlights-row" id="policy-highlights-row">
+    <!-- Populated by JS based on active policy -->
+  </div>
+
+  <!-- Main Legal & Policy Content Card -->
+  <article class="policy-content-card">
+    <div class="policy-body-content" id="policy-body-content">
+      <!-- Fallback or dynamic policy content -->
+    </div>
+  </article>
+
+  <!-- Help CTA -->
+  <div class="policy-help-cta">
+    <div class="help-cta-icon">💬</div>
+    <h3>Have a Specific Question About an Order?</h3>
+    <p>Our Northamptonshire customer support desk is available Monday through Friday from 9:00 AM to 5:30 PM GMT.</p>
+    <a href="/pages/contact" class="btn-help-contact">Contact UK Support &rarr;</a>
+  </div>
+</div>
+
+<style>
+  .nexa-policy-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3.5rem 1.5rem 6rem;
+  }
+  .policy-breadcrumb {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+  }
+  .policy-breadcrumb a { color: #94a3b8; text-decoration: none; }
+  .policy-breadcrumb a:hover { color: #d4af37; }
+  .policy-breadcrumb .sep { color: #475569; }
+  .policy-breadcrumb .current { color: #d4af37; font-weight: 600; }
+  .policy-hero-header {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+  }
+  .policy-badge-pill {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(245, 158, 11, 0.05));
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    color: #f8fafc;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 0.4rem 1rem;
+    border-radius: 9999px;
+    margin-bottom: 1.25rem;
+  }
+  .policy-hero-title {
+    font-size: clamp(2.2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin: 0 0 1rem;
+    background: linear-gradient(180deg, #ffffff 40%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .policy-hero-lead {
+    font-size: 1.05rem;
+    color: #94a3b8;
+    line-height: 1.6;
+    margin: 0 0 2rem;
+  }
+  .policy-nav-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    justify-content: center;
+  }
+  .policy-tab-link {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    color: #cbd5e1;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .policy-tab-link:hover {
+    background: rgba(30, 41, 59, 0.9);
+    border-color: rgba(56, 189, 248, 0.4);
+    color: #ffffff;
+  }
+  .policy-tab-link.active {
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(14, 165, 233, 0.15));
+    border-color: #38bdf8;
+    color: #ffffff;
+    box-shadow: 0 0 14px rgba(56, 189, 248, 0.3);
+  }
+  .policy-highlights-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+  }
+  .highlight-card {
+    background: rgba(14, 21, 38, 0.75);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: 14px;
+    padding: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  .highlight-icon { font-size: 2rem; flex-shrink: 0; }
+  .highlight-text h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 0.25rem;
+  }
+  .highlight-text p {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin: 0;
+  }
+  .policy-content-card {
+    background: rgba(14, 21, 38, 0.8);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 18px;
+    padding: 3rem 2.5rem;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.4);
+    margin-bottom: 3.5rem;
+  }
+  .policy-body-content {
+    color: #cbd5e1;
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+  .policy-body-content h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 2rem 0 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+  }
+  .policy-body-content h2:first-child { margin-top: 0; }
+  .policy-body-content p { margin: 0 0 1.25rem; }
+  .policy-body-content ul, .policy-body-content ol {
+    margin: 0 0 1.5rem;
+    padding-left: 1.5rem;
+  }
+  .policy-body-content li { margin-bottom: 0.5rem; }
+  .policy-body-content a { color: #38bdf8; text-decoration: underline; }
+  .policy-help-cta {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.7));
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+  }
+  .help-cta-icon { font-size: 2.2rem; margin-bottom: 0.5rem; }
+  .policy-help-cta h3 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 0.5rem;
+  }
+  .policy-help-cta p {
+    color: #94a3b8;
+    max-width: 550px;
+    margin: 0 auto 1.5rem;
+    font-size: 0.95rem;
+  }
+  .btn-help-contact {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.6rem;
+    background: linear-gradient(135deg, #d4af37, #f59e0b);
+    color: #030712;
+    font-weight: 700;
+    font-size: 0.92rem;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: transform 0.2s;
+  }
+  .btn-help-contact:hover { transform: translateY(-2px); }
+</style>
+
+<script>
+  (function() {
+    const POLICY_DATA = {
+      'shipping-policy': {
+        title: 'UK Shipping & Delivery Policy',
+        badge: '📦 ROYAL MAIL & DPD CARBON-NEUTRAL',
+        lead: 'Transparent UK delivery rates, same-day dispatch cutoffs, and tracked courier services across England, Scotland, Wales, and Northern Ireland.',
+        highlights: [
+          { icon: '📦', title: 'Free Over £300', desc: 'Next-day UK express included on setups' },
+          { icon: '⏰', title: '3:00 PM GMT Cutoff', desc: 'Same-day depot dispatch Monday–Friday' },
+          { icon: '🚚', title: 'Tracked Couriers', desc: 'Live SMS & 1-hour delivery window alerts' }
+        ],
+        body: `
+          <h2>1. Free Fast UK Delivery on Orders Over £300</h2>
+          <p>Every complete workstation bundle and qualifying order of <strong>£300 or more</strong> ships with complimentary <strong>FREE Next-Working-Day Delivery</strong> via Royal Mail Tracked 24 or DPD Carbon-Neutral. For individual accessories or orders under £300, our standard flat-rate tracked delivery is £7.95.</p>
+
+          <h2>2. Same-Day Dispatch Guarantee</h2>
+          <p>All in-stock orders placed before <strong>3:00 PM GMT (Monday–Friday)</strong> are bench-tested, carefully packed in protective recycled packaging, and dispatched the exact same afternoon from our central Northamptonshire fulfilment centre.</p>
+
+          <h2>3. Real-Time Tracking & 1-Hour Time Slots</h2>
+          <ul>
+            <li><strong>Royal Mail Tracked 24:</strong> Delivered in 1 working day with doorstep GPS confirmation and safe-place options.</li>
+            <li><strong>DPD Carbon-Neutral Express:</strong> Pinpoint 1-hour delivery time slot sent via SMS and email on the morning of arrival.</li>
+          </ul>
+
+          <h2>4. Highlands, Islands & Northern Ireland</h2>
+          <p>We deliver across all UK postcodes including Northern Ireland, the Scottish Highlands, and Isle of Man without exorbitant surcharges, typically arriving within 2 working days.</p>
+        `
+      },
+      'refund-policy': {
+        title: '30-Day Risk-Free Desk Trial & Returns',
+        badge: '🛡️ 100% MONEY-BACK SATISFACTION GUARANTEE',
+        lead: 'Experience the clarity of a clean single-cable workspace on your actual desk with zero financial risk.',
+        highlights: [
+          { icon: '🛡️', title: '30-Day Desk Trial', desc: 'Test with your monitors and daily workflow' },
+          { icon: '🏷️', title: 'Pre-Paid Return Labels', desc: 'Free tracked drop-off at Royal Mail or DPD' },
+          { icon: '⚡', title: '3-Day Settlement', desc: 'Fast full refund to original payment card' }
+        ],
+        body: `
+          <h2>1. The 30-Day Risk-Free Desk Trial</h2>
+          <p>We want you to live with your new setup. Unbox your docking station, plug in your monitors, and use it in your daily workflow for a full <strong>30 days</strong>. If it doesn't dramatically simplify your workspace or meet your expectations, return it for a complete 100% refund.</p>
+
+          <h2>2. Free Pre-Paid UK Return Shipping</h2>
+          <p>Returning hardware should never be a hassle:</p>
+          <ol>
+            <li>Contact our support team at <a href="mailto:support@nexadesk.co.uk">support@nexadesk.co.uk</a> or via our contact page.</li>
+            <li>We will email you a prepaid, fully tracked Royal Mail or DPD returns label immediately.</li>
+            <li>Drop off your package at any local Post Office branch or DPD drop-off point.</li>
+          </ol>
+
+          <h2>3. Rapid Refund Processing</h2>
+          <p>Once scanned back into our UK hub, your refund is processed within 3 business days back to your original payment method (Visa, Mastercard, Amex, Apple Pay, PayPal).</p>
+
+          <h2>4. 2-Year Comprehensive Hardware Warranty</h2>
+          <p>Beyond our 30-day trial, every hardware unit is protected by our full <strong>2-Year NexaDesk UK Replacement Warranty</strong> against any electronic faults or power irregularities.</p>
+        `
+      },
+      'privacy-policy': {
+        title: 'Privacy Policy & Data Protection',
+        badge: '🔒 UK GDPR & DATA PROTECTION ACT 2018',
+        lead: 'How NexaDesk Ltd safeguards customer confidentiality, transaction security, and personal information.',
+        highlights: [
+          { icon: '🔒', title: 'UK GDPR Compliant', desc: 'Strict regulatory privacy safeguards' },
+          { icon: '🚫', title: 'Never Sold or Shared', desc: 'Zero third-party marketing brokers' },
+          { icon: '💳', title: '256-Bit SSL', desc: 'Fully encrypted checkout and payment tokens' }
+        ],
+        body: `
+          <h2>1. Commitment to Customer Privacy</h2>
+          <p>NexaDesk Ltd operates in full compliance with the UK Data Protection Act 2018 and the UK General Data Protection Regulation (UK GDPR). We hold customer trust as paramount and never compromise on data security.</p>
+
+          <h2>2. Information We Collect</h2>
+          <p>We only collect the minimum details necessary to complete orders, dispatch shipments, send parcel tracking alerts, and provide warranty assistance: name, delivery address, email, telephone number, and payment confirmation tokens.</p>
+
+          <h2>3. Payment Card Security</h2>
+          <p>Your sensitive card information is never stored on our servers. All payments are encrypted via 256-bit SSL and processed directly by certified Level 1 PCI-DSS providers (Shopify Payments, Apple Pay, Google Pay).</p>
+
+          <h2>4. Your Statutory Rights</h2>
+          <p>Under UK data protection laws, you retain full rights to request access, modification, or erasure of your stored customer records at any time by emailing privacy@nexadesk.co.uk.</p>
+        `
+      },
+      'terms-of-service': {
+        title: 'Terms of Service & Conditions of Sale',
+        badge: '⚖️ REGISTERED IN ENGLAND & WALES',
+        lead: 'Clear, honest business terms governing your purchases, warranties, and orders on NexaDesk.',
+        highlights: [
+          { icon: '⚖️', title: 'English & Welsh Law', desc: 'Statutory UK Consumer Rights Act protection' },
+          { icon: '🔧', title: '2-Year Hardware Warranty', desc: 'Free manufacturer replacement guarantee' },
+          { icon: '💷', title: 'VAT Inclusive Pricing', desc: 'Clear pricing with 20% UK VAT included' }
+        ],
+        body: `
+          <h2>1. Agreement to Terms</h2>
+          <p>These terms govern purchases made through this website from NexaDesk Ltd, a registered UK company. By completing an order, you agree to these transparent terms of sale.</p>
+
+          <h2>2. Comprehensive 2-Year UK Warranty</h2>
+          <p>All docking stations, power supplies, monitor arms, and cables include an unconditional <strong>2-Year UK Hardware Warranty</strong> against defects in materials, assembly, and electronics.</p>
+
+          <h2>3. Transparent Pricing & Invoicing</h2>
+          <p>All prices displayed across the storefront are in British Pounds (£ GBP) and include 20% UK Value Added Tax (VAT). Itemised VAT receipts are automatically emailed upon order completion.</p>
+
+          <h2>4. Statutory Consumer Rights</h2>
+          <p>Nothing in these terms reduces or modifies your statutory consumer rights under the Consumer Rights Act 2015 or Consumer Contracts Regulations.</p>
+        `
+      }
+    };
+
+    function initPolicy() {
+      const path = window.location.pathname;
+      let activeKey = 'shipping-policy';
+      if (path.includes('refund')) activeKey = 'refund-policy';
+      else if (path.includes('privacy')) activeKey = 'privacy-policy';
+      else if (path.includes('terms')) activeKey = 'terms-of-service';
+
+      const data = POLICY_DATA[activeKey];
+      if (!data) return;
+
+      // Update titles
+      document.getElementById('policy-breadcrumb-title').textContent = data.title;
+      document.getElementById('policy-hero-title').textContent = data.title;
+      document.getElementById('policy-badge-pill').innerHTML = `<span>${data.badge}</span>`;
+      document.getElementById('policy-hero-lead').textContent = data.lead;
+      document.getElementById('policy-body-content').innerHTML = data.body;
+
+      // Render highlights
+      const hlContainer = document.getElementById('policy-highlights-row');
+      hlContainer.innerHTML = '';
+      data.highlights.forEach(h => {
+        const card = document.createElement('div');
+        card.className = 'highlight-card';
+        card.innerHTML = `
+          <div class="highlight-icon">${h.icon}</div>
+          <div class="highlight-text">
+            <h4>${h.title}</h4>
+            <p>${h.desc}</p>
+          </div>
+        `;
+        hlContainer.appendChild(card);
+      });
+
+      // Highlight active tab
+      document.querySelectorAll('.policy-tab-link').forEach(link => {
+        if (link.getAttribute('data-policy') === activeKey) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPolicy);
+    } else {
+      initPolicy();
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Nexa Policy Page",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Nexa Policy Page"
+    }
+  ]
+}
+{% endschema %}

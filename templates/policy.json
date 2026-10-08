@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "policy_main": {
+      "type": "nexa-policy-page",
+      "settings": {}
+    }
+  },
+  "order": [
+    "policy_main"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "about_main": {
+      "type": "nexa-about-page",
+      "settings": {}
+    }
+  },
+  "order": [
+    "about_main"
+  ]
+}
