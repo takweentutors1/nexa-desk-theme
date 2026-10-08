@@ -159,6 +159,18 @@
           <div class="docks-selector-grid">
             <!-- D1 -->
             <div class="setup-dock-card" id="dock-card-d1">
+              <div class="dock-img-box">
+                {%- if collections.all.products -%}
+                  {%- assign d1_prod = collections.all.products | where: 'handle', 'd1-link-65' | first -%}
+                  {%- if d1_prod.featured_media -%}
+                    <img src="{{ d1_prod.featured_media | image_url: width: 400 }}" alt="D1 Link 65" loading="lazy" width="400" height="260" class="wiz-card-thumb">
+                  {%- else -%}
+                    <div class="wiz-dock-avatar">⚡</div>
+                  {%- endif -%}
+                {%- else -%}
+                  <div class="wiz-dock-avatar">⚡</div>
+                {%- endif -%}
+              </div>
               <div class="dock-card-header">
                 <span class="dock-role-badge">Full Dock</span>
                 <span class="dock-price">£99.00</span>
@@ -179,6 +191,18 @@
 
             <!-- D2 -->
             <div class="setup-dock-card" id="dock-card-d2">
+              <div class="dock-img-box">
+                {%- if collections.all.products -%}
+                  {%- assign d2_prod = collections.all.products | where: 'handle', 'd2-link-100-silver' | first -%}
+                  {%- if d2_prod.featured_media -%}
+                    <img src="{{ d2_prod.featured_media | image_url: width: 400 }}" alt="D2 Link 100" loading="lazy" width="400" height="260" class="wiz-card-thumb">
+                  {%- else -%}
+                    <div class="wiz-dock-avatar">🖥️</div>
+                  {%- endif -%}
+                {%- else -%}
+                  <div class="wiz-dock-avatar">🖥️</div>
+                {%- endif -%}
+              </div>
               <div class="dock-card-header">
                 <span class="dock-role-badge">Full Dock</span>
                 <span class="dock-price">£120.00</span>
@@ -199,6 +223,18 @@
 
             <!-- D3 -->
             <div class="setup-dock-card" id="dock-card-d3">
+              <div class="dock-img-box">
+                {%- if collections.all.products -%}
+                  {%- assign d3_prod = collections.all.products | where: 'handle', 'd3-pro-100' | first -%}
+                  {%- if d3_prod.featured_media -%}
+                    <img src="{{ d3_prod.featured_media | image_url: width: 400 }}" alt="D3 Pro 100" loading="lazy" width="400" height="260" class="wiz-card-thumb">
+                  {%- else -%}
+                    <div class="wiz-dock-avatar">🚀</div>
+                  {%- endif -%}
+                {%- else -%}
+                  <div class="wiz-dock-avatar">🚀</div>
+                {%- endif -%}
+              </div>
               <div class="dock-card-header">
                 <span class="dock-role-badge">Full Dock</span>
                 <span class="dock-price">£149.00</span>
@@ -219,6 +255,18 @@
 
             <!-- D4 -->
             <div class="setup-dock-card" id="dock-card-d4">
+              <div class="dock-img-box">
+                {%- if collections.all.products -%}
+                  {%- assign d4_prod = collections.all.products | where: 'handle', 'd4-connect-a' | first -%}
+                  {%- if d4_prod.featured_media -%}
+                    <img src="{{ d4_prod.featured_media | image_url: width: 400 }}" alt="D4 Connect A" loading="lazy" width="400" height="260" class="wiz-card-thumb">
+                  {%- else -%}
+                    <div class="wiz-dock-avatar">🔌</div>
+                  {%- endif -%}
+                {%- else -%}
+                  <div class="wiz-dock-avatar">🔌</div>
+                {%- endif -%}
+              </div>
               <div class="dock-card-header">
                 <span class="dock-role-badge">Peripheral Hub</span>
                 <span class="dock-price">£59.00</span>
@@ -250,6 +298,21 @@
           <div class="monitors-selector-grid">
             <!-- M1 -->
             <div class="setup-monitor-card" id="mon-card-m1">
+              <div class="dock-img-box">
+                {%- if collections.all.products -%}
+                  {%- assign m1_prod = collections.all.products | where: 'handle', 'm1-27-inch-hdmi-productivity-monitor' | first -%}
+                  {%- if m1_prod == blank -%}
+                    {%- assign m1_prod = collections.all.products | where: 'handle', 'm1-studio-27' | first -%}
+                  {%- endif -%}
+                  {%- if m1_prod.featured_media -%}
+                    <img src="{{ m1_prod.featured_media | image_url: width: 400 }}" alt="M1 27-inch" loading="lazy" width="400" height="260" class="wiz-card-thumb">
+                  {%- else -%}
+                    <div class="wiz-dock-avatar">🖥️</div>
+                  {%- endif -%}
+                {%- else -%}
+                  <div class="wiz-dock-avatar">🖥️</div>
+                {%- endif -%}
+              </div>
               <div class="monitor-card-header"><span class="monitor-tag">HDMI Ready</span><span class="monitor-price">£145.00</span></div>
               <div class="monitor-title-block">
                 <h3 class="monitor-title">M1 27-inch HDMI Productivity Monitor</h3>
@@ -267,6 +330,21 @@
 
             <!-- M2 -->
             <div class="setup-monitor-card" id="mon-card-m2">
+              <div class="dock-img-box">
+                {%- if collections.all.products -%}
+                  {%- assign m2_prod = collections.all.products | where: 'handle', 'm2-27-inch-displayport-monitor-high-refresh' | first -%}
+                  {%- if m2_prod == blank -%}
+                    {%- assign m2_prod = collections.all.products | where: 'handle', 'm2-view-32' | first -%}
+                  {%- endif -%}
+                  {%- if m2_prod.featured_media -%}
+                    <img src="{{ m2_prod.featured_media | image_url: width: 400 }}" alt="M2 27-inch" loading="lazy" width="400" height="260" class="wiz-card-thumb">
+                  {%- else -%}
+                    <div class="wiz-dock-avatar">🖥️</div>
+                  {%- endif -%}
+                {%- else -%}
+                  <div class="wiz-dock-avatar">🖥️</div>
+                {%- endif -%}
+              </div>
               <div class="monitor-card-header"><span class="monitor-tag">DisplayPort Exclusive</span><span class="monitor-price">£189.00</span></div>
               <div class="monitor-title-block">
                 <h3 class="monitor-title">M2 27-inch DisplayPort High-Refresh Monitor</h3>
@@ -284,6 +362,21 @@
 
             <!-- M3 -->
             <div class="setup-monitor-card" id="mon-card-m3">
+              <div class="dock-img-box">
+                {%- if collections.all.products -%}
+                  {%- assign m3_prod = collections.all.products | where: 'handle', 'm3-27-inch-usb-c-monitor-hdmi-dp' | first -%}
+                  {%- if m3_prod == blank -%}
+                    {%- assign m3_prod = collections.all.products | where: 'handle', 'm3-dual-curved' | first -%}
+                  {%- endif -%}
+                  {%- if m3_prod.featured_media -%}
+                    <img src="{{ m3_prod.featured_media | image_url: width: 400 }}" alt="M3 27-inch" loading="lazy" width="400" height="260" class="wiz-card-thumb">
+                  {%- else -%}
+                    <div class="wiz-dock-avatar">🖥️</div>
+                  {%- endif -%}
+                {%- else -%}
+                  <div class="wiz-dock-avatar">🖥️</div>
+                {%- endif -%}
+              </div>
               <div class="monitor-card-header"><span class="monitor-tag">Universal HDMI &amp; DP</span><span class="monitor-price">£250.00</span></div>
               <div class="monitor-title-block">
                 <h3 class="monitor-title">M3 27-inch Universal Dual-Input Monitor</h3>

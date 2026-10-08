@@ -17414,3 +17414,90 @@ button.reset:hover:not(:has(> *)) {
     gap: 1.25rem;
   }
 }
+
+/* Wizard Setup Dock Cards Enhancements */
+.setup-dock-card .dock-img-box {
+  width: 100%;
+  height: 160px;
+  background: rgba(3, 7, 18, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+}
+
+.setup-dock-card .dock-img-box img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.setup-dock-card:hover .dock-img-box img {
+  transform: scale(1.06);
+}
+
+.wiz-dock-avatar {
+  font-size: 2.75rem;
+  opacity: 0.7;
+}
+
+.docks-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .docks-selector-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Wizard Setup Monitor Cards & Accessory Cards Enhancements */
+.setup-monitor-card .dock-img-box {
+  width: 100%;
+  height: 160px;
+  background: rgba(3, 7, 18, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+}
+
+.setup-monitor-card .dock-img-box img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.setup-monitor-card:hover .dock-img-box img {
+  transform: scale(1.06);
+}
+
+.monitors-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 1100px) {
+  .monitors-selector-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .monitors-selector-grid {
+    grid-template-columns: 1fr;
+  }
+}
