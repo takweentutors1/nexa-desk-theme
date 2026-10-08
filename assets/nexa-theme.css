@@ -18944,3 +18944,20 @@ button.reset:hover:not(:has(> *)) {
     font-size: 0.95rem;
   }
 }
+
+/* Eliminate default Dawn / Shopify announcement bar & "Welcome to our store" banner */
+.announcement-bar-section,
+.announcement-bar,
+#shopify-section-announcement-bar,
+.header__announcement,
+[data-section-type="announcement-bar"],
+[id*="announcement-bar"] {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  overflow: hidden !important;
+}
