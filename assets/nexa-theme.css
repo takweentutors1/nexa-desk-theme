@@ -6421,7 +6421,7 @@ button.reset:hover:not(:has(> *)) {
 /* Responsive Queries for Showcase */
 @media (max-width: 991px) {
   .customer-showcase-section {
-    padding: 4.5rem 1.25rem;
+    padding: 4rem 1.25rem;
   }
 
   .showcase-card-grid {
@@ -6430,15 +6430,16 @@ button.reset:hover:not(:has(> *)) {
   }
 
   .showcase-interactive-stage {
-    height: 360px;
-    max-width: 600px;
+    height: 340px;
+    max-width: 580px;
     margin: 0 auto;
   }
 }
 
 @media (max-width: 768px) {
   .customer-showcase-section {
-    padding: 3.5rem 1rem;
+    padding: 3rem 1rem;
+    overflow-x: clip;
   }
 
   .showcase-header {
@@ -6446,7 +6447,8 @@ button.reset:hover:not(:has(> *)) {
   }
 
   .showcase-title {
-    font-size: 1.75rem;
+    font-size: 1.7rem;
+    word-break: break-word;
   }
 
   .showcase-subtitle {
@@ -6457,170 +6459,293 @@ button.reset:hover:not(:has(> *)) {
   .showcase-main-card {
     padding: 1.25rem 1rem;
     border-radius: 20px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .showcase-card-grid {
     grid-template-columns: 1fr;
-    gap: 1.75rem;
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  .showcase-visual-wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow: visible;
   }
 
   .showcase-interactive-stage {
-    height: 280px;
+    height: 260px;
     width: 100%;
     max-width: 100%;
     border-radius: 16px;
+    position: relative;
     overflow: hidden;
   }
 
   .stage-desk-surface {
     border-radius: 16px;
-    transform-origin: center center;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
   }
 
   .desk-mockup-monitor {
-    width: 180px;
-    height: 110px;
-    top: 12%;
+    width: 160px;
+    height: 100px;
+    top: 10%;
     left: 50%;
     transform: translateX(-50%);
   }
 
   .desk-mockup-laptop {
-    width: 75px;
-    height: 52px;
-    bottom: 20%;
-    left: 10%;
+    width: 70px;
+    height: 48px;
+    bottom: 22%;
+    left: 8%;
   }
 
   .desk-mockup-dock {
-    width: 60px;
-    height: 28px;
-    bottom: 22%;
-    left: 50%;
+    width: 54px;
+    height: 26px;
+    bottom: 24%;
+    left: 48%;
   }
 
   .desk-mockup-keyboard {
-    width: 90px;
-    height: 28px;
+    width: 80px;
+    height: 26px;
     bottom: 12%;
     left: 30%;
   }
 
   .desk-mockup-mouse {
-    width: 24px;
-    height: 34px;
+    width: 22px;
+    height: 30px;
     bottom: 15%;
-    right: 12%;
+    right: 14%;
   }
 
   .desk-cable-line {
-    width: 220px;
-    height: 60px;
-    left: 15%;
-    bottom: 18%;
+    width: 180px;
+    height: 50px;
+    left: 12%;
+    bottom: 20%;
   }
 
-  /* Hotspot popovers on mobile: position smart or centered */
-  .hotspot-popover-card {
-    width: 240px;
-    max-width: calc(100vw - 48px);
-    padding: 0.85rem 1rem;
+  .hotspot-helper-hint {
+    font-size: 0.75rem;
+    text-align: center;
+    line-height: 1.4;
+    padding: 0 0.5rem;
   }
 
-  .hotspot-pin-wrapper.align-right .hotspot-popover-card {
-    right: -20px;
-  }
-
-  .story-quote {
-    font-size: 1.1rem;
-    line-height: 1.5;
-  }
-
-  .story-device-card {
-    padding: 0.65rem 0.85rem;
-  }
-
-  .device-check-pill {
-    white-space: nowrap;
-    font-size: 0.68rem;
-  }
-
-  .story-verified-badge {
-    white-space: normal;
-    line-height: 1.3;
-  }
-
-  .gear-chips-wrap {
-    padding-bottom: 6px;
-  }
-}
-
-@media (max-width: 480px) {
-  .customer-showcase-section {
-    padding: 2.75rem 0.75rem;
-  }
-
-  .showcase-main-card {
-    padding: 1rem 0.85rem;
-    border-radius: 18px;
-  }
-
-  .showcase-title {
-    font-size: 1.5rem;
-  }
-
-  .showcase-interactive-stage {
-    height: 250px;
-  }
-
-  .desk-mockup-monitor {
-    width: 150px;
-    height: 95px;
-  }
-
-  .desk-mockup-laptop {
-    width: 65px;
-    height: 45px;
-    left: 6%;
-  }
-
-  .desk-mockup-keyboard {
-    width: 75px;
-    height: 24px;
-    left: 28%;
-  }
-
-  .desk-mockup-dock {
-    width: 50px;
-    height: 24px;
-  }
-
-  .desk-mockup-mouse {
-    right: 8%;
-  }
-
-  /* Ensure popover doesn't overflow screen horizontally */
-  .hotspot-popover-card {
-    position: fixed;
-    top: auto !important;
-    bottom: 20px !important;
-    left: 50% !important;
-    right: auto !important;
-    transform: translateX(-50%) !important;
-    width: min(320px, calc(100vw - 32px)) !important;
-    z-index: 1000 !important;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.9), 0 0 0 1000px rgba(0,0,0,0.5);
+  .showcase-story-content {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
   }
 
   .story-meta-row {
     flex-wrap: wrap;
     gap: 0.5rem;
+    align-items: center;
   }
 
   .story-verified-badge {
-    font-size: 0.7rem;
+    white-space: normal;
+    line-height: 1.35;
+    font-size: 0.72rem;
+    word-break: break-word;
+  }
+
+  .story-quote {
+    font-size: 1.05rem;
+    line-height: 1.5;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .story-device-card {
+    padding: 0.65rem 0.85rem;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .device-info {
+    min-width: 120px;
+  }
+
+  .device-check-pill {
+    white-space: nowrap;
+    font-size: 0.68rem;
+    padding: 0.2rem 0.55rem;
+  }
+
+  .story-gear-list {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .gear-chips-scroll-container {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .gear-chips-wrap {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-bottom: 2px;
+  }
+
+  .gear-scroll-arrows {
+    display: none;
+  }
+
+  .gear-chip-btn {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.75rem;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  /* Hotspot popovers on mobile: docked nicely at the bottom */
+  .hotspot-popover-card {
+    position: fixed;
+    top: auto !important;
+    bottom: 24px !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    width: min(320px, calc(100vw - 32px)) !important;
+    z-index: 1000 !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9), 0 0 0 1000px rgba(0, 0, 0, 0.5);
   }
 }
+
+@media (max-width: 480px) {
+  .customer-showcase-section {
+    padding: 2.25rem 0.5rem;
+  }
+
+  .showcase-header-pill {
+    font-size: 0.72rem;
+    padding: 0.35rem 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .showcase-title {
+    font-size: 1.4rem;
+    line-height: 1.25;
+  }
+
+  .showcase-subtitle {
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  .showcase-main-card {
+    padding: 1rem 0.75rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .showcase-card-grid {
+    gap: 1.25rem;
+  }
+
+  .showcase-interactive-stage {
+    height: 230px;
+    border-radius: 14px;
+  }
+
+  .desk-mockup-monitor {
+    width: 135px;
+    height: 85px;
+    top: 8%;
+  }
+
+  .desk-mockup-laptop {
+    width: 58px;
+    height: 40px;
+    bottom: 22%;
+    left: 5%;
+  }
+
+  .desk-mockup-keyboard {
+    width: 68px;
+    height: 22px;
+    bottom: 10%;
+    left: 28%;
+  }
+
+  .desk-mockup-dock {
+    width: 46px;
+    height: 22px;
+    bottom: 24%;
+    left: 48%;
+  }
+
+  .desk-mockup-mouse {
+    width: 18px;
+    height: 26px;
+    bottom: 14%;
+    right: 8%;
+  }
+
+  .desk-cable-line {
+    width: 140px;
+    height: 40px;
+    left: 8%;
+    bottom: 22%;
+  }
+
+  .hotspot-pin-btn {
+    width: 30px;
+    height: 30px;
+  }
+
+  .hotspot-center-dot {
+    width: 12px;
+    height: 12px;
+  }
+
+  .story-quote {
+    font-size: 0.98rem;
+    line-height: 1.5;
+  }
+
+  .author-avatar-initials {
+    width: 38px;
+    height: 38px;
+    font-size: 0.95rem;
+  }
+
+  .author-name {
+    font-size: 0.95rem;
+  }
+
+  .author-role {
+    font-size: 0.76rem;
+  }
+
+  .story-device-card {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .device-name {
+    font-size: 0.85rem;
+  }
+}
+
 
 /*
 * --------------------------------------------------
