@@ -80,18 +80,74 @@
         <div class="footer-col newsletter-col">
           <h4 class="footer-col-heading">Get 10% Off Your First Order</h4>
           <p class="footer-newsletter-desc">Join our friendly newsletter for simple desk setup tips, early deals, and an instant 10% discount code.</p>
-          <div class="newsletter-success-box" id="nexa-news-ok" style="display:none">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <span>You're in! Check your inbox for your 10% off code.</span>
-          </div>
+
           {% form 'customer', id: 'nexa-news-form', class: 'footer-newsletter-form' %}
-            <input type="hidden" name="contact[tags]" value="newsletter">
-            <input type="email" name="contact[email]" required placeholder="Enter your email address" class="footer-email-input">
-            <button type="submit" class="footer-submit-btn">Join</button>
+            <input type="hidden" name="contact[tags]" value="newsletter,prospect">
+            
+            {%- if form.posted_successfully? -%}
+              <div class="newsletter-success-box" role="status">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                <div class="success-text-col">
+                  <strong>You're subscribed!</strong>
+                  <span>Use code <code class="inline-code">DESK10</code> at checkout for 10% off.</span>
+                </div>
+              </div>
+            {%- else -%}
+              {%- if form.errors -%}
+                <div class="newsletter-error-box" role="alert">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                  <span>{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</span>
+                </div>
+              {%- endif -%}
+
+              <div class="newsletter-input-group">
+                <div class="newsletter-input-wrapper">
+                  <svg class="mail-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                  <input
+                    type="email"
+                    name="contact[email]"
+                    id="NexaFooterEmail"
+                    value="{{ form.email }}"
+                    placeholder="Enter your email address"
+                    class="footer-email-input"
+                    aria-label="Email address for 10% discount"
+                    autocorrect="off"
+                    autocapitalize="off"
+                    autocomplete="email"
+                    required
+                  >
+                </div>
+                <button type="submit" class="footer-submit-btn" id="nexa-news-submit" aria-label="Join newsletter">
+                  <span>Join</span>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </button>
+              </div>
+            {%- endif -%}
           {% endform %}
+
           <div class="promo-reminder-box">
             <span class="promo-badge">PROMO</span>
-            <span class="promo-copy">Use code <strong>DESK10</strong> for 10% off orders over £200.</span>
+            <span class="promo-copy">Use code <strong class="promo-code-text">DESK10</strong> for 10% off orders over £200.</span>
+            <button type="button" class="promo-copy-btn" onclick="copyPromoCode('DESK10', this)" aria-label="Copy code DESK10">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span>Copy</span>
+            </button>
           </div>
         </div>
       </div>
@@ -128,8 +184,52 @@
     if(el)el.textContent=Math.floor(d/36e5)+'h '+Math.floor((d%36e5)/6e4)+'m';
   }
   tick();setInterval(tick,60000);
-  var f=document.getElementById('nexa-news-form'),ok=document.getElementById('nexa-news-ok');
-  if(f)f.addEventListener('submit',function(e){e.preventDefault();f.style.display='none';ok.style.display='flex';});
+
+  // Copy promo code helper
+  window.copyPromoCode = function(code, triggerBtn) {
+    if (!code) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(code).then(function() {
+        showCopied(triggerBtn);
+      }).catch(function() {
+        fallbackCopy(code, triggerBtn);
+      });
+    } else {
+      fallbackCopy(code, triggerBtn);
+    }
+  };
+
+  function fallbackCopy(text, btn) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); showCopied(btn); } catch(e){}
+    document.body.removeChild(ta);
+  }
+
+  function showCopied(btn) {
+    if (!btn) return;
+    var originalHTML = btn.innerHTML;
+    btn.innerHTML = '<span>✓ Copied!</span>';
+    btn.classList.add('is-copied');
+    setTimeout(function() {
+      btn.innerHTML = originalHTML;
+      btn.classList.remove('is-copied');
+    }, 2000);
+  }
+
+  // Newsletter Form feedback on submit
+  var f = document.getElementById('nexa-news-form');
+  var sBtn = document.getElementById('nexa-news-submit');
+  if (f && sBtn) {
+    f.addEventListener('submit', function() {
+      sBtn.classList.add('is-loading');
+      sBtn.disabled = true;
+    });
+  }
 })();
 </script>
 
