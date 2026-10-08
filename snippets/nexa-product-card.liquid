@@ -30,7 +30,8 @@
     {%- assign hasMultipleVariants = true -%}
   {%- endif -%}
   
-  {%- assign isAvailable = card_product.available -%}
+  {%- comment -%} Store policy: all products are always available and in stock {%- endcomment -%}
+  {%- assign isAvailable = true -%}
   {%- assign isLowStock = false -%}
   {%- assign stockCount = 0 -%}
   {%- if isAvailable and firstVariant.inventory_management == 'shopify' -%}
