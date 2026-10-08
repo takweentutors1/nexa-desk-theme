@@ -17219,16 +17219,18 @@ button.reset:hover:not(:has(> *)) {
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   A. WIZARD STEPPER & BLUEPRINT RESPONSIVE MATRIX
+   A. WIZARD STEPPER & BLUEPRINT RESPONSIVE MATRIX (/pages/setup-builder)
    -------------------------------------------------------------------------- */
 @media (max-width: 992px) {
   .wizard-stepper-navigation {
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 0.85rem;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     justify-content: flex-start;
-    gap: 1.5rem;
+    gap: 0.85rem;
+    border-radius: 14px;
+    margin-bottom: 1.5rem;
   }
 
   .wizard-stepper-navigation::-webkit-scrollbar {
@@ -17241,44 +17243,106 @@ button.reset:hover:not(:has(> *)) {
 
   .stepper-node {
     flex-shrink: 0;
-    padding: 0.4rem 0.5rem;
+    padding: 0.35rem 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .wizard-split-layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .wizard-blueprint-pane {
+    order: -1;
+    margin-bottom: 0.5rem;
+  }
+
+  .blueprint-sticky-container {
+    position: relative;
+    top: 0;
   }
 }
 
 @media (max-width: 640px) {
-  .device-cards-grid {
-    grid-template-columns: 1fr;
-    gap: 0.85rem;
+  .nexa-setup-wizard-root {
+    padding: 1rem 0.75rem 4rem;
+  }
+
+  .pane-header {
+    margin-bottom: 1.25rem;
+  }
+
+  .pane-step-counter {
+    font-size: 0.7rem;
   }
 
   .pane-title {
     font-size: 1.35rem;
+    line-height: 1.25;
   }
 
   .pane-desc {
-    font-size: 0.88rem;
+    font-size: 0.85rem;
+    line-height: 1.45;
   }
 
-  .dock-card-grid,
-  .monitor-card-grid {
+  .device-cards-grid,
+  .docks-selector-grid,
+  .monitors-selector-grid,
+  .accessories-selector-grid {
     grid-template-columns: 1fr !important;
+    gap: 0.85rem;
   }
 
-  .wizard-action-footer {
-    flex-direction: column-reverse;
+  .setup-profile-card,
+  .setup-dock-card,
+  .setup-monitor-card,
+  .accessory-card {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .dock-hardware-specs {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.35rem;
+    padding: 0.5rem;
+  }
+
+  .spec-cell .spec-label {
+    font-size: 0.6rem;
+  }
+
+  .spec-cell .spec-val {
+    font-size: 0.72rem;
+  }
+
+  .review-setup-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .setup-pricing-card {
+    padding: 1.15rem;
+  }
+
+  .wizard-sticky-controls {
+    flex-direction: row;
     gap: 0.75rem;
+    padding: 0.85rem 0;
   }
 
-  .wizard-action-footer button,
-  .wizard-action-footer a {
-    width: 100%;
+  .wizard-sticky-controls button {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+    text-align: center;
     justify-content: center;
   }
 }
 
 @media (max-width: 359px) {
   .nexa-setup-wizard-root {
-    padding: 0.5rem 0.25rem;
+    padding: 0.5rem 0.25rem 3rem;
   }
 
   .setup-profile-card {
@@ -17294,6 +17358,235 @@ button.reset:hover:not(:has(> *)) {
     height: 36px;
   }
 }
+
+/* --------------------------------------------------------------------------
+   A.1 MODERN PRODUCT PAGE RESPONSIVE MATRIX (/products/d1-link-65)
+   -------------------------------------------------------------------------- */
+@media (max-width: 991px) {
+  .pdp-sticky-gallery-wrap {
+    flex-direction: column-reverse;
+    gap: 1rem;
+    position: relative;
+    top: 0;
+  }
+
+  .pdp-thumbnails-rail {
+    flex-direction: row;
+    overflow-x: auto;
+    width: 100%;
+    max-height: none;
+    padding-bottom: 0.5rem;
+    scrollbar-width: none;
+  }
+
+  .pdp-thumbnails-rail::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pdp-thumb-btn {
+    width: 64px;
+    height: 64px;
+    border-radius: 10px;
+  }
+
+  .pdp-main-stage {
+    border-radius: 18px;
+    aspect-ratio: 1 / 1;
+    max-height: 520px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pdp-page-layout {
+    padding: 1.5rem 1rem 4rem;
+    gap: 2rem;
+  }
+
+  .pdp-product-title {
+    font-size: 1.75rem;
+    line-height: 1.2;
+  }
+
+  .pdp-price-rating-row {
+    gap: 0.75rem;
+  }
+
+  .pdp-compatibility-card {
+    border-radius: 14px;
+    margin: 1.25rem 0 0.75rem;
+  }
+
+  .pdp-compat-header {
+    padding: 0.95rem 1.15rem;
+  }
+
+  .compat-header-left {
+    gap: 0.65rem;
+  }
+
+  .compat-header-title h4 {
+    font-size: 0.9rem;
+  }
+
+  .compat-profiles-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .compat-profile-btn {
+    padding: 0.6rem 0.75rem;
+    border-radius: 10px;
+  }
+
+  .pdp-port-explorer-card {
+    border-radius: 14px;
+    margin: 1rem 0;
+  }
+
+  .port-explorer-header {
+    padding: 1rem 1.15rem;
+  }
+
+  .port-blueprint-stage {
+    padding: 1rem 1.15rem;
+  }
+
+  .chassis-diagram-surface {
+    padding: 0.85rem;
+    border-radius: 12px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .chassis-ports-row {
+    min-width: 320px;
+  }
+
+  .benefits-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .benefit-card {
+    padding: 1.25rem;
+  }
+
+  /* Comparison Matrix Fluid Scrolling */
+  .pdp-comparison-matrix-section {
+    padding: 2.5rem 0.5rem;
+    overflow-x: clip;
+  }
+
+  .matrix-table-card {
+    border-radius: 14px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .specs-accordion-container {
+    padding: 0;
+  }
+
+  .spec-accordion-btn {
+    padding: 1rem;
+    font-size: 0.92rem;
+  }
+
+  .specs-dl-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .box-items-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .box-item-card {
+    padding: 1rem 0.75rem;
+  }
+
+  .faq-accordion-list {
+    gap: 0.65rem;
+  }
+
+  .faq-item-card {
+    border-radius: 12px;
+  }
+
+  .faq-item-header {
+    padding: 0.95rem 1.15rem;
+    font-size: 0.92rem;
+  }
+
+  /* Sticky Bottom Bar for Mobile */
+  .sticky-bar-container {
+    padding: 0.65rem 0.85rem;
+    border-radius: 14px 14px 0 0;
+  }
+
+  .sticky-bar-info {
+    gap: 0.6rem;
+  }
+
+  .sticky-bar-thumb {
+    width: 36px;
+    height: 36px;
+  }
+
+  .sticky-bar-product-title {
+    font-size: 0.85rem;
+    max-width: 130px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .sticky-bar-actions {
+    gap: 0.4rem;
+  }
+
+  .sticky-btn-builder {
+    display: none;
+  }
+
+  .sticky-add-to-cart {
+    padding: 0.65rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pdp-main-stage {
+    aspect-ratio: 1 / 1;
+    max-height: 380px;
+  }
+
+  .pdp-image-viewport {
+    padding: 1rem;
+  }
+
+  .pdp-gallery-caption-bar {
+    padding: 0.25rem 0;
+  }
+
+  .caption-features {
+    gap: 0.5rem;
+  }
+
+  .feat-chip {
+    font-size: 0.7rem;
+  }
+
+  .box-items-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sticky-bar-container {
+    padding: 0.5rem 0.65rem;
+  }
+}
+
 
 /* --------------------------------------------------------------------------
    B. COMPARE TABLE (/compare) — FLUID HORIZONTAL TOUCH SCROLLING
