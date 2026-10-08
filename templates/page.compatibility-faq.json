@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "faq_main": {
+      "type": "nexa-compatibility-faq-page",
+      "settings": {}
+    }
+  },
+  "order": [
+    "faq_main"
+  ]
+}

@@ -1,0 +1,585 @@
+<div class="nexa-faq-page" data-section-id="{{ section.id }}">
+  <!-- Hero Section -->
+  <div class="faq-hero">
+    <nav class="faq-breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span class="sep">/</span>
+      <span class="current">Laptop Compatibility & Hardware FAQ</span>
+    </nav>
+    <div class="faq-badge-pill">
+      <span>💡 ZERO-GUESSWORK HARDWARE GUIDE</span>
+    </div>
+    <h1 class="faq-title">Laptop Compatibility & Setup FAQ</h1>
+    <p class="faq-subtitle">
+      Clear, straightforward answers about USB-C Power Delivery, multi-monitor display limits, MacBook dual-screen configurations, and plug types. Everything you need to get your desk right the first time.
+    </p>
+
+    <!-- Quick Category Tabs -->
+    <div class="faq-category-pills">
+      <button type="button" class="faq-cat-btn active" onclick="filterFaqCategory('all', this)">⚡ All Questions</button>
+      <button type="button" class="faq-cat-btn" onclick="filterFaqCategory('laptop-fit', this)">💻 Laptop Fit & USB-C</button>
+      <button type="button" class="faq-cat-btn" onclick="filterFaqCategory('screens', this)">🖥️ Dual Monitors & Displays</button>
+      <button type="button" class="faq-cat-btn" onclick="filterFaqCategory('charging', this)">🔋 Charging & Wattage</button>
+      <button type="button" class="faq-cat-btn" onclick="filterFaqCategory('delivery', this)">📦 UK Delivery & 30-Day Trial</button>
+    </div>
+  </div>
+
+  <div class="faq-content-grid">
+    <!-- Main Accordion List -->
+    <div class="faq-accordion-container">
+
+      <!-- Category: Laptop Fit & USB-C -->
+      <div class="faq-item" data-category="laptop-fit">
+        <button type="button" class="faq-question-btn" onclick="toggleFaq(this)" aria-expanded="true">
+          <span class="faq-q-text">
+            <span class="faq-q-badge badge-fit">Laptop Fit</span>
+            Will a Nexa docking station work with my Windows or MacBook laptop?
+          </span>
+          <span class="faq-chevron-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </span>
+        </button>
+        <div class="faq-answer-panel" style="max-height: 500px;">
+          <div class="faq-answer-inner">
+            <p><strong>Yes!</strong> All Nexa docking stations (D1, D2, D3) utilize industry-standard USB-C and Thunderbolt protocols that are natively supported on:</p>
+            <ul>
+              <li><strong>Apple MacBooks:</strong> M1, M2, M3, M4 (Air and Pro) and Intel MacBooks running macOS Monterey or newer.</li>
+              <li><strong>Windows Laptops:</strong> Dell XPS/Latitude, Lenovo ThinkPad/Yoga, HP Spectre/EliteBook, Microsoft Surface, Asus, and Acer with USB-C or Thunderbolt 3/4.</li>
+              <li><strong>Legacy USB-A PCs:</strong> Compatible with our <strong>D4 Connect A</strong> USB hub.</li>
+            </ul>
+            <p>You do not need to install any custom drivers; your laptop configures all ports automatically within 3 seconds of plugging in.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-category="laptop-fit">
+        <button type="button" class="faq-question-btn" onclick="toggleFaq(this)" aria-expanded="false">
+          <span class="faq-q-text">
+            <span class="faq-q-badge badge-fit">USB-C Check</span>
+            How do I tell if my laptop's USB-C port supports video output and charging?
+          </span>
+          <span class="faq-chevron-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </span>
+        </button>
+        <div class="faq-answer-panel">
+          <div class="faq-answer-inner">
+            <p>Look at the small icon next to your laptop's USB-C port:</p>
+            <div class="port-explanation-cards">
+              <div class="port-card">
+                <span class="port-icon">⚡</span>
+                <strong>Lightning Bolt:</strong> Thunderbolt 3/4 or USB4. Transmits dual 4K video, ultra-fast 40Gbps data, and full laptop charging.
+              </div>
+              <div class="port-card">
+                <span class="port-icon">Ⓓ</span>
+                <strong>DisplayPort (D):</strong> Supports DisplayPort Alternate Mode (video out) and USB-PD charging.
+              </div>
+              <div class="port-card">
+                <span class="port-icon">🔋</span>
+                <strong>Battery Plug:</strong> Supports Power Delivery charging.
+              </div>
+            </div>
+            <p style="margin-top: 1rem;">Not sure? Simply run our <a href="/pages/find-my-setup" style="color: #38bdf8; font-weight: 600;">Find My Setup Quiz</a> and we will verify your laptop automatically.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category: Displays & Dual Screens -->
+      <div class="faq-item" data-category="screens">
+        <button type="button" class="faq-question-btn" onclick="toggleFaq(this)" aria-expanded="false">
+          <span class="faq-q-text">
+            <span class="faq-q-badge badge-screen">Dual Monitors</span>
+            Can I connect two independent extended screens to an Apple Mac?
+          </span>
+          <span class="faq-chevron-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </span>
+        </button>
+        <div class="faq-answer-panel">
+          <div class="faq-answer-inner">
+            <p>Here is the honest breakdown of Apple's display architecture:</p>
+            <ul>
+              <li><strong>Base M1 / M2 / M3 MacBook Air & 13" Pro:</strong> Apple's base chips natively support <strong>1 external display</strong> through a single dock cable (plus the laptop screen). The <strong>D1 Link 65</strong> provides full 4K@60Hz for this setup.</li>
+              <li><strong>MacBook Pro with M-Pro / M-Max Chips:</strong> Natively support <strong>dual and triple extended external displays</strong> at full 4K 60Hz. The <strong>D2 Link 100</strong> and <strong>D3 Pro 100</strong> docks power dual displays effortlessly.</li>
+              <li><strong>Windows Laptops:</strong> Standard Windows machines support MST (Multi-Stream Transport), allowing the <strong>D2 Link 100</strong> to run dual distinct extended desktop screens over a single USB-C cable.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-category="screens">
+        <button type="button" class="faq-question-btn" onclick="toggleFaq(this)" aria-expanded="false">
+          <span class="faq-q-text">
+            <span class="faq-q-badge badge-screen">Resolution</span>
+            What refresh rates and screen resolutions do Nexa monitors support?
+          </span>
+          <span class="faq-chevron-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </span>
+        </button>
+        <div class="faq-answer-panel">
+          <div class="faq-answer-inner">
+            <p>All Nexa monitors (M1, M2, M3, M4) feature high-grade IPS panels with anti-glare coatings:</p>
+            <ul>
+              <li><strong>M1 27" HDMI Monitor (£145):</strong> 1080p Full HD / 75Hz with ultra-sharp text clarity and eye-saver blue light reduction.</li>
+              <li><strong>M2 27" DisplayPort Monitor (£189):</strong> 1440p QHD / 100Hz fluid high-refresh display ideal for coding, data sheets, and multi-window work.</li>
+              <li><strong>M3 27" USB-C Monitor (£250):</strong> 4K Ultra HD IPS panel with direct USB-C single-cable video + 65W charging pass-through.</li>
+              <li><strong>M4 15.6" Portable Monitor (£199):</strong> 1080p FHD USB-C lightweight travel display powered directly by your laptop.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category: Charging & Power Delivery -->
+      <div class="faq-item" data-category="charging">
+        <button type="button" class="faq-question-btn" onclick="toggleFaq(this)" aria-expanded="false">
+          <span class="faq-q-text">
+            <span class="faq-q-badge badge-power">Power & Wattage</span>
+            Do I need 65W or 100W USB-C Power Delivery charging?
+          </span>
+          <span class="faq-chevron-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </span>
+        </button>
+        <div class="faq-answer-panel">
+          <div class="faq-answer-inner">
+            <p>It depends on your laptop model and power requirements:</p>
+            <ul>
+              <li><strong>Choose 65W (D1 Link 65):</strong> Ideal for ultrabooks, 13"–14" laptops, MacBook Air, Dell XPS 13, HP Envy, and business laptops that use 45W–65W chargers.</li>
+              <li><strong>Choose 100W (D2 Link 100 or D3 Pro 100):</strong> Recommended for 15"–16" MacBook Pros, mobile workstation laptops, CAD computers, and gaming rigs that draw up to 90W–100W under heavy workloads.</li>
+            </ul>
+            <p><em>Safety note:</em> All Nexa docks feature intelligent GaN PD negotiation — a 100W dock safely and automatically steps down to deliver 45W or 65W to smaller laptops without overheating.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-category="charging">
+        <button type="button" class="faq-question-btn" onclick="toggleFaq(this)" aria-expanded="false">
+          <span class="faq-q-text">
+            <span class="faq-q-badge badge-power">Cables</span>
+            Are high-speed video cables and UK power bricks included in the box?
+          </span>
+          <span class="faq-chevron-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </span>
+        </button>
+        <div class="faq-answer-panel">
+          <div class="faq-answer-inner">
+            <p><strong>Yes, 100% complete in the box.</strong> We believe you shouldn't have to buy extra cables on Amazon just to set up your desk:</p>
+            <ul>
+              <li><strong>Docks:</strong> Include the dedicated UK power brick + 1.0m braided high-speed 100W host USB-C cable.</li>
+              <li><strong>Monitors:</strong> Include HDMI/DP video cables + UK 3-pin power lead.</li>
+              <li><strong>Bundle kits:</strong> Include all necessary interconnect cables and velcro cable management ties.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category: Delivery & Guarantee -->
+      <div class="faq-item" data-category="delivery">
+        <button type="button" class="faq-question-btn" onclick="toggleFaq(this)" aria-expanded="false">
+          <span class="faq-q-text">
+            <span class="faq-q-badge badge-trust">UK Delivery</span>
+            What are your UK shipping times and return policies?
+          </span>
+          <span class="faq-chevron-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </span>
+        </button>
+        <div class="faq-answer-panel">
+          <div class="faq-answer-inner">
+            <p>We dispatch all orders from our UK logistics hub:</p>
+            <ul>
+              <li><strong>Free Fast UK Delivery:</strong> Free on all complete desk setups and orders over £300 (Royal Mail Tracked 24 / DPD).</li>
+              <li><strong>Standard Delivery:</strong> £7.95 for orders under £300, delivered in 1–2 working days.</li>
+              <li><strong>30-Day Risk-Free Home Trial:</strong> Set it up on your desk and try it for 30 days. If it doesn't fit your workspace or workflow, return it for a 100% refund with free return labels.</li>
+              <li><strong>2-Year Nexa UK Hardware Warranty:</strong> Full replacement guarantee against any hardware faults.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Quick Sidebar Widget -->
+    <aside class="faq-sidebar">
+      <div class="faq-card-support">
+        <div class="card-icon">⚡</div>
+        <h3 class="card-title">Still Not Sure About Your Laptop?</h3>
+        <p class="card-desc">
+          Take our interactive 30-second setup finder quiz. We check your laptop specs and build the guaranteed compatible bundle.
+        </p>
+        <a href="/pages/find-my-setup" class="btn-quiz-cta">
+          <span>Launch Setup Finder Quiz</span>
+          <span aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+
+      <div class="faq-card-support card-secondary">
+        <div class="card-icon">⚖️</div>
+        <h3 class="card-title">Compare Dock Specs</h3>
+        <p class="card-desc">
+          View side-by-side ports, wattage, resolution limits, and prices for D1, D2, D3, and D4.
+        </p>
+        <a href="/pages/compare-docks" class="btn-compare-cta">
+          <span>Compare Docks Side-by-Side &rarr;</span>
+        </a>
+      </div>
+
+      <div class="faq-card-support card-contact">
+        <div class="card-icon">💬</div>
+        <h3 class="card-title">Need UK Human Advice?</h3>
+        <p class="card-desc">
+          Have an unusual corporate laptop or dual-monitor setup? Speak directly to our UK desk specialists.
+        </p>
+        <a href="/pages/contact" class="btn-contact-cta">
+          <span>Contact UK Support</span>
+        </a>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<style>
+  .nexa-faq-page {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 3.5rem 1.5rem 6rem;
+  }
+  .faq-hero {
+    text-align: center;
+    max-width: 820px;
+    margin: 0 auto 3.5rem;
+  }
+  .faq-breadcrumb {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    margin-bottom: 1.25rem;
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+  }
+  .faq-breadcrumb a {
+    color: #94a3b8;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .faq-breadcrumb a:hover {
+    color: #d4af37;
+  }
+  .faq-breadcrumb .sep { color: #475569; }
+  .faq-breadcrumb .current { color: #d4af37; font-weight: 600; }
+  .faq-badge-pill {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(245, 158, 11, 0.05));
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    color: #f8fafc;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 0.4rem 1rem;
+    border-radius: 9999px;
+    margin-bottom: 1rem;
+  }
+  .faq-title {
+    font-size: clamp(2.2rem, 4.5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin: 0 0 1rem;
+    background: linear-gradient(180deg, #ffffff 40%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .faq-subtitle {
+    font-size: 1.05rem;
+    color: #94a3b8;
+    line-height: 1.65;
+    margin: 0 0 2rem;
+  }
+  .faq-category-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+  .faq-cat-btn {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    color: #cbd5e1;
+    padding: 0.5rem 1.1rem;
+    border-radius: 9999px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .faq-cat-btn:hover {
+    background: rgba(30, 41, 59, 0.9);
+    border-color: rgba(56, 189, 248, 0.4);
+    color: #ffffff;
+  }
+  .faq-cat-btn.active {
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(14, 165, 233, 0.15));
+    border-color: #38bdf8;
+    color: #ffffff;
+    box-shadow: 0 0 14px rgba(56, 189, 248, 0.3);
+  }
+  .faq-content-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  @media (min-width: 960px) {
+    .faq-content-grid {
+      grid-template-columns: 2fr 1fr;
+    }
+  }
+  .faq-accordion-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .faq-item {
+    background: rgba(14, 21, 38, 0.75);
+    border: 1px solid rgba(56, 189, 248, 0.18);
+    border-radius: 14px;
+    overflow: hidden;
+    backdrop-filter: blur(12px);
+    transition: all 0.25s ease;
+  }
+  .faq-item:hover {
+    border-color: rgba(56, 189, 248, 0.35);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+  .faq-question-btn {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    color: #f8fafc;
+  }
+  .faq-q-text {
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.4;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .faq-q-badge {
+    align-self: flex-start;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.15rem 0.55rem;
+    border-radius: 9999px;
+  }
+  .badge-fit { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+  .badge-screen { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+  .badge-power { background: rgba(251, 191, 36, 0.15); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.3); }
+  .badge-trust { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+  .faq-chevron-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+  }
+  .faq-question-btn[aria-expanded="true"] .faq-chevron-icon {
+    transform: rotate(180deg);
+    color: #d4af37;
+  }
+  .faq-answer-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
+  }
+  .faq-answer-inner {
+    padding: 0 1.5rem 1.5rem;
+    color: #cbd5e1;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    border-top: 1px solid rgba(148, 163, 184, 0.1);
+    margin-top: 0.25rem;
+    padding-top: 1.25rem;
+  }
+  .faq-answer-inner p { margin: 0 0 0.85rem; }
+  .faq-answer-inner ul {
+    margin: 0 0 1rem;
+    padding-left: 1.25rem;
+  }
+  .faq-answer-inner li {
+    margin-bottom: 0.4rem;
+  }
+  .port-explanation-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+    margin: 1rem 0;
+  }
+  .port-card {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    border-radius: 10px;
+    padding: 0.85rem;
+    font-size: 0.85rem;
+    line-height: 1.45;
+  }
+  .port-card .port-icon {
+    font-size: 1.2rem;
+    display: block;
+    margin-bottom: 0.35rem;
+  }
+  .faq-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .faq-card-support {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.85), rgba(30, 41, 59, 0.6));
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 16px;
+    padding: 1.75rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+  .faq-card-support.card-secondary {
+    border-color: rgba(56, 189, 248, 0.25);
+  }
+  .faq-card-support.card-contact {
+    border-color: rgba(148, 163, 184, 0.2);
+  }
+  .faq-card-support .card-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+  .faq-card-support .card-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 0.5rem;
+  }
+  .faq-card-support .card-desc {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    line-height: 1.55;
+    margin: 0 0 1.25rem;
+  }
+  .btn-quiz-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.85rem 1.25rem;
+    background: linear-gradient(135deg, #d4af37, #f59e0b);
+    color: #030712;
+    font-weight: 700;
+    font-size: 0.92rem;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: transform 0.2s;
+  }
+  .btn-quiz-cta:hover { transform: translateY(-2px); }
+  .btn-compare-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    color: #38bdf8;
+    font-weight: 600;
+    font-size: 0.88rem;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-compare-cta:hover {
+    background: #38bdf8;
+    color: #030712;
+  }
+  .btn-contact-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #e2e8f0;
+    font-weight: 600;
+    font-size: 0.88rem;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-contact-cta:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+  }
+</style>
+
+<script>
+  function toggleFaq(btn) {
+    const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+    const panel = btn.nextElementSibling;
+    if (isExpanded) {
+      btn.setAttribute('aria-expanded', 'false');
+      panel.style.maxHeight = null;
+    } else {
+      btn.setAttribute('aria-expanded', 'true');
+      panel.style.maxHeight = panel.scrollHeight + 'px';
+    }
+  }
+
+  function filterFaqCategory(cat, btn) {
+    document.querySelectorAll('.faq-cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const items = document.querySelectorAll('.faq-accordion-container .faq-item');
+    items.forEach(item => {
+      if (cat === 'all' || item.getAttribute('data-category') === cat) {
+        item.style.display = 'block';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  }
+
+  // Pre-expand active items on load
+  document.addEventListener('DOMContentLoaded', function() {
+    const activeBtn = document.querySelector('.faq-question-btn[aria-expanded="true"]');
+    if (activeBtn) {
+      const panel = activeBtn.nextElementSibling;
+      if (panel) panel.style.maxHeight = panel.scrollHeight + 'px';
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Nexa FAQ Page",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Nexa FAQ Page"
+    }
+  ]
+}
+{% endschema %}
