@@ -56,10 +56,11 @@
       </div>
       <div class="toolbar-sort-wrap">
         <span class="sort-label">Sort by:</span>
-        <select class="collection-sort-select">
-          <option>Featured Workstations</option>
-          <option>Price: Low to High</option>
-          <option>Price: High to Low</option>
+        <select class="collection-sort-select" id="collection-sort-select" onchange="handleSortChange(this.value)">
+          <option value="featured">Featured Workstations</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="title-asc">Alphabetical: A-Z</option>
         </select>
       </div>
     </div>
@@ -97,7 +98,7 @@
             <span class="filter-active-pill" id="filter-active-pill" style="display: none;">0 active</span>
           </div>
           <div class="filter-header-actions">
-            <button type="button" class="filter-reset-btn" id="filter-reset-btn" style="display: none;" onclick="window.location.href='{{ collection.url }}'" aria-label="Clear all filters">Reset</button>
+            <button type="button" class="filter-reset-btn" id="filter-reset-btn" style="display: none;" onclick="resetAllFilters()" aria-label="Clear all filters">Reset</button>
           </div>
         </div>
 
@@ -165,7 +166,7 @@
               <div class="wattage-slider-wrap">
                 <div class="wattage-val-display">
                   <span class="wattage-current-badge" id="wattage-val">0W</span>
-                  <button type="button" class="wattage-clear-btn" onclick="document.getElementById('wattage-slider').value=0; document.getElementById('wattage-slider').dispatchEvent(new Event('input'));">Reset</button>
+                  <button type="button" class="wattage-clear-btn" onclick="resetWattage()">Reset</button>
                 </div>
                 <input type="range" min="0" max="140" step="5" class="wattage-range-slider" id="wattage-slider" oninput="document.getElementById('wattage-val').textContent=this.value+'W'; updateFilterParam('minWattage', this.value)" value="0">
                 <div class="wattage-ticks-row">
@@ -303,6 +304,16 @@
 </div>
 
 <script>
+  // Filter state
+  var activeFilters = {
+    os: [],
+    minWattage: 0,
+    ports: [],
+    inStock: false
+  };
+
+  var activeSort = 'featured';
+
   function openFilterDrawer() {
     var sidebar = document.querySelector(".faceted-filter-sidebar");
     var overlay = document.querySelector(".filter-drawer-overlay");
@@ -321,44 +332,235 @@
 
   function toggleFilterAccordion(id) {
     const el = document.getElementById(id);
+    if (!el) return;
     const chevron = el.querySelector('.accordion-chevron');
     if (el.classList.contains('is-open')) {
       el.classList.remove('is-open');
-      chevron.classList.remove('is-rotated');
-      el.querySelector('.filter-accordion-body').style.display = 'none';
+      if (chevron) chevron.classList.remove('is-rotated');
+      const body = el.querySelector('.filter-accordion-body');
+      if (body) body.style.display = 'none';
     } else {
       el.classList.add('is-open');
-      chevron.classList.add('is-rotated');
-      el.querySelector('.filter-accordion-body').style.display = 'block';
+      if (chevron) chevron.classList.add('is-rotated');
+      const body = el.querySelector('.filter-accordion-body');
+      if (body) body.style.display = 'block';
     }
   }
 
   function toggleFilterParam(key, value, btnOrLabelElement) {
-    btnOrLabelElement.classList.toggle('is-selected');
+    if (btnOrLabelElement) {
+      btnOrLabelElement.classList.toggle('is-selected');
+    }
+
+    if (key === 'os') {
+      const idx = activeFilters.os.indexOf(value);
+      if (idx > -1) {
+        activeFilters.os.splice(idx, 1);
+      } else {
+        activeFilters.os.push(value);
+      }
+    } else if (key === 'ports') {
+      const idx = activeFilters.ports.indexOf(value);
+      if (idx > -1) {
+        activeFilters.ports.splice(idx, 1);
+      } else {
+        activeFilters.ports.push(value);
+      }
+    } else if (key === 'inStock') {
+      activeFilters.inStock = !activeFilters.inStock;
+    }
+
     updateActiveCount();
+    applyFiltersAndSort();
+  }
+
+  function updateFilterParam(key, value) {
+    if (key === 'minWattage') {
+      activeFilters.minWattage = parseInt(value, 10) || 0;
+    }
+    updateActiveCount();
+    applyFiltersAndSort();
   }
 
   function setWattage(val, btn) {
-    document.getElementById('wattage-slider').value = val;
-    document.getElementById('wattage-val').textContent = val + 'W';
+    const slider = document.getElementById('wattage-slider');
+    if (slider) slider.value = val;
+    const valDisplay = document.getElementById('wattage-val');
+    if (valDisplay) valDisplay.textContent = val + 'W';
+
     document.querySelectorAll('.wattage-preset-btn').forEach(b => b.classList.remove('is-active'));
-    btn.classList.add('is-active');
+    if (btn) btn.classList.add('is-active');
+
+    activeFilters.minWattage = parseInt(val, 10) || 0;
     updateActiveCount();
+    applyFiltersAndSort();
+  }
+
+  function resetWattage() {
+    const slider = document.getElementById('wattage-slider');
+    if (slider) slider.value = 0;
+    const valDisplay = document.getElementById('wattage-val');
+    if (valDisplay) valDisplay.textContent = '0W';
+    document.querySelectorAll('.wattage-preset-btn').forEach(b => b.classList.remove('is-active'));
+    activeFilters.minWattage = 0;
+    updateActiveCount();
+    applyFiltersAndSort();
+  }
+
+  function resetAllFilters() {
+    activeFilters = {
+      os: [],
+      minWattage: 0,
+      ports: [],
+      inStock: false
+    };
+
+    document.querySelectorAll('.os-pill-btn').forEach(b => b.classList.remove('is-selected'));
+    document.querySelectorAll('.port-toggle-row').forEach(row => {
+      row.classList.remove('is-selected');
+      const chk = row.querySelector('.port-checkbox');
+      if (chk) chk.checked = false;
+    });
+
+    const slider = document.getElementById('wattage-slider');
+    if (slider) slider.value = 0;
+    const valDisplay = document.getElementById('wattage-val');
+    if (valDisplay) valDisplay.textContent = '0W';
+    document.querySelectorAll('.wattage-preset-btn').forEach(b => b.classList.remove('is-active'));
+
+    const sortSelect = document.getElementById('collection-sort-select');
+    if (sortSelect) sortSelect.value = 'featured';
+    activeSort = 'featured';
+
+    updateActiveCount();
+    applyFiltersAndSort();
   }
 
   function updateActiveCount() {
-    let count = document.querySelectorAll('.is-selected').length;
-    if (document.getElementById('wattage-slider').value > 0) count++;
-    
+    let count = 0;
+    count += activeFilters.os.length;
+    count += activeFilters.ports.length;
+    if (activeFilters.minWattage > 0) count += 1;
+    if (activeFilters.inStock) count += 1;
+
     const pill = document.getElementById('filter-active-pill');
     const reset = document.getElementById('filter-reset-btn');
-    if (count > 0) {
-      pill.style.display = 'inline-block';
-      pill.textContent = count + ' active';
-      reset.style.display = 'inline-block';
-    } else {
-      pill.style.display = 'none';
-      reset.style.display = 'none';
+    if (pill) {
+      if (count > 0) {
+        pill.style.display = 'inline-block';
+        pill.textContent = count + ' active';
+      } else {
+        pill.style.display = 'none';
+      }
+    }
+    if (reset) {
+      reset.style.display = count > 0 ? 'inline-block' : 'none';
+    }
+  }
+
+  function handleSortChange(sortVal) {
+    activeSort = sortVal;
+    applyFiltersAndSort();
+  }
+
+  function applyFiltersAndSort() {
+    const grid = document.querySelector('.products-grid');
+    if (!grid) return;
+
+    const cards = Array.from(grid.querySelectorAll('.fluid-product-card-wrap'));
+    if (!cards.length) return;
+
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+      let isVisible = true;
+
+      // 1. OS check
+      if (activeFilters.os.length > 0) {
+        const isApple = card.getAttribute('data-apple') === 'true';
+        const isWindows = card.getAttribute('data-windows') === 'true';
+
+        let matchesOs = false;
+        if (activeFilters.os.includes('macOS') && isApple) matchesOs = true;
+        if (activeFilters.os.includes('Windows') && isWindows) matchesOs = true;
+        if (activeFilters.os.includes('Linux') && (isApple || isWindows)) matchesOs = true;
+
+        if (!matchesOs) isVisible = false;
+      }
+
+      // 2. Wattage check
+      if (isVisible && activeFilters.minWattage > 0) {
+        const wattage = parseInt(card.getAttribute('data-wattage') || '0', 10);
+        if (wattage < activeFilters.minWattage) {
+          isVisible = false;
+        }
+      }
+
+      // 3. Ports check
+      if (isVisible && activeFilters.ports.length > 0) {
+        const portsStr = (card.getAttribute('data-ports') || '').toLowerCase();
+        for (let p of activeFilters.ports) {
+          if (!portsStr.includes(p.toLowerCase())) {
+            isVisible = false;
+            break;
+          }
+        }
+      }
+
+      // 4. In Stock check
+      if (isVisible && activeFilters.inStock) {
+        const isAvail = card.getAttribute('data-available') === 'true';
+        if (!isAvail) isVisible = false;
+      }
+
+      if (isVisible) {
+        card.style.display = '';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    // Sort visible cards
+    cards.sort((a, b) => {
+      if (activeSort === 'price-asc') {
+        const pA = parseFloat(a.getAttribute('data-price') || '0');
+        const pB = parseFloat(b.getAttribute('data-price') || '0');
+        return pA - pB;
+      } else if (activeSort === 'price-desc') {
+        const pA = parseFloat(a.getAttribute('data-price') || '0');
+        const pB = parseFloat(b.getAttribute('data-price') || '0');
+        return pB - pA;
+      } else if (activeSort === 'title-asc') {
+        const tA = (a.getAttribute('data-title') || '').toLowerCase();
+        const tB = (b.getAttribute('data-title') || '').toLowerCase();
+        return tA.localeCompare(tB);
+      }
+      return 0; // featured (original order)
+    });
+
+    cards.forEach(card => grid.appendChild(card));
+
+    // Update count labels in toolbar and sidebar footer
+    const toolbarStats = document.querySelector('.toolbar-stats-text strong');
+    if (toolbarStats) toolbarStats.textContent = visibleCount;
+
+    const footerCount = document.querySelector('.filter-footer-count strong');
+    if (footerCount) footerCount.textContent = visibleCount;
+
+    // Handle empty state message
+    let emptyMsg = grid.querySelector('.no-products-msg');
+    if (visibleCount === 0) {
+      if (!emptyMsg) {
+        emptyMsg = document.createElement('p');
+        emptyMsg.className = 'no-products-msg';
+        emptyMsg.style.cssText = 'grid-column: 1/-1; padding: 40px; text-align: center; color: #94a3b8; font-size: 1.1rem;';
+        emptyMsg.textContent = 'No products match the selected filters.';
+        grid.appendChild(emptyMsg);
+      }
+      emptyMsg.style.display = 'block';
+    } else if (emptyMsg) {
+      emptyMsg.style.display = 'none';
     }
   }
 </script>

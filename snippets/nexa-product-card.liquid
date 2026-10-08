@@ -40,7 +40,22 @@
     {%- endif -%}
   {%- endif -%}
 
-  <div class="fluid-product-card-wrap">
+  {%- capture filter_ports -%}
+    {%- if videoOutputs.size >= 2 or card_product.title contains 'Dual' or card_product.title contains 'dual' -%}Dual Display,{%- endif -%}
+    {%- assign v_out_str = videoOutputs | join: ',' -%}
+    {%- if v_out_str contains 'HDMI' or videoInputs contains 'HDMI' or card_product.description contains 'HDMI' -%}HDMI,{%- endif -%}
+    {%- if v_out_str contains 'DisplayPort' or v_out_str contains 'DP' or videoInputs contains 'DisplayPort' or card_product.description contains 'DisplayPort' -%}DisplayPort,{%- endif -%}
+  {%- endcapture -%}
+
+  <div class="fluid-product-card-wrap"
+    data-title="{{ card_product.title | escape }}"
+    data-price="{{ card_product.price }}"
+    data-available="{{ isAvailable }}"
+    data-wattage="{{ wattage }}"
+    data-apple="{{ isAppleCompatible }}"
+    data-windows="{{ isWindowsCompatible }}"
+    data-ports="{{ filter_ports | strip }}"
+  >
     <div class="fluid-product-card">
       <a
         href="{{ variantUrl }}"
