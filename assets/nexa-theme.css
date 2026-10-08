@@ -17087,3 +17087,75 @@ button.reset:hover:not(:has(> *)) {
 }
 
 
+
+/* Mobile Filter Drawer Styles */
+@media (max-width: 64em) {
+  .faceted-filter-sidebar.mobile-drawer-open {
+    display: flex !important;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 320px;
+    height: 100vh;
+    max-height: 100vh;
+    background: #0b0f19;
+    z-index: 999999;
+    padding: 0;
+    overflow-y: auto;
+    box-shadow: 0 0 40px rgba(0,0,0,0.8);
+  }
+
+  .mobile-filter-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    background: #111827;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  
+  .mobile-filter-close-btn button {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .filter-drawer-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 999998;
+    backdrop-filter: blur(3px);
+  }
+  
+  .filter-drawer-overlay.is-active {
+    display: block !important;
+  }
+  
+  /* Reset padding for the drawer content so it looks nice on mobile */
+  .faceted-filter-sidebar.mobile-drawer-open .sticky-filter-wrapper {
+    padding: 20px;
+  }
+}
+
+@media (min-width: 64.01em) {
+  .mobile-filter-close-btn {
+    display: none !important;
+  }
+  .filter-drawer-overlay {
+    display: none !important;
+  }
+}
