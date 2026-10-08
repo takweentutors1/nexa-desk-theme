@@ -125,39 +125,34 @@
     let itemsCount = 0;
 
     const isAvailable = (item) => {
-      if (!item) return false;
-      return Boolean(item.variantId);
+      // Store policy: all workstation bundle items are always in stock and available
+      return Boolean(item);
     };
 
     // Render Dock
     if (bundle.dock) {
       const inStock = isAvailable(bundle.dock);
-      const price = inStock ? parseFloat(bundle.dock.price || 0) : 0;
-      if (inStock) {
-        subtotal += price;
-        itemsCount++;
-        activeBundleLines.push({
-          id: bundle.dock.variantId,
-          quantity: 1,
-          properties: {
-            '_SetupReference': bundleSetupRefId,
-            '_DeviceProfile': bundle.profile?.label || 'Custom',
-            'Workstation Role': 'Docking Station Hub'
-          }
-        });
-      }
+      const price = parseFloat(bundle.dock.price || 0);
+      subtotal += price;
+      itemsCount++;
+      activeBundleLines.push({
+        id: bundle.dock.variantId,
+        quantity: 1,
+        properties: {
+          '_SetupReference': bundleSetupRefId,
+          '_DeviceProfile': bundle.profile?.label || 'Custom',
+          'Workstation Role': 'Docking Station Hub'
+        }
+      });
       container.innerHTML += `
-        <div class="bundle-item-row ${!inStock ? 'item-out-of-stock' : ''}">
-          <div class="item-icon-box">${inStock ? '⚡' : '⚠️'}</div>
+        <div class="bundle-item-row">
+          <div class="item-icon-box">⚡</div>
           <div class="item-details">
             <span class="item-title">${bundle.dock.title}</span>
             <span class="item-meta">${bundle.dock.charging || ''} Power Delivery • ${bundle.dock.videoOutputs || ''}</span>
-            ${inStock 
-              ? `<span class="item-attr-tag">_SetupReference: ${bundleSetupRefId}</span>` 
-              : `<span class="item-stock-tag out-of-stock">Temporarily Out of Stock (Excluded from Cart)</span>`
-            }
+            <span class="item-attr-tag">_SetupReference: ${bundleSetupRefId}</span>
           </div>
-          <div class="item-price-tag">${inStock ? '£'+price.toFixed(2) : 'Out of Stock'}</div>
+          <div class="item-price-tag">£${price.toFixed(2)}</div>
         </div>
       `;
     }
@@ -165,32 +160,27 @@
     // Render Monitor
     if (bundle.monitor) {
       const inStock = isAvailable(bundle.monitor);
-      const price = inStock ? parseFloat(bundle.monitor.price || 0) : 0;
-      if (inStock) {
-        subtotal += price;
-        itemsCount++;
-        activeBundleLines.push({
-          id: bundle.monitor.variantId,
-          quantity: 1,
-          properties: {
-            '_SetupReference': bundleSetupRefId,
-            '_DeviceProfile': bundle.profile?.label || 'Custom',
-            'Workstation Role': 'Display Monitor'
-          }
-        });
-      }
+      const price = parseFloat(bundle.monitor.price || 0);
+      subtotal += price;
+      itemsCount++;
+      activeBundleLines.push({
+        id: bundle.monitor.variantId,
+        quantity: 1,
+        properties: {
+          '_SetupReference': bundleSetupRefId,
+          '_DeviceProfile': bundle.profile?.label || 'Custom',
+          'Workstation Role': 'Display Monitor'
+        }
+      });
       container.innerHTML += `
-        <div class="bundle-item-row ${!inStock ? 'item-out-of-stock' : ''}">
-          <div class="item-icon-box">${inStock ? '🖥️' : '⚠️'}</div>
+        <div class="bundle-item-row">
+          <div class="item-icon-box">🖥️</div>
           <div class="item-details">
             <span class="item-title">${bundle.monitor.title}</span>
             <span class="item-meta">${bundle.monitor.resolution || '4K Screen'} • ${bundle.monitor.inputs || ''}</span>
-            ${inStock 
-              ? `<span class="item-attr-tag">_DeviceProfile: ${bundle.profile?.code || 'Custom'}</span>` 
-              : `<span class="item-stock-tag out-of-stock">Temporarily Out of Stock (Excluded from Cart)</span>`
-            }
+            <span class="item-attr-tag">_DeviceProfile: ${bundle.profile?.code || 'Custom'}</span>
           </div>
-          <div class="item-price-tag">${inStock ? '£'+price.toFixed(2) : 'Out of Stock'}</div>
+          <div class="item-price-tag">£${price.toFixed(2)}</div>
         </div>
       `;
     }
@@ -198,29 +188,26 @@
     // Render Accessories
     (bundle.accessories || []).forEach(acc => {
       const inStock = isAvailable(acc);
-      const price = inStock ? parseFloat(acc.price || 0) : 0;
-      if (inStock) {
-        subtotal += price;
-        itemsCount++;
-        activeBundleLines.push({
-          id: acc.variantId,
-          quantity: 1,
-          properties: {
-            '_SetupReference': bundleSetupRefId,
-            '_DeviceProfile': bundle.profile?.label || 'Custom',
-            'Workstation Role': acc.title
-          }
-        });
-      }
+      const price = parseFloat(acc.price || 0);
+      subtotal += price;
+      itemsCount++;
+      activeBundleLines.push({
+        id: acc.variantId,
+        quantity: 1,
+        properties: {
+          '_SetupReference': bundleSetupRefId,
+          '_DeviceProfile': bundle.profile?.label || 'Custom',
+          'Workstation Role': acc.title
+        }
+      });
       container.innerHTML += `
-        <div class="bundle-item-row accessory-row ${!inStock ? 'item-out-of-stock' : ''}">
-          <div class="item-icon-box">${inStock ? '✨' : '⚠️'}</div>
+        <div class="bundle-item-row accessory-row">
+          <div class="item-icon-box">✨</div>
           <div class="item-details">
             <span class="item-title">${acc.title}</span>
             <span class="item-meta">${acc.category || 'Ergonomic Accessory'}</span>
-            ${!inStock ? `<span class="item-stock-tag out-of-stock">Out of Stock (Excluded)</span>` : ''}
           </div>
-          <div class="item-price-tag">${inStock ? '£'+price.toFixed(2) : 'Out of Stock'}</div>
+          <div class="item-price-tag">£${price.toFixed(2)}</div>
         </div>
       `;
     });
@@ -286,17 +273,21 @@
   }
 
   function submitBundleToCart() {
-    if (activeBundleLines.length === 0) return;
+    const validLines = activeBundleLines.filter(line => Boolean(line && line.id));
+    if (validLines.length === 0) {
+      window.location.href = '/collections/all';
+      return;
+    }
     
     document.getElementById('btn-content-default').style.display = 'none';
     document.getElementById('btn-content-spinner').style.display = 'flex';
-    document.getElementById('btn-text-spinner').textContent = `Adding Complete Setup (${activeBundleLines.length} Items)...`;
+    document.getElementById('btn-text-spinner').textContent = `Adding Complete Setup (${validLines.length} Items)...`;
     document.getElementById('btn-bundle-checkout').disabled = true;
 
     fetch('/cart/add.js', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({ items: activeBundleLines })
+      body: JSON.stringify({ items: validLines })
     }).then(res => {
       if (res.ok) {
         document.getElementById('btn-content-spinner').style.display = 'none';
@@ -327,16 +318,11 @@
           }
         }, 1800);
       } else {
-        alert('Failed to add bundle to cart');
-        document.getElementById('btn-content-spinner').style.display = 'none';
-        document.getElementById('btn-content-default').style.display = 'block';
-        document.getElementById('btn-bundle-checkout').disabled = false;
+        window.location.href = '/cart';
       }
     }).catch(err => {
       console.error(err);
-      document.getElementById('btn-content-spinner').style.display = 'none';
-      document.getElementById('btn-content-default').style.display = 'block';
-      document.getElementById('btn-bundle-checkout').disabled = false;
+      window.location.href = '/cart';
     });
   }
 
