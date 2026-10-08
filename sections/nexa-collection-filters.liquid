@@ -563,6 +563,13 @@
       emptyMsg.style.display = 'none';
     }
   }
+
+  // Run on initial load to sync state with any pre-filled URL or default inputs
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyFiltersAndSort);
+  } else {
+    applyFiltersAndSort();
+  }
 </script>
 
 {% schema %}
