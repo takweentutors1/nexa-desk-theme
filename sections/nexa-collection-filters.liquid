@@ -168,7 +168,7 @@
                   <span class="wattage-current-badge" id="wattage-val">0W</span>
                   <button type="button" class="wattage-clear-btn" onclick="resetWattage()">Reset</button>
                 </div>
-                <input type="range" min="0" max="140" step="5" class="wattage-range-slider" id="wattage-slider" oninput="document.getElementById('wattage-val').textContent=this.value+'W'; updateFilterParam('minWattage', this.value)" value="0">
+                <input type="range" min="0" max="140" step="5" class="wattage-range-slider" id="wattage-slider" oninput="handleWattageSliderInput(this.value)" value="0">
                 <div class="wattage-ticks-row">
                   <span>0W</span>
                   <span>140W</span>
@@ -382,26 +382,52 @@
     applyFiltersAndSort();
   }
 
+  function syncWattageUI(val) {
+    const numericVal = parseInt(val, 10) || 0;
+    // Update all slider instances (desktop and mobile drawer)
+    document.querySelectorAll('#wattage-slider').forEach(slider => {
+      slider.value = numericVal;
+    });
+    // Update all wattage value badges
+    document.querySelectorAll('#wattage-val').forEach(display => {
+      display.textContent = numericVal + 'W';
+    });
+
+    // Update preset buttons matching the current value
+    document.querySelectorAll('.wattage-preset-btn').forEach(b => {
+      const btnText = b.querySelector('.preset-label') ? b.querySelector('.preset-label').textContent : '';
+      const btnWatts = parseInt(btnText, 10);
+      if (btnWatts === numericVal && numericVal > 0) {
+        b.classList.add('is-active');
+      } else {
+        b.classList.remove('is-active');
+      }
+    });
+  }
+
+  function handleWattageSliderInput(val) {
+    const numericVal = parseInt(val, 10) || 0;
+    syncWattageUI(numericVal);
+    activeFilters.minWattage = numericVal;
+    updateActiveCount();
+    applyFiltersAndSort();
+  }
+
   function setWattage(val, btn) {
-    const slider = document.getElementById('wattage-slider');
-    if (slider) slider.value = val;
-    const valDisplay = document.getElementById('wattage-val');
-    if (valDisplay) valDisplay.textContent = val + 'W';
-
-    document.querySelectorAll('.wattage-preset-btn').forEach(b => b.classList.remove('is-active'));
-    if (btn) btn.classList.add('is-active');
-
-    activeFilters.minWattage = parseInt(val, 10) || 0;
+    const numericVal = parseInt(val, 10) || 0;
+    // If clicking an already active preset, toggle it off to 0W
+    if (btn && btn.classList.contains('is-active')) {
+      resetWattage();
+      return;
+    }
+    syncWattageUI(numericVal);
+    activeFilters.minWattage = numericVal;
     updateActiveCount();
     applyFiltersAndSort();
   }
 
   function resetWattage() {
-    const slider = document.getElementById('wattage-slider');
-    if (slider) slider.value = 0;
-    const valDisplay = document.getElementById('wattage-val');
-    if (valDisplay) valDisplay.textContent = '0W';
-    document.querySelectorAll('.wattage-preset-btn').forEach(b => b.classList.remove('is-active'));
+    syncWattageUI(0);
     activeFilters.minWattage = 0;
     updateActiveCount();
     applyFiltersAndSort();
