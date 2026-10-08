@@ -6419,6 +6419,209 @@ button.reset:hover:not(:has(> *)) {
 }
 
 /* Responsive Queries for Showcase */
+@media (max-width: 991px) {
+  .customer-showcase-section {
+    padding: 4.5rem 1.25rem;
+  }
+
+  .showcase-card-grid {
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+  }
+
+  .showcase-interactive-stage {
+    height: 360px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .customer-showcase-section {
+    padding: 3.5rem 1rem;
+  }
+
+  .showcase-header {
+    margin-bottom: 2rem;
+  }
+
+  .showcase-title {
+    font-size: 1.75rem;
+  }
+
+  .showcase-subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .showcase-main-card {
+    padding: 1.25rem 1rem;
+    border-radius: 20px;
+  }
+
+  .showcase-card-grid {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  .showcase-interactive-stage {
+    height: 280px;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .stage-desk-surface {
+    border-radius: 16px;
+    transform-origin: center center;
+  }
+
+  .desk-mockup-monitor {
+    width: 180px;
+    height: 110px;
+    top: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .desk-mockup-laptop {
+    width: 75px;
+    height: 52px;
+    bottom: 20%;
+    left: 10%;
+  }
+
+  .desk-mockup-dock {
+    width: 60px;
+    height: 28px;
+    bottom: 22%;
+    left: 50%;
+  }
+
+  .desk-mockup-keyboard {
+    width: 90px;
+    height: 28px;
+    bottom: 12%;
+    left: 30%;
+  }
+
+  .desk-mockup-mouse {
+    width: 24px;
+    height: 34px;
+    bottom: 15%;
+    right: 12%;
+  }
+
+  .desk-cable-line {
+    width: 220px;
+    height: 60px;
+    left: 15%;
+    bottom: 18%;
+  }
+
+  /* Hotspot popovers on mobile: position smart or centered */
+  .hotspot-popover-card {
+    width: 240px;
+    max-width: calc(100vw - 48px);
+    padding: 0.85rem 1rem;
+  }
+
+  .hotspot-pin-wrapper.align-right .hotspot-popover-card {
+    right: -20px;
+  }
+
+  .story-quote {
+    font-size: 1.1rem;
+    line-height: 1.5;
+  }
+
+  .story-device-card {
+    padding: 0.65rem 0.85rem;
+  }
+
+  .device-check-pill {
+    white-space: nowrap;
+    font-size: 0.68rem;
+  }
+
+  .story-verified-badge {
+    white-space: normal;
+    line-height: 1.3;
+  }
+
+  .gear-chips-wrap {
+    padding-bottom: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .customer-showcase-section {
+    padding: 2.75rem 0.75rem;
+  }
+
+  .showcase-main-card {
+    padding: 1rem 0.85rem;
+    border-radius: 18px;
+  }
+
+  .showcase-title {
+    font-size: 1.5rem;
+  }
+
+  .showcase-interactive-stage {
+    height: 250px;
+  }
+
+  .desk-mockup-monitor {
+    width: 150px;
+    height: 95px;
+  }
+
+  .desk-mockup-laptop {
+    width: 65px;
+    height: 45px;
+    left: 6%;
+  }
+
+  .desk-mockup-keyboard {
+    width: 75px;
+    height: 24px;
+    left: 28%;
+  }
+
+  .desk-mockup-dock {
+    width: 50px;
+    height: 24px;
+  }
+
+  .desk-mockup-mouse {
+    right: 8%;
+  }
+
+  /* Ensure popover doesn't overflow screen horizontally */
+  .hotspot-popover-card {
+    position: fixed;
+    top: auto !important;
+    bottom: 20px !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    width: min(320px, calc(100vw - 32px)) !important;
+    z-index: 1000 !important;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.9), 0 0 0 1000px rgba(0,0,0,0.5);
+  }
+
+  .story-meta-row {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .story-verified-badge {
+    font-size: 0.7rem;
+  }
+}
+
 /*
 * --------------------------------------------------
 * UI-COL-01: Faceted Search & Discovery Sticky Sidebar
