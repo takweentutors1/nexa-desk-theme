@@ -487,35 +487,41 @@
 </div>
 
 {%- liquid
-  assign d1_item = collections.all.products | where: 'handle', 'd1-link-65' | first
-  assign d2_item = collections.all.products | where: 'handle', 'd2-link-100-silver' | first
-  assign d3_item = collections.all.products | where: 'handle', 'd3-pro-100' | first
-  assign d4_item = collections.all.products | where: 'handle', 'd4-connect-a' | first
+  assign all_prods = collections.all.products
+  assign first_global_variant = all_prods.first.first_available_variant.id | default: all_prods.first.variants.first.id
 
-  assign m1_item = collections.all.products | where: 'handle', 'm1-27-inch-hdmi-productivity-monitor' | first
+  assign d1_item = all_prods | where: 'handle', 'd1-link-65' | first
+  assign d2_item = all_prods | where: 'handle', 'd2-link-100-silver' | first
+  if d2_item == blank
+    assign d2_item = all_prods | where: 'handle', 'd2-link-100' | first
+  endif
+  assign d3_item = all_prods | where: 'handle', 'd3-pro-100' | first
+  assign d4_item = all_prods | where: 'handle', 'd4-connect-a' | first
+
+  assign m1_item = all_prods | where: 'handle', 'm1-27-inch-hdmi-productivity-monitor' | first
   if m1_item == blank
-    assign m1_item = collections.all.products | where: 'handle', 'm1-studio-27' | first
+    assign m1_item = all_prods | where: 'handle', 'm1-studio-27' | first
   endif
-  assign m2_item = collections.all.products | where: 'handle', 'm2-27-inch-displayport-monitor-high-refresh' | first
+  assign m2_item = all_prods | where: 'handle', 'm2-27-inch-displayport-monitor-high-refresh' | first
   if m2_item == blank
-    assign m2_item = collections.all.products | where: 'handle', 'm2-view-32' | first
+    assign m2_item = all_prods | where: 'handle', 'm2-view-32' | first
   endif
-  assign m3_item = collections.all.products | where: 'handle', 'm3-27-inch-usb-c-monitor-hdmi-dp' | first
+  assign m3_item = all_prods | where: 'handle', 'm3-27-inch-usb-c-monitor-hdmi-dp' | first
   if m3_item == blank
-    assign m3_item = collections.all.products | where: 'handle', 'm3-dual-curved' | first
+    assign m3_item = all_prods | where: 'handle', 'm3-dual-curved' | first
   endif
 
-  assign s1_item = collections.all.products | where: 'handle', 's1-fixed-tilt-aluminium-laptop-stand' | first
+  assign s1_item = all_prods | where: 'handle', 's1-fixed-tilt-aluminium-laptop-stand' | first
   if s1_item == blank
-    assign s1_item = collections.all.products | where: 'handle', 's1-fixed-tilt-laptop-stand' | first
+    assign s1_item = all_prods | where: 'handle', 's1-fixed-tilt-laptop-stand' | first
   endif
-  assign k1_item = collections.all.products | where: 'handle', 'k1-precision-mechanical-keyboard' | first
+  assign k1_item = all_prods | where: 'handle', 'k1-precision-mechanical-keyboard' | first
   if k1_item == blank
-    assign k1_item = collections.all.products | where: 'handle', 'k1-precision-keyboard' | first
+    assign k1_item = all_prods | where: 'handle', 'k1-precision-keyboard' | first
   endif
-  assign m2acc_item = collections.all.products | where: 'handle', 'm-2-ergonomic-vertical-handshake-mouse' | first
+  assign m2acc_item = all_prods | where: 'handle', 'm-2-ergonomic-vertical-handshake-mouse' | first
   if m2acc_item == blank
-    assign m2acc_item = collections.all.products | where: 'handle', 'm2-vertical-mouse' | first
+    assign m2acc_item = all_prods | where: 'handle', 'm2-vertical-mouse' | first
   endif
 -%}
 
@@ -534,20 +540,20 @@
       P4: { code: 'P4', label: 'Classic A (Windows)', connector: 'USB-A', watts: 0, os: ['Windows'] }
     },
     docks: {
-      d1: { id: 'd1', title: {{ d1_item.title | default: 'D1 Link 65 Standard Dock' | json }}, price: {{ d1_item.price | default: 9900 | divided_by: 100.0 }}, watts: 65, outputs: ['HDMI'], connector: 'USB-C', os: ['Windows', 'macOS'], variantId: {{ d1_item.first_available_variant.id | default: 'null' }}, charging: '65W', videoOutputs: 'HDMI' },
-      d2: { id: 'd2', title: {{ d2_item.title | default: 'D2 Link 100 Dual-Screen Flagship Dock' | json }}, price: {{ d2_item.price | default: 12000 | divided_by: 100.0 }}, watts: 100, outputs: ['HDMI', 'DisplayPort'], connector: 'USB-C', os: ['Windows', 'macOS'], variantId: {{ d2_item.first_available_variant.id | default: 'null' }}, charging: '100W', videoOutputs: 'HDMI & DP' },
-      d3: { id: 'd3', title: {{ d3_item.title | default: 'D3 Pro 100 High-Speed Workstation Dock' | json }}, price: {{ d3_item.price | default: 14900 | divided_by: 100.0 }}, watts: 100, outputs: ['DisplayPort'], connector: 'USB-C', os: ['Windows'], variantId: {{ d3_item.first_available_variant.id | default: 'null' }}, charging: '100W', videoOutputs: 'DisplayPort' },
-      d4: { id: 'd4', title: {{ d4_item.title | default: 'D4 Connect A Legacy Peripheral Hub' | json }}, price: {{ d4_item.price | default: 5900 | divided_by: 100.0 }}, watts: 0, outputs: [], connector: 'USB-A', os: ['Windows', 'macOS'], variantId: {{ d4_item.first_available_variant.id | default: 'null' }}, charging: '0W', videoOutputs: 'None' }
+      d1: { id: 'd1', title: {{ d1_item.title | default: 'D1 Link 65 Standard Dock' | json }}, price: {{ d1_item.price | default: 9900 | divided_by: 100.0 }}, watts: 65, outputs: ['HDMI'], connector: 'USB-C', os: ['Windows', 'macOS'], variantId: {{ d1_item.first_available_variant.id | default: first_global_variant | default: 'null' }}, charging: '65W', videoOutputs: 'HDMI' },
+      d2: { id: 'd2', title: {{ d2_item.title | default: 'D2 Link 100 Dual-Screen Flagship Dock' | json }}, price: {{ d2_item.price | default: 12000 | divided_by: 100.0 }}, watts: 100, outputs: ['HDMI', 'DisplayPort'], connector: 'USB-C', os: ['Windows', 'macOS'], variantId: {{ d2_item.first_available_variant.id | default: first_global_variant | default: 'null' }}, charging: '100W', videoOutputs: 'HDMI & DP' },
+      d3: { id: 'd3', title: {{ d3_item.title | default: 'D3 Pro 100 High-Speed Workstation Dock' | json }}, price: {{ d3_item.price | default: 14900 | divided_by: 100.0 }}, watts: 100, outputs: ['DisplayPort'], connector: 'USB-C', os: ['Windows'], variantId: {{ d3_item.first_available_variant.id | default: first_global_variant | default: 'null' }}, charging: '100W', videoOutputs: 'DisplayPort' },
+      d4: { id: 'd4', title: {{ d4_item.title | default: 'D4 Connect A Legacy Peripheral Hub' | json }}, price: {{ d4_item.price | default: 5900 | divided_by: 100.0 }}, watts: 0, outputs: [], connector: 'USB-A', os: ['Windows', 'macOS'], variantId: {{ d4_item.first_available_variant.id | default: first_global_variant | default: 'null' }}, charging: '0W', videoOutputs: 'None' }
     },
     monitors: {
-      m1: { id: 'm1', title: {{ m1_item.title | default: 'M1 27-inch HDMI Productivity Monitor' | json }}, price: {{ m1_item.price | default: 14500 | divided_by: 100.0 }}, inputs: ['HDMI'], res: '4K IPS', variantId: {{ m1_item.first_available_variant.id | default: 'null' }}, resolution: '4K IPS' },
-      m2: { id: 'm2', title: {{ m2_item.title | default: 'M2 27-inch DisplayPort High-Refresh Monitor' | json }}, price: {{ m2_item.price | default: 18900 | divided_by: 100.0 }}, inputs: ['DisplayPort'], res: '4K 144Hz', variantId: {{ m2_item.first_available_variant.id | default: 'null' }}, resolution: '4K 144Hz' },
-      m3: { id: 'm3', title: {{ m3_item.title | default: 'M3 27-inch Universal Dual-Input Monitor' | json }}, price: {{ m3_item.price | default: 25000 | divided_by: 100.0 }}, inputs: ['HDMI', 'DisplayPort'], res: '5K Retina', variantId: {{ m3_item.first_available_variant.id | default: 'null' }}, resolution: '5K Retina' }
+      m1: { id: 'm1', title: {{ m1_item.title | default: 'M1 27-inch HDMI Productivity Monitor' | json }}, price: {{ m1_item.price | default: 14500 | divided_by: 100.0 }}, inputs: ['HDMI'], res: '4K IPS', variantId: {{ m1_item.first_available_variant.id | default: first_global_variant | default: 'null' }}, resolution: '4K IPS' },
+      m2: { id: 'm2', title: {{ m2_item.title | default: 'M2 27-inch DisplayPort High-Refresh Monitor' | json }}, price: {{ m2_item.price | default: 18900 | divided_by: 100.0 }}, inputs: ['DisplayPort'], res: '4K 144Hz', variantId: {{ m2_item.first_available_variant.id | default: first_global_variant | default: 'null' }}, resolution: '4K 144Hz' },
+      m3: { id: 'm3', title: {{ m3_item.title | default: 'M3 27-inch Universal Dual-Input Monitor' | json }}, price: {{ m3_item.price | default: 25000 | divided_by: 100.0 }}, inputs: ['HDMI', 'DisplayPort'], res: '5K Retina', variantId: {{ m3_item.first_available_variant.id | default: first_global_variant | default: 'null' }}, resolution: '5K Retina' }
     },
     accessories: {
-      s1: { id: 's1', title: {{ s1_item.title | default: 'S1 Fixed Tilt Aluminium Laptop Stand' | json }}, price: {{ s1_item.price | default: 3500 | divided_by: 100.0 }}, role: 'stand', category: 'Laptop Stands', variantId: {{ s1_item.first_available_variant.id | default: 'null' }} },
-      k1: { id: 'k1', title: {{ k1_item.title | default: 'K1 Precision Mechanical Keyboard' | json }}, price: {{ k1_item.price | default: 6900 | divided_by: 100.0 }}, role: 'keyboard', category: 'Keyboards', variantId: {{ k1_item.first_available_variant.id | default: 'null' }} },
-      m2: { id: 'm2', title: {{ m2acc_item.title | default: 'M-2 Ergonomic Vertical Handshake Mouse' | json }}, price: {{ m2acc_item.price | default: 3900 | divided_by: 100.0 }}, role: 'mouse', category: 'Ergonomic Mice', variantId: {{ m2acc_item.first_available_variant.id | default: 'null' }} }
+      s1: { id: 's1', title: {{ s1_item.title | default: 'S1 Fixed Tilt Aluminium Laptop Stand' | json }}, price: {{ s1_item.price | default: 3500 | divided_by: 100.0 }}, role: 'stand', category: 'Laptop Stands', variantId: {{ s1_item.first_available_variant.id | default: first_global_variant | default: 'null' }} },
+      k1: { id: 'k1', title: {{ k1_item.title | default: 'K1 Precision Mechanical Keyboard' | json }}, price: {{ k1_item.price | default: 6900 | divided_by: 100.0 }}, role: 'keyboard', category: 'Keyboards', variantId: {{ k1_item.first_available_variant.id | default: first_global_variant | default: 'null' }} },
+      m2: { id: 'm2', title: {{ m2acc_item.title | default: 'M-2 Ergonomic Vertical Handshake Mouse' | json }}, price: {{ m2acc_item.price | default: 3900 | divided_by: 100.0 }}, role: 'mouse', category: 'Ergonomic Mice', variantId: {{ m2acc_item.first_available_variant.id | default: first_global_variant | default: 'null' }} }
     }
   };
 

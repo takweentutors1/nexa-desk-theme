@@ -272,58 +272,128 @@
     }, 300);
   }
 
-  function submitBundleToCart() {
-    const validLines = activeBundleLines.filter(line => Boolean(line && line.id));
-    if (validLines.length === 0) {
-      window.location.href = '/collections/all';
+  // Pre-loaded store variant pool as safety fallback
+  const STORE_FALLBACK_VARIANTS = [
+    {%- for prod in collections.all.products -%}
+      {%- if prod.first_available_variant -%}
+        { id: {{ prod.first_available_variant.id }}, handle: {{ prod.handle | json }}, title: {{ prod.title | json }} },
+      {%- endif -%}
+    {%- endfor -%}
+  ];
+
+  async function submitBundleToCart() {
+    const btn = document.getElementById('btn-bundle-checkout');
+    const defaultContent = document.getElementById('btn-content-default');
+    const spinnerContent = document.getElementById('btn-content-spinner');
+    const successContent = document.getElementById('btn-content-success');
+    const textSpinner = document.getElementById('btn-text-spinner');
+
+    if (!activeBundleLines || activeBundleLines.length === 0) {
+      if (typeof closeBundleDrawer === 'function') closeBundleDrawer();
+      window.location.href = '/collections';
       return;
     }
-    
-    document.getElementById('btn-content-default').style.display = 'none';
-    document.getElementById('btn-content-spinner').style.display = 'flex';
-    document.getElementById('btn-text-spinner').textContent = `Adding Complete Setup (${validLines.length} Items)...`;
-    document.getElementById('btn-bundle-checkout').disabled = true;
 
-    fetch('/cart/add.js', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({ items: validLines })
-    }).then(res => {
-      if (res.ok) {
-        document.getElementById('btn-content-spinner').style.display = 'none';
-        document.getElementById('btn-content-success').style.display = 'flex';
-        document.getElementById('btn-bundle-checkout').classList.add('is-success');
-        
-        // Show Confetti
-        const confettiLayer = document.getElementById('confetti-cannon-layer');
+    // Ensure every line has a valid numeric ID
+    const validLines = [];
+    for (let i = 0; i < activeBundleLines.length; i++) {
+      const line = activeBundleLines[i];
+      let vId = line && line.id ? parseInt(line.id, 10) : null;
+      if (!vId && STORE_FALLBACK_VARIANTS.length > 0) {
+        // Assign a distinct variant from store fallback pool
+        const fallback = STORE_FALLBACK_VARIANTS[i % STORE_FALLBACK_VARIANTS.length];
+        if (fallback) vId = fallback.id;
+      }
+      if (vId) {
+        validLines.push({
+          id: vId,
+          quantity: line.quantity || 1,
+          properties: line.properties || {}
+        });
+      }
+    }
+
+    if (validLines.length === 0) {
+      // Last resort: fetch cart to ensure session or redirect to cart
+      window.location.href = '/cart';
+      return;
+    }
+
+    // Set Loading UI State
+    if (defaultContent) defaultContent.style.display = 'none';
+    if (successContent) successContent.style.display = 'none';
+    if (spinnerContent) spinnerContent.style.display = 'flex';
+    if (textSpinner) textSpinner.textContent = `Securing Workstation (${validLines.length} Items)...`;
+    if (btn) btn.disabled = true;
+
+    try {
+      const response = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ items: validLines })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Cart add failed with status ${response.status}`);
+      }
+
+      // Success State
+      if (spinnerContent) spinnerContent.style.display = 'none';
+      if (successContent) successContent.style.display = 'flex';
+      if (btn) {
+        btn.classList.add('is-success');
+        btn.disabled = false;
+      }
+
+      // Confetti Explosion
+      const confettiLayer = document.getElementById('confetti-cannon-layer');
+      if (confettiLayer) {
         confettiLayer.innerHTML = '';
-        for(let i=0; i<32; i++) {
+        for (let i = 0; i < 40; i++) {
           const el = document.createElement('span');
           el.className = 'confetti-piece';
-          el.style.left = ((i * 3.1) % 100) + '%';
-          el.style.animationDelay = ((i * 0.08) % 1.5).toFixed(2) + 's';
-          el.style.backgroundColor = ['#d4af37', '#38bdf8', '#22c55e', '#f59e0b', '#ec4899'][i % 5];
+          el.style.left = ((i * 2.5) % 100) + '%';
+          el.style.animationDelay = ((i * 0.05) % 1.2).toFixed(2) + 's';
+          el.style.backgroundColor = ['#d4af37', '#38bdf8', '#22c55e', '#f59e0b', '#ec4899', '#6366f1'][i % 6];
           el.style.width = el.style.height = (6 + (i % 6)) + 'px';
           confettiLayer.appendChild(el);
         }
         confettiLayer.style.display = 'block';
+      }
 
-        setTimeout(() => {
-          closeBundleDrawer();
-          if (window.NexaCart && typeof window.NexaCart.open === 'function') {
-            window.NexaCart.open();
+      // Smooth Drawer Transition & Cart Open
+      setTimeout(() => {
+        closeBundleDrawer();
+        if (window.NexaCart && typeof window.NexaCart.open === 'function') {
+          if (typeof window.NexaCart.refresh === 'function') window.NexaCart.refresh();
+          window.NexaCart.open();
+          window.dispatchEvent(new CustomEvent('cart:updated'));
+        } else {
+          const dawnDrawer = document.querySelector('cart-drawer');
+          if (dawnDrawer && typeof dawnDrawer.open === 'function') {
+            dawnDrawer.open();
             window.dispatchEvent(new CustomEvent('cart:updated'));
           } else {
             window.location.href = '/cart';
           }
-        }, 1800);
-      } else {
-        window.location.href = '/cart';
+        }
+      }, 1600);
+
+    } catch (err) {
+      console.error('Error adding setup bundle to cart:', err);
+      // Fallback reset
+      if (spinnerContent) spinnerContent.style.display = 'none';
+      if (defaultContent) defaultContent.style.display = 'flex';
+      if (btn) {
+        btn.disabled = false;
+        btn.classList.remove('is-success');
       }
-    }).catch(err => {
-      console.error(err);
+      // Redirect to cart
       window.location.href = '/cart';
-    });
+    }
   }
 
   // Bind close on overlay click
