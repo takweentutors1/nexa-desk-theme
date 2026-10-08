@@ -161,69 +161,130 @@
   </div>
 </header>
 
-<!-- Mobile Menu Aside -->
-<div class="aside" id="nexa-mobile-aside" aria-hidden="true">
-  <div class="aside-backdrop" onclick="nexaToggleMobileMenu(false)" style="position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:998;"></div>
-  <aside style="position:fixed;top:0;right:0;bottom:0;width:min(400px,92vw);background:#030712;z-index:999;overflow-y:auto;padding:1.25rem;border-left:1px solid rgba(255,255,255,0.08);">
-    <header style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
-      <h3 style="margin:0;color:#f8fafc;">Menu</h3>
-      <button class="close reset" type="button" onclick="nexaToggleMobileMenu(false)" aria-label="Close" style="color:#f8fafc;font-size:1.5rem;">&times;</button>
+<!-- Mobile Menu Aside Drawer -->
+<div class="aside nexa-mobile-drawer" id="nexa-mobile-aside" aria-hidden="true">
+  <div class="aside-backdrop nexa-drawer-backdrop" onclick="nexaToggleMobileMenu(false)"></div>
+  <aside class="nexa-drawer-panel" role="dialog" aria-modal="true" aria-label="Mobile Navigation Menu">
+    <header class="nexa-drawer-header">
+      <div class="drawer-header-brand">
+        <span class="drawer-brand-dot"></span>
+        <span class="drawer-brand-title">Navigation</span>
+      </div>
+      <button class="nexa-drawer-close-btn" type="button" onclick="nexaToggleMobileMenu(false)" aria-label="Close menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
     </header>
 
-    <nav class="header-menu-mobile" role="navigation">
+    <div class="nexa-drawer-body">
       <!-- Quick Device Profile Selector Card -->
       <div class="mobile-profile-picker-card">
         <div class="mobile-profile-picker-header">
           <span class="picker-badge">Setup Matcher</span>
-          <span class="picker-title">Select Your Laptop Profile:</span>
+          <span class="picker-title">Select Your Laptop Profile</span>
         </div>
+        <p class="picker-subtitle">Instantly filter 100% compatible docks &amp; cables:</p>
         <div class="mobile-profile-grid">
-          <a href="/pages/find-my-setup?profile=P1" class="mobile-profile-chip"><span class="chip-name">Studio 65</span><span class="chip-spec">Windows · 65W</span></a>
-          <a href="/pages/find-my-setup?profile=P2" class="mobile-profile-chip"><span class="chip-name">Studio 100</span><span class="chip-spec">Windows · 100W</span></a>
-          <a href="/pages/find-my-setup?profile=P3" class="mobile-profile-chip"><span class="chip-name">Creator 65</span><span class="chip-spec">macOS · 65W</span></a>
-          <a href="/pages/find-my-setup?profile=P4" class="mobile-profile-chip"><span class="chip-name">Classic A</span><span class="chip-spec">Windows · 0W</span></a>
+          <a href="/pages/setup-builder?profile=P1" class="mobile-profile-chip" data-profile="P1">
+            <div class="chip-icon-row">
+              <span class="chip-badge-code">P1</span>
+              <span class="chip-os">Win</span>
+            </div>
+            <span class="chip-name">Studio 65</span>
+            <span class="chip-spec">65W · Multi-Display</span>
+          </a>
+          <a href="/pages/setup-builder?profile=P2" class="mobile-profile-chip" data-profile="P2">
+            <div class="chip-icon-row">
+              <span class="chip-badge-code">P2</span>
+              <span class="chip-os">Win</span>
+            </div>
+            <span class="chip-name">Studio 100</span>
+            <span class="chip-spec">100W · Power PD</span>
+          </a>
+          <a href="/pages/setup-builder?profile=P3" class="mobile-profile-chip" data-profile="P3">
+            <div class="chip-icon-row">
+              <span class="chip-badge-code">P3</span>
+              <span class="chip-os mac-os">Mac</span>
+            </div>
+            <span class="chip-name">Creator 65</span>
+            <span class="chip-spec">macOS · Thunderbolt</span>
+          </a>
+          <a href="/pages/setup-builder?profile=P4" class="mobile-profile-chip" data-profile="P4">
+            <div class="chip-icon-row">
+              <span class="chip-badge-code">P4</span>
+              <span class="chip-os">Legacy</span>
+            </div>
+            <span class="chip-name">Classic A</span>
+            <span class="chip-spec">USB-A · Universal</span>
+          </a>
         </div>
+        <a href="/pages/setup-builder" class="mobile-quiz-link">
+          <span>🎯 Need help? Launch Interactive Setup Helper</span>
+          <span aria-hidden="true">&rarr;</span>
+        </a>
       </div>
 
-      <a href="{{ routes.root_url }}" class="header-menu-item" style="--item-index: 0;">Home</a>
+      <nav class="header-menu-mobile" role="navigation">
+        <a href="{{ routes.root_url }}" class="header-menu-item mobile-single-link" style="--item-index: 0;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          <span>Home</span>
+        </a>
 
-      <div class="mobile-menu-group" style="--item-index: 1;">
-        <a class="header-menu-item mobile-parent-link" href="{{ routes.all_products_collection_url }}">Shop Desk Gear</a>
-        <div class="mobile-submenu-list">
-          <a class="mobile-submenu-item" href="{{ routes.all_products_collection_url }}"><span class="sub-title">All Desk Gear</span></a>
-          <a class="mobile-submenu-item" href="/collections/docks-hubs"><span class="sub-title">One-Cable Docks &amp; Hubs</span><span class="sub-badge">Popular</span></a>
-          <a class="mobile-submenu-item" href="/collections/monitors"><span class="sub-title">Computer Screens</span></a>
-          <a class="mobile-submenu-item" href="/collections/stands"><span class="sub-title">Adjustable Laptop Stands</span></a>
-          <a class="mobile-submenu-item" href="/collections/keyboards"><span class="sub-title">Comfortable Keyboards</span></a>
-          <a class="mobile-submenu-item" href="/collections/mice"><span class="sub-title">Wireless Mice</span></a>
+        <div class="mobile-menu-group" style="--item-index: 1;">
+          <a class="header-menu-item mobile-parent-link" href="{{ routes.all_products_collection_url }}">
+            <span>Shop Desk Gear</span>
+            <span class="group-arrow">&rarr;</span>
+          </a>
+          <div class="mobile-submenu-list">
+            <a class="mobile-submenu-item" href="{{ routes.all_products_collection_url }}"><span class="sub-title">All Desk Gear</span></a>
+            <a class="mobile-submenu-item" href="/collections/docks-hubs"><span class="sub-title">One-Cable Docks &amp; Hubs</span><span class="sub-badge">Popular</span></a>
+            <a class="mobile-submenu-item" href="/collections/monitors"><span class="sub-title">Computer Screens</span></a>
+            <a class="mobile-submenu-item" href="/collections/stands"><span class="sub-title">Adjustable Laptop Stands</span></a>
+            <a class="mobile-submenu-item" href="/collections/keyboards"><span class="sub-title">Comfortable Keyboards</span></a>
+            <a class="mobile-submenu-item" href="/collections/mice"><span class="sub-title">Wireless Mice</span></a>
+          </div>
         </div>
-      </div>
 
-      <div class="mobile-menu-group" style="--item-index: 2;">
-        <a class="header-menu-item mobile-parent-link" href="/pages/find-my-setup">Setup Helper</a>
-        <div class="mobile-submenu-list">
-          <a class="mobile-submenu-item" href="/pages/find-my-setup"><span class="sub-title">Desk Setup Finder</span><span class="sub-badge">Easy Quiz</span></a>
-          <a class="mobile-submenu-item" href="/pages/compare-docks"><span class="sub-title">Compare Docks Side-by-Side</span><span class="sub-badge">Compare</span></a>
+        <div class="mobile-menu-group" style="--item-index: 2;">
+          <a class="header-menu-item mobile-parent-link" href="/pages/setup-builder">
+            <span>Setup Helper</span>
+            <span class="group-arrow">&rarr;</span>
+          </a>
+          <div class="mobile-submenu-list">
+            <a class="mobile-submenu-item" href="/pages/setup-builder"><span class="sub-title">Desk Setup Finder</span><span class="sub-badge badge-gold">Easy Quiz</span></a>
+            <a class="mobile-submenu-item" href="/pages/compare-docks"><span class="sub-title">Compare Docks Side-by-Side</span><span class="sub-badge">Compare</span></a>
+          </div>
         </div>
-      </div>
 
-      <div class="mobile-menu-group" style="--item-index: 3;">
-        <a class="header-menu-item mobile-parent-link" href="/pages/compatibility-faq">Help &amp; Delivery</a>
-        <div class="mobile-submenu-list">
-          <a class="mobile-submenu-item" href="/pages/compatibility-faq"><span class="sub-title">Will It Work With My Laptop? (FAQ)</span></a>
-          <a class="mobile-submenu-item" href="/pages/about"><span class="sub-title">Who We Are</span></a>
-          <a class="mobile-submenu-item" href="{{ routes.root_url }}policies/shipping-policy"><span class="sub-title">UK Shipping &amp; Free Delivery</span></a>
-          <a class="mobile-submenu-item" href="{{ routes.root_url }}policies/refund-policy"><span class="sub-title">30-Day Money-Back Guarantee</span></a>
-          <a class="mobile-submenu-item" href="{{ routes.root_url }}policies/privacy-policy"><span class="sub-title">Privacy Policy</span></a>
-          <a class="mobile-submenu-item" href="{{ routes.root_url }}policies/terms-of-service"><span class="sub-title">Terms of Service</span></a>
-          <a class="mobile-submenu-item" href="{{ routes.root_url }}policies/legal-notice"><span class="sub-title">Legal Notice</span></a>
+        <div class="mobile-menu-group" style="--item-index: 3;">
+          <a class="header-menu-item mobile-parent-link" href="/pages/compatibility-faq">
+            <span>Help &amp; Delivery</span>
+            <span class="group-arrow">&rarr;</span>
+          </a>
+          <div class="mobile-submenu-list">
+            <a class="mobile-submenu-item" href="/pages/compatibility-faq"><span class="sub-title">Will It Work With My Laptop? (FAQ)</span></a>
+            <a class="mobile-submenu-item" href="/pages/about"><span class="sub-title">Who We Are</span></a>
+            <a class="mobile-submenu-item" href="{{ routes.root_url }}policies/shipping-policy"><span class="sub-title">UK Shipping &amp; Free Delivery</span></a>
+            <a class="mobile-submenu-item" href="{{ routes.root_url }}policies/refund-policy"><span class="sub-title">30-Day Money-Back Guarantee</span></a>
+            <a class="mobile-submenu-item" href="{{ routes.root_url }}policies/privacy-policy"><span class="sub-title">Privacy Policy</span></a>
+            <a class="mobile-submenu-item" href="{{ routes.root_url }}policies/terms-of-service"><span class="sub-title">Terms of Service</span></a>
+            <a class="mobile-submenu-item" href="{{ routes.root_url }}policies/legal-notice"><span class="sub-title">Legal Notice</span></a>
+          </div>
         </div>
-      </div>
 
-      <div class="mobile-menu-group" style="--item-index: 4;">
-        <a class="header-menu-item mobile-parent-link" href="/blogs/news">Desk Tips &amp; Guides</a>
-      </div>
-    </nav>
+        <div class="mobile-menu-group" style="--item-index: 4;">
+          <a class="header-menu-item mobile-parent-link" href="/blogs/news">
+            <span>Desk Tips &amp; Guides</span>
+            <span class="group-arrow">&rarr;</span>
+          </a>
+        </div>
+      </nav>
+    </div>
   </aside>
 </div>
 
