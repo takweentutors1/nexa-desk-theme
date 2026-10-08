@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "journal_main": {
+      "type": "nexa-journal-page",
+      "settings": {}
+    }
+  },
+  "order": [
+    "journal_main"
+  ]
+}
