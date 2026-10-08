@@ -837,10 +837,31 @@
     }
   }
 
-  // Pre-select P3 macOS and initial recommended dock & monitor on boot
+  // Pre-select based on URL params (?check=d1-link-65, ?profile=P1) or default to P3
   document.addEventListener('DOMContentLoaded', () => {
-    wizSelectProfile('P3');
-    if (!wizDock) wizDock = WIZ_DATA.docks['d2'];
+    const urlParams = new URLSearchParams(window.location.search);
+    const profileParam = urlParams.get('profile');
+    const checkParam = urlParams.get('check');
+
+    if (profileParam && WIZ_DATA.profiles[profileParam]) {
+      wizSelectProfile(profileParam);
+    } else {
+      wizSelectProfile('P3');
+    }
+
+    if (checkParam) {
+      if (checkParam.includes('d1')) wizSelectDock('d1');
+      else if (checkParam.includes('d2')) wizSelectDock('d2');
+      else if (checkParam.includes('d3')) wizSelectDock('d3');
+      else if (checkParam.includes('d4')) wizSelectDock('d4');
+      else if (!wizDock) wizDock = WIZ_DATA.docks['d2'];
+
+      // Move to Step 2 to verify compatibility
+      goToStep(1);
+    } else {
+      if (!wizDock) wizDock = WIZ_DATA.docks['d2'];
+    }
+
     if (!wizMonitor) wizMonitor = WIZ_DATA.monitors['m1'];
     updateWizTotals();
   });

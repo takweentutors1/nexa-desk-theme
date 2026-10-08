@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "setup_wizard": {
+      "type": "nexa-setup-wizard",
+      "settings": {}
+    },
+    "bundle_drawer": {
+      "type": "nexa-bundle-drawer",
+      "settings": {}
+    }
+  },
+  "order": [
+    "setup_wizard",
+    "bundle_drawer"
+  ]
+}

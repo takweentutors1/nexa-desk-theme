@@ -2,6 +2,9 @@
   {% section 'nexa-journal-page' %}
 {%- elsif request.path == '/pages/compare' or request.path == '/pages/compare-docks' -%}
   {% section 'nexa-spec-diff-toggle' %}
+{%- elsif request.path == '/pages/setup-builder' or request.path == '/pages/find-my-setup' -%}
+  {% section 'nexa-setup-wizard' %}
+  {% section 'nexa-bundle-drawer' %}
 {%- elsif request.path == '/pages/compatibility-faq' -%}
   {% section 'nexa-compatibility-faq-page' %}
 {%- elsif request.path == '/pages/about' -%}
